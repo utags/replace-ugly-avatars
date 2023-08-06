@@ -1,0 +1,34 @@
+#rua_container {
+  .change_button {
+    position: absolute;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    padding: 1px;
+    border: 1px solid;
+    cursor: pointer;
+    color: #0d6efd;
+
+    &.delay_hide {
+      display: none;
+      margin-left: -100px;
+    }
+
+    &:hover {
+      display: block;
+      margin-left: inherit;
+    }
+
+    &:active,
+    &.active {
+      opacity: 50%;
+      transition: all 0.2s;
+    }
+  }
+}
+
+/* v2ex */
+#Main .header .fr a img {
+  width: 73px;
+  height: 73px;
+}
