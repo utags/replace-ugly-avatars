@@ -1,4 +1,19 @@
-# Browser Extension Starter and Userscript Starter
+# Replace Ugly Avatars | 赐你个头像吧
+
+🔃 Replace specified user's avatar (profile photo) and username (nickname).
+
+🔃 换掉别人的头像与昵称。
+
+## Installation
+
+- Chrome Extension: [Manual Installation](manual-installation.md)
+- Edge Extension: [Manual Installation](manual-installation.md)
+- Firefox Addon: [Manual Installation](manual-installation.md)
+- Userscript: [https://greasyfork.org/scripts/472616-replace-ugly-avatars](https://greasyfork.org/scripts/472616-replace-ugly-avatars)
+
+## Development
+
+This extension/userscript is built from [Browser Extension Starter and Userscript Starter](https://github.com/utags/browser-extension-starter)
 
 ## Features
 
