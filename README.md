@@ -1,5 +1,7 @@
 # Replace Ugly Avatars | 赐你个头像吧
 
+![avatar](https://api.dicebear.com/6.x/adventurer/svg?seed=RUA&size=48&backgroundColor=b6e3f4) ![avatar](https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=RUA&size=48&backgroundColor=c0aede) ![avatar](https://api.dicebear.com/6.x/bottts-neutral/svg?seed=RUA&size=48) ![avatar](https://api.dicebear.com/6.x/croodles-neutral/svg?seed=RUA&size=48&backgroundColor=ffd5dc) ![avatar](https://api.dicebear.com/6.x/micah/svg?seed=RUA&size=48&backgroundColor=ffdfbf)
+
 🔃 Replace specified user's avatar (profile photo) and username (nickname).
 
 🔃 换掉别人的头像与昵称。
@@ -23,6 +25,10 @@
 - Edge Extension: [Manual Installation](manual-installation.md)
 - Firefox Addon: [Manual Installation](manual-installation.md)
 - Userscript: [https://greasyfork.org/scripts/472616-replace-ugly-avatars](https://greasyfork.org/scripts/472616-replace-ugly-avatars)
+
+## Avatar Source
+
+We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. Thanks to the [DiceBear](https://github.com/dicebear/dicebear) project and [designers](https://www.dicebear.com/licenses) for the great works.
 
 ## Release Notes
 
