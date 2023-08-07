@@ -9,14 +9,13 @@
     cursor: pointer;
     color: #0d6efd;
 
-    &.delay_hide {
+    &.advanced {
+      color: darkblue;
       display: none;
-      margin-left: -100px;
     }
 
-    &:hover {
-      display: block;
-      margin-left: inherit;
+    &.hide {
+      display: none;
     }
 
     &:active,
@@ -24,6 +23,10 @@
       opacity: 50%;
       transition: all 0.2s;
     }
+  }
+
+  &:hover .change_button {
+    display: block;
   }
 }
 

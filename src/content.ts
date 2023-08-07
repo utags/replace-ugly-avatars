@@ -36,12 +36,13 @@ function addChangeButton(element: HTMLImageElement) {
     addElement(doc.body, "div", {
       id: "rua_container",
     })
+
   const changeButton =
-    $(".change_button", container) ||
+    $(".change_button.quick", container) ||
     addElement(container, "button", {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       innerHTML: changeIcon,
-      class: "change_button",
+      class: "change_button quick",
       async onclick() {
         /* TODO: add rotate icon effect */
         addClass(changeButton, "active")
@@ -55,14 +56,43 @@ function addChangeButton(element: HTMLImageElement) {
       },
     })
 
-  removeClass(changeButton, "delay_hide")
+  const changeButton2 =
+    $(".change_button.advanced", container) ||
+    addElement(container, "button", {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      innerHTML: changeIcon,
+      class: "change_button advanced",
+      async onclick() {
+        /* TODO: add rotate icon effect */
+        addClass(changeButton2, "active")
+        setTimeout(() => {
+          removeClass(changeButton2, "active")
+        }, 200)
+        const userName = currentTarget.dataset.ruaUserName || "noname"
+        const avatarUrl = prompt("请输入头像链接", "")
+        // const avatarUrl = getRandomAvatar(userName)
+        if (avatarUrl) {
+          changeAvatar(currentTarget, avatarUrl)
+          await saveAvatar(userName, avatarUrl)
+        }
+      },
+    })
+
+  removeClass(changeButton, "hide")
+  removeClass(changeButton2, "hide")
+
   const pos = getOffsetPosition(element)
   changeButton.style.top = pos.top + "px"
   changeButton.style.left =
     pos.left + element.clientWidth - changeButton.clientWidth + "px"
 
+  changeButton2.style.top = pos.top + changeButton.clientHeight + "px"
+  changeButton2.style.left =
+    pos.left + element.clientWidth - changeButton.clientWidth + "px"
+
   const mouseoutHandler = () => {
-    addClass(changeButton, "delay_hide")
+    addClass(changeButton, "hide")
+    addClass(changeButton2, "hide")
     removeEventListener(element, "mouseout", mouseoutHandler)
   }
 
@@ -96,14 +126,14 @@ function changeAvatar(element: HTMLImageElement, src: string) {
 }
 
 function scanAvatars() {
-  console.log("scanAvatars")
+  // console.log("scanAvatars")
   const avatars = $$(`.avatar,a[href*="/member/"] img`) as HTMLImageElement[]
   for (const avatar of avatars) {
     let userName = avatar.dataset.ruaUserName
     if (!userName) {
       userName = getUserName(avatar)
       if (!userName) {
-        console.error(avatar, userName)
+        console.error("Can't get username", avatar, userName)
         continue
       }
 
@@ -113,7 +143,7 @@ function scanAvatars() {
 
     const newAvatarSrc = getChangedAavatar(userName)
     if (newAvatarSrc && avatar.src !== newAvatarSrc) {
-      console.log("change", userName)
+      // console.log("change", userName)
       // console.log(avatar)
       changeAvatar(avatar, newAvatarSrc)
     }
