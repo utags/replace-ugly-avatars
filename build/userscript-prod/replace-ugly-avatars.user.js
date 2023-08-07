@@ -4,9 +4,9 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.0.1
-// @description          Replace specified user's avatar (profile photo) and username (nickname)
-// @description:zh-CN    换掉别人的头像与昵称
+// @version              0.0.4
+// @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
+// @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
 // @author               Pipecraft
 // @license              MIT
@@ -177,6 +177,43 @@
     }
     return position
   }
+  var headFuncArray = []
+  var bodyFuncArray = []
+  var headBodyObserver
+  var startObserveHeadBodyExists = () => {
+    if (headBodyObserver) {
+      return
+    }
+    headBodyObserver = new MutationObserver(() => {
+      if (doc.head && doc.body) {
+        headBodyObserver.disconnect()
+      }
+      if (doc.head && headFuncArray.length > 0) {
+        for (const func of headFuncArray) {
+          func()
+        }
+        headFuncArray.length = 0
+      }
+      if (doc.body && bodyFuncArray.length > 0) {
+        for (const func of bodyFuncArray) {
+          func()
+        }
+        bodyFuncArray.length = 0
+      }
+    })
+    headBodyObserver.observe(doc, {
+      childList: true,
+      subtree: true,
+    })
+  }
+  var runWhenHeadExists = (func) => {
+    if (!doc.head) {
+      headFuncArray.push(func)
+      startObserveHeadBodyExists()
+      return
+    }
+    func()
+  }
   var escapeHTMLPolicy =
     typeof trustedTypes !== "undefined" &&
     typeof trustedTypes.createPolicy === "function"
@@ -227,7 +264,7 @@
         }
       : addElement
   var content_default =
-    "#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block}#Main .header .fr a img{width:73px;height:73px}"
+    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block}#Main .header .fr a img{width:73px;height:73px}td[width="48"] img{width:48px;height:48px}'
   var styles = [
     "adventurer",
     "adventurer-neutral",
@@ -450,9 +487,11 @@
     if ($("#rua_tyle")) {
       return
     }
-    addElement2("style", {
-      textContent: content_default,
-      id: "rua_tyle",
+    runWhenHeadExists(() => {
+      addElement2("style", {
+        textContent: content_default,
+        id: "rua_tyle",
+      })
     })
     addEventListener(doc, "mouseover", (event) => {
       const target = event.target

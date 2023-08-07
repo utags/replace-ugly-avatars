@@ -1,6 +1,6 @@
 # Replace Ugly Avatars
 
-Replace specified user's avatar (profile photo) and username (nickname).
+🔃 Replace specified user's avatar (profile photo) and username (nickname).
 
 - Replace specified user's avatar ✅
 - Replace specified user's username (Comming soon)
