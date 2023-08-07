@@ -30,6 +30,12 @@
   }
 }
 
+img.rua_fadeout {
+  box-sizing: border-box;
+  padding: 20px;
+  transition: all 2s ease-out;
+}
+
 /* v2ex */
 #Main .header .fr a img {
   width: 73px;
