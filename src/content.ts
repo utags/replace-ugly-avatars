@@ -8,6 +8,7 @@ import {
   getOffsetPosition,
   removeClass,
   removeEventListener,
+  runWhenHeadExists,
   throttle,
 } from "browser-extension-utils"
 import styleText from "data-text:./content.scss"
@@ -156,9 +157,11 @@ async function main() {
     return
   }
 
-  addElement("style", {
-    textContent: styleText,
-    id: "rua_tyle",
+  runWhenHeadExists(() => {
+    addElement("style", {
+      textContent: styleText,
+      id: "rua_tyle",
+    })
   })
 
   addEventListener(doc, "mouseover", (event: Event) => {
