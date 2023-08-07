@@ -4,6 +4,8 @@
 
 🔃 换掉别人的头像与昵称。
 
+![screenshots](./assets/replace-ugly-avatars-screenshots.gif)
+
 ## Installation
 
 - Chrome Extension: [Manual Installation](manual-installation.md)
