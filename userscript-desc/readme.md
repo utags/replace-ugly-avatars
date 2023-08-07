@@ -1,5 +1,7 @@
 # Replace Ugly Avatars
 
+![avatar](https://api.dicebear.com/6.x/adventurer/svg?seed=RUA&size=48&backgroundColor=b6e3f4) ![avatar](https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=RUA&size=48&backgroundColor=c0aede) ![avatar](https://api.dicebear.com/6.x/bottts-neutral/svg?seed=RUA&size=48) ![avatar](https://api.dicebear.com/6.x/croodles-neutral/svg?seed=RUA&size=48&backgroundColor=ffd5dc) ![avatar](https://api.dicebear.com/6.x/micah/svg?seed=RUA&size=48&backgroundColor=ffdfbf)
+
 🔃 Replace specified user's avatar (profile photo) and username (nickname).
 
 - Replace specified user's avatar ✅
@@ -17,6 +19,10 @@
 - 无聊时，消磨时间
 
 ![screenshots](https://raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots.gif)
+
+## Avatar Source
+
+We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. Thanks to the [DiceBear](https://github.com/dicebear/dicebear) project and [designers](https://www.dicebear.com/licenses) for the great works.
 
 ## Compatibility
 
