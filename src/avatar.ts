@@ -34,7 +34,33 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min // 不含最大值，含最小值
 }
 
+function getRandomFlipParameter(style: string) {
+  if (style === "initials" || style === "identicon") {
+    return ""
+  }
+
+  const flip = getRandomInt(0, 2)
+  return flip ? "&flip=true" : ""
+}
+
+function getRandomRadiusParameter(style: string) {
+  const values = [0, 10, 20, 30, 50]
+  const value = values[getRandomInt(0, values.length)]
+  return value ? "&radius=" + value : ""
+}
+
+function getRandomBackgroundColorParameter(style: string) {
+  const values = ["", "", "", "b6e3f4", "c0aede", "d1d4f9", "ffd5dc", "ffdfbf"]
+  const value = values[getRandomInt(0, values.length)]
+  return value ? "&backgroundColor=" + value : ""
+}
+
 export function getRandomAvatar(prefix: string) {
   const randomStyle = styles[getRandomInt(0, styles.length)]
-  return `https://api.dicebear.com/6.x/${randomStyle}/svg?seed=${prefix}.${Date.now()}`
+  return (
+    `https://api.dicebear.com/6.x/${randomStyle}/svg?seed=${prefix}.${Date.now()}` +
+    getRandomFlipParameter(randomStyle) +
+    getRandomRadiusParameter(randomStyle) +
+    getRandomBackgroundColorParameter(randomStyle)
+  )
 }
