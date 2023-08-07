@@ -45,14 +45,13 @@ function addChangeButton(element: HTMLImageElement) {
       innerHTML: changeIcon,
       class: "change_button quick",
       async onclick() {
-        /* TODO: add rotate icon effect */
         addClass(changeButton, "active")
         setTimeout(() => {
           removeClass(changeButton, "active")
         }, 200)
         const userName = currentTarget.dataset.ruaUserName || "noname"
         const avatarUrl = getRandomAvatar(userName)
-        changeAvatar(currentTarget, avatarUrl)
+        changeAvatar(currentTarget, avatarUrl, true)
         await saveAvatar(userName, avatarUrl)
       },
     })
@@ -64,7 +63,6 @@ function addChangeButton(element: HTMLImageElement) {
       innerHTML: changeIcon,
       class: "change_button advanced",
       async onclick() {
-        /* TODO: add rotate icon effect */
         addClass(changeButton2, "active")
         setTimeout(() => {
           removeClass(changeButton2, "active")
@@ -73,7 +71,7 @@ function addChangeButton(element: HTMLImageElement) {
         const avatarUrl = prompt("请输入头像链接", "")
         // const avatarUrl = getRandomAvatar(userName)
         if (avatarUrl) {
-          changeAvatar(currentTarget, avatarUrl)
+          changeAvatar(currentTarget, avatarUrl, true)
           await saveAvatar(userName, avatarUrl)
         }
       },
@@ -107,19 +105,64 @@ function getUserName(element: HTMLElement) {
 
   const userNameElement = $('a[href*="/member/"]', element) as HTMLAnchorElement
   if (userNameElement) {
-    return (/member\/(\w+)/.exec(userNameElement.href) || [])[1]
+    const userName = (/member\/(\w+)/.exec(userNameElement.href) || [])[1]
+    if (userName) {
+      return userName.toLowerCase()
+    }
+
+    return
   }
 
   return getUserName(element.parentElement!)
 }
 
-function changeAvatar(element: HTMLImageElement, src: string) {
+function changeAvatar(
+  element: HTMLImageElement,
+  src: string,
+  animation = false
+) {
+  if (element.ruaLoading) {
+    return
+  }
+
   if (!element.dataset.orgSrc) {
     const orgSrc = element.dataset.src /* v2hot */ || element.src
     element.dataset.orgSrc = orgSrc
   }
 
-  element.src = src
+  element.ruaLoading = true
+
+  const imgOnloadHandler = () => {
+    element.ruaLoading = false
+    removeClass(element, "rua_fadeout")
+    removeEventListener(element, "load", imgOnloadHandler)
+    removeEventListener(element, "error", imgOnloadHandler)
+  }
+
+  addEventListener(element, "load", imgOnloadHandler)
+  addEventListener(element, "error", imgOnloadHandler)
+
+  const width = element.clientWidth
+  const height = element.clientHeight
+  if (width > 1) {
+    element.style.width = width + "px"
+  }
+
+  if (height > 1) {
+    element.style.height = height + "px"
+  }
+
+  if (animation) {
+    addClass(element, "rua_fadeout")
+  } else {
+    // white image placeholder
+    element.src =
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+  }
+
+  setTimeout(() => {
+    element.src = src
+  })
   if (element.dataset.src) {
     /* v2hot */
     element.dataset.src = src
