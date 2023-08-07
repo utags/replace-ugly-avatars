@@ -4,6 +4,17 @@
 
 🔃 换掉别人的头像与昵称。
 
+## 应用场景
+
+这个脚本可能有以下几种应用场景。
+
+- 看到某人的头像 🤡 感到不适，给他换一个人畜无害的头像 🥸
+- 看到某人的言论很恶心，给他一个 🐷 猪头头像，下次看到直接跳过
+- 到哪里都能看到某个摸鱼王，注意力不知不觉地落在他那里，或产生偏见或刻板印象。换个头像，强制产生陌生感，分散注意力
+- 某些平台一堆 momo 头像，政治关联的头像。给它们换个随机头像，不受它们的干扰
+- 强迫症，把所有人都换成统一风格的头像 （批量自动替换的功能后续推出）
+- 无聊时，消磨时间
+
 ![screenshots](./assets/replace-ugly-avatars-screenshots.gif)
 
 ## Installation
@@ -12,6 +23,13 @@
 - Edge Extension: [Manual Installation](manual-installation.md)
 - Firefox Addon: [Manual Installation](manual-installation.md)
 - Userscript: [https://greasyfork.org/scripts/472616-replace-ugly-avatars](https://greasyfork.org/scripts/472616-replace-ugly-avatars)
+
+## Release Notes
+
+- 0.0.5
+  - Add image change animation, convert username to lowercase
+- 0.0.1
+  - Change the avatars on [V2EX](https://wwww.v2ex.com)
 
 ## Development
 
