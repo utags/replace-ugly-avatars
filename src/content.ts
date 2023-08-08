@@ -81,13 +81,15 @@ function addChangeButton(element: HTMLImageElement) {
   removeClass(changeButton2, "hide")
 
   const pos = getOffsetPosition(element)
+  const leftOffset =
+    element.clientWidth - changeButton.clientWidth > 20
+      ? element.clientWidth - changeButton.clientWidth
+      : element.clientWidth - 1
   changeButton.style.top = pos.top + "px"
-  changeButton.style.left =
-    pos.left + element.clientWidth - changeButton.clientWidth + "px"
+  changeButton.style.left = pos.left + leftOffset + "px"
 
   changeButton2.style.top = pos.top + changeButton.clientHeight + "px"
-  changeButton2.style.left =
-    pos.left + element.clientWidth - changeButton.clientWidth + "px"
+  changeButton2.style.left = pos.left + leftOffset + "px"
 
   const mouseoutHandler = () => {
     addClass(changeButton, "hide")
