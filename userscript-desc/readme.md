@@ -45,6 +45,8 @@ Compatible with the following userscript managers
 
 ## Release Notes
 
+- 0.0.6
+  - Add more random parameters
 - 0.0.5
   - Add image change animation, convert username to lowercase
 - 0.0.1
