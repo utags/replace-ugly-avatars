@@ -4,7 +4,7 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.1.0
+// @version              0.1.1
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -344,7 +344,7 @@
     GM.registerMenuCommand(name, callback, accessKey)
   }
   var style_default =
-    '#browser_extension_settings_container{--browser-extension-settings-background-color: #f2f2f7;--browser-extension-settings-text-color: #444444;--browser-extension-settings-link-color: #217dfc;--sb-track-color: #00000000;--sb-thumb-color: #33334480;--sb-size: 2px;position:fixed;top:10px;right:30px;max-height:90%;height:600px;overflow:hidden;display:none;z-index:100000;border-radius:5px;-webkit-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);-moz-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);box-shadow:0px 10px 39px 10px rgba(62,66,66,.22) !important}#browser_extension_settings_container .browser_extension_settings_wrapper{display:flex;height:100%;overflow:hidden;background-color:var(--browser-extension-settings-background-color)}#browser_extension_settings_container .browser_extension_settings_wrapper h1{font-size:26px;font-weight:800;border:none}#browser_extension_settings_container .browser_extension_settings_wrapper h2{font-size:18px;font-weight:600;border:none}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container{overflow-x:auto;box-sizing:border-box;padding:10px 15px;background-color:var(--browser-extension-settings-background-color);color:var(--browser-extension-settings-text-color)}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div{background-color:#fff;font-size:14px;border-top:1px solid #ccc;padding:6px 15px 6px 15px}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:visited,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:visited{display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-decoration:none;color:var(--browser-extension-settings-text-color)}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:visited:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:visited:hover{text-decoration:none;color:var(--browser-extension-settings-text-color)}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a span,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:visited span,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a span,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:visited span{margin-right:10px;line-height:24px}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div.active,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div.active,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div:hover{background-color:#e4e4e6}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div.active a,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div.active a{cursor:default}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div:first-of-type,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div:first-of-type{border-top:none;border-top-right-radius:10px;border-top-left-radius:10px}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div:last-of-type,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div:last-of-type{border-bottom-right-radius:10px;border-bottom-left-radius:10px}#browser_extension_settings_container .thin_scrollbar{scrollbar-color:var(--sb-thumb-color) var(--sb-track-color);scrollbar-width:thin}#browser_extension_settings_container .thin_scrollbar::-webkit-scrollbar{width:var(--sb-size)}#browser_extension_settings_container .thin_scrollbar::-webkit-scrollbar-track{background:var(--sb-track-color);border-radius:10px}#browser_extension_settings_container .thin_scrollbar::-webkit-scrollbar-thumb{background:var(--sb-thumb-color);border-radius:10px}#browser_extension_settings_main{min-width:250px;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;padding:10px 15px;background-color:var(--browser-extension-settings-background-color);color:var(--browser-extension-settings-text-color)}#browser_extension_settings_main h2{text-align:center;margin:5px 0 0;font-size:18px;font-weight:600;border:none}#browser_extension_settings_main footer{display:flex;justify-content:center;flex-direction:column;font-size:11px;margin:10px auto 0px;background-color:var(--browser-extension-settings-background-color);color:var(--browser-extension-settings-text-color)}#browser_extension_settings_main footer a{color:var(--browser-extension-settings-link-color) !important;text-decoration:none;padding:0}#browser_extension_settings_main footer p{text-align:center;padding:0;margin:2px;line-height:13px}#browser_extension_settings_main a.navigation_go_previous{color:var(--browser-extension-settings-link-color);cursor:pointer;display:none}#browser_extension_settings_main a.navigation_go_previous::before{content:"< "}#browser_extension_settings_main .option_groups{background-color:#fff;padding:6px 15px 6px 15px;border-radius:10px;display:flex;flex-direction:column;margin:10px 0 0}#browser_extension_settings_main .option_groups .action{font-size:14px;padding:6px 0 6px 0;color:var(--browser-extension-settings-link-color);cursor:pointer}#browser_extension_settings_main .bes_external_link{font-size:14px;padding:6px 0 6px 0}#browser_extension_settings_main .bes_external_link a,#browser_extension_settings_main .bes_external_link a:visited,#browser_extension_settings_main .bes_external_link a:hover{color:var(--browser-extension-settings-link-color);text-decoration:none;cursor:pointer}#browser_extension_settings_main .option_groups textarea{font-size:12px;margin:10px 0 10px 0;height:100px;width:100%;border:1px solid #a9a9a9;border-radius:4px;box-sizing:border-box}#browser_extension_settings_main .switch_option{display:flex;justify-content:space-between;align-items:center;padding:6px 0 6px 0;font-size:14px}#browser_extension_settings_main .option_groups>*{border-top:1px solid #ccc}#browser_extension_settings_main .option_groups>*:first-child{border-top:none}#browser_extension_settings_main .switch_option>span{margin-right:10px}#browser_extension_settings_main .option_groups .bes_tip{position:relative;margin:0;padding:0 15px 0 0;border:none;max-width:none;font-size:14px}#browser_extension_settings_main .option_groups .bes_tip .bes_tip_anchor{cursor:help;text-decoration:underline}#browser_extension_settings_main .option_groups .bes_tip .bes_tip_content{position:absolute;bottom:15px;left:0;background-color:#fff;color:var(--browser-extension-settings-text-color);text-align:left;padding:10px;display:none;border-radius:5px;-webkit-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);-moz-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);box-shadow:0px 10px 39px 10px rgba(62,66,66,.22) !important}#browser_extension_settings_main .option_groups .bes_tip .bes_tip_anchor:hover+.bes_tip_content,#browser_extension_settings_main .option_groups .bes_tip .bes_tip_content:hover{display:block}#browser_extension_settings_main .option_groups .bes_tip p,#browser_extension_settings_main .option_groups .bes_tip pre{margin:revert;padding:revert}#browser_extension_settings_main .option_groups .bes_tip pre{font-family:Consolas,panic sans,bitstream vera sans mono,Menlo,microsoft yahei,monospace;font-size:13px;letter-spacing:.015em;line-height:120%;white-space:pre;overflow:auto;background-color:#f5f5f5;word-break:normal;overflow-wrap:normal;padding:.5em;border:none}#browser_extension_settings_main .container{--button-width: 51px;--button-height: 24px;--toggle-diameter: 20px;--color-off: #e9e9eb;--color-on: #34c759;width:var(--button-width);height:var(--button-height);position:relative;padding:0;margin:0;flex:none;user-select:none}#browser_extension_settings_main input[type=checkbox]{opacity:0;width:0;height:0;position:absolute}#browser_extension_settings_main .switch{width:100%;height:100%;display:block;background-color:var(--color-off);border-radius:calc(var(--button-height)/2);border:none;cursor:pointer;transition:all .2s ease-out}#browser_extension_settings_main .switch::before{display:none}#browser_extension_settings_main .slider{width:var(--toggle-diameter);height:var(--toggle-diameter);position:absolute;left:2px;top:calc(50% - var(--toggle-diameter)/2);border-radius:50%;background:#fff;box-shadow:0px 3px 8px rgba(0,0,0,.15),0px 3px 1px rgba(0,0,0,.06);transition:all .2s ease-out;cursor:pointer}#browser_extension_settings_main input[type=checkbox]:checked+.switch{background-color:var(--color-on)}#browser_extension_settings_main input[type=checkbox]:checked+.switch .slider{left:calc(var(--button-width) - var(--toggle-diameter) - 2px)}#browser_extension_side_menu{min-height:80px;width:30px;opacity:0;position:fixed;top:80px;right:0;padding-top:20px;z-index:10000}#browser_extension_side_menu:hover{opacity:1}#browser_extension_side_menu button{cursor:pointer;width:24px;height:24px;padding:0;border:none;background-color:rgba(0,0,0,0);background-image:none}#browser_extension_side_menu button svg{width:24px;height:24px}#browser_extension_side_menu button:hover{opacity:70%}#browser_extension_side_menu button:active{opacity:100%}@media(max-width: 500px){#browser_extension_settings_container{right:10px}#browser_extension_settings_container .extension_list_container{display:none}#browser_extension_settings_container .extension_list_container.bes_active{display:block}#browser_extension_settings_container .extension_list_container.bes_active+div{display:none}#browser_extension_settings_main a.navigation_go_previous{display:block}}'
+    '#browser_extension_settings_container{--browser-extension-settings-background-color: #f2f2f7;--browser-extension-settings-text-color: #444444;--browser-extension-settings-link-color: #217dfc;--sb-track-color: #00000000;--sb-thumb-color: #33334480;--sb-size: 2px;position:fixed;top:10px;right:30px;max-height:90%;height:600px;overflow:hidden;display:none;z-index:100000;border-radius:5px;-webkit-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);-moz-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);box-shadow:0px 10px 39px 10px rgba(62,66,66,.22) !important}#browser_extension_settings_container .browser_extension_settings_wrapper{display:flex;height:100%;overflow:hidden;background-color:var(--browser-extension-settings-background-color)}#browser_extension_settings_container .browser_extension_settings_wrapper h1{font-size:26px;font-weight:800;border:none}#browser_extension_settings_container .browser_extension_settings_wrapper h2{font-size:18px;font-weight:600;border:none}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container{overflow-x:auto;box-sizing:border-box;padding:10px 15px;background-color:var(--browser-extension-settings-background-color);color:var(--browser-extension-settings-text-color)}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div{background-color:#fff;font-size:14px;border-top:1px solid #ccc;padding:6px 15px 6px 15px}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:visited,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:visited{display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-decoration:none;color:var(--browser-extension-settings-text-color)}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:visited:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:visited:hover{text-decoration:none;color:var(--browser-extension-settings-text-color)}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a span,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div a:visited span,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a span,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div a:visited span{margin-right:10px;line-height:24px}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div.active,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div:hover,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div.active,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div:hover{background-color:#e4e4e6}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div.active a,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div.active a{cursor:default}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div:first-of-type,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div:first-of-type{border-top:none;border-top-right-radius:10px;border-top-left-radius:10px}#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .installed_extension_list div:last-of-type,#browser_extension_settings_container .browser_extension_settings_wrapper .extension_list_container .related_extension_list div:last-of-type{border-bottom-right-radius:10px;border-bottom-left-radius:10px}#browser_extension_settings_container .thin_scrollbar{scrollbar-color:var(--sb-thumb-color) var(--sb-track-color);scrollbar-width:thin}#browser_extension_settings_container .thin_scrollbar::-webkit-scrollbar{width:var(--sb-size)}#browser_extension_settings_container .thin_scrollbar::-webkit-scrollbar-track{background:var(--sb-track-color);border-radius:10px}#browser_extension_settings_container .thin_scrollbar::-webkit-scrollbar-thumb{background:var(--sb-thumb-color);border-radius:10px}#browser_extension_settings_main{min-width:250px;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;padding:10px 15px;background-color:var(--browser-extension-settings-background-color);color:var(--browser-extension-settings-text-color)}#browser_extension_settings_main h2{text-align:center;margin:5px 0 0;font-size:18px;font-weight:600;border:none}#browser_extension_settings_main footer{display:flex;justify-content:center;flex-direction:column;font-size:11px;margin:10px auto 0px;background-color:var(--browser-extension-settings-background-color);color:var(--browser-extension-settings-text-color)}#browser_extension_settings_main footer a{color:var(--browser-extension-settings-link-color) !important;text-decoration:none;padding:0}#browser_extension_settings_main footer p{text-align:center;padding:0;margin:2px;line-height:13px}#browser_extension_settings_main a.navigation_go_previous{color:var(--browser-extension-settings-link-color);cursor:pointer;display:none}#browser_extension_settings_main a.navigation_go_previous::before{content:"< "}#browser_extension_settings_main .option_groups{background-color:#fff;padding:6px 15px 6px 15px;border-radius:10px;display:flex;flex-direction:column;margin:10px 0 0}#browser_extension_settings_main .option_groups .action{font-size:14px;padding:6px 0 6px 0;color:var(--browser-extension-settings-link-color);cursor:pointer}#browser_extension_settings_main .bes_external_link{font-size:14px;padding:6px 0 6px 0}#browser_extension_settings_main .bes_external_link a,#browser_extension_settings_main .bes_external_link a:visited,#browser_extension_settings_main .bes_external_link a:hover{color:var(--browser-extension-settings-link-color);text-decoration:none;cursor:pointer}#browser_extension_settings_main .option_groups textarea{font-size:12px;margin:10px 0 10px 0;height:100px;width:100%;border:1px solid #a9a9a9;border-radius:4px;box-sizing:border-box}#browser_extension_settings_main .switch_option{display:flex;justify-content:space-between;align-items:center;padding:6px 0 6px 0;font-size:14px}#browser_extension_settings_main .option_groups>*{border-top:1px solid #ccc}#browser_extension_settings_main .option_groups>*:first-child{border-top:none}#browser_extension_settings_main .switch_option>img{width:24px;height:24px;margin-right:10px}#browser_extension_settings_main .switch_option>span{margin-right:10px;flex-grow:1}#browser_extension_settings_main .option_groups .bes_tip{position:relative;margin:0;padding:0 15px 0 0;border:none;max-width:none;font-size:14px}#browser_extension_settings_main .option_groups .bes_tip .bes_tip_anchor{cursor:help;text-decoration:underline}#browser_extension_settings_main .option_groups .bes_tip .bes_tip_content{position:absolute;bottom:15px;left:0;background-color:#fff;color:var(--browser-extension-settings-text-color);text-align:left;padding:10px;display:none;border-radius:5px;-webkit-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);-moz-box-shadow:0px 10px 39px 10px rgba(62,66,66,.22);box-shadow:0px 10px 39px 10px rgba(62,66,66,.22) !important}#browser_extension_settings_main .option_groups .bes_tip .bes_tip_anchor:hover+.bes_tip_content,#browser_extension_settings_main .option_groups .bes_tip .bes_tip_content:hover{display:block}#browser_extension_settings_main .option_groups .bes_tip p,#browser_extension_settings_main .option_groups .bes_tip pre{margin:revert;padding:revert}#browser_extension_settings_main .option_groups .bes_tip pre{font-family:Consolas,panic sans,bitstream vera sans mono,Menlo,microsoft yahei,monospace;font-size:13px;letter-spacing:.015em;line-height:120%;white-space:pre;overflow:auto;background-color:#f5f5f5;word-break:normal;overflow-wrap:normal;padding:.5em;border:none}#browser_extension_settings_main .container{--button-width: 51px;--button-height: 24px;--toggle-diameter: 20px;--color-off: #e9e9eb;--color-on: #34c759;width:var(--button-width);height:var(--button-height);position:relative;padding:0;margin:0;flex:none;user-select:none}#browser_extension_settings_main input[type=checkbox]{opacity:0;width:0;height:0;position:absolute}#browser_extension_settings_main .switch{width:100%;height:100%;display:block;background-color:var(--color-off);border-radius:calc(var(--button-height)/2);border:none;cursor:pointer;transition:all .2s ease-out}#browser_extension_settings_main .switch::before{display:none}#browser_extension_settings_main .slider{width:var(--toggle-diameter);height:var(--toggle-diameter);position:absolute;left:2px;top:calc(50% - var(--toggle-diameter)/2);border-radius:50%;background:#fff;box-shadow:0px 3px 8px rgba(0,0,0,.15),0px 3px 1px rgba(0,0,0,.06);transition:all .2s ease-out;cursor:pointer}#browser_extension_settings_main input[type=checkbox]:checked+.switch{background-color:var(--color-on)}#browser_extension_settings_main input[type=checkbox]:checked+.switch .slider{left:calc(var(--button-width) - var(--toggle-diameter) - 2px)}#browser_extension_side_menu{min-height:80px;width:30px;opacity:0;position:fixed;top:80px;right:0;padding-top:20px;z-index:10000}#browser_extension_side_menu:hover{opacity:1}#browser_extension_side_menu button{cursor:pointer;width:24px;height:24px;padding:0;border:none;background-color:rgba(0,0,0,0);background-image:none}#browser_extension_side_menu button svg{width:24px;height:24px}#browser_extension_side_menu button:hover{opacity:70%}#browser_extension_side_menu button:active{opacity:100%}@media(max-width: 500px){#browser_extension_settings_container{right:10px}#browser_extension_settings_container .extension_list_container{display:none}#browser_extension_settings_container .extension_list_container.bes_active{display:block}#browser_extension_settings_container .extension_list_container.bes_active+div{display:none}#browser_extension_settings_main a.navigation_go_previous{display:block}}'
   function createSwitch(options = {}) {
     const container = createElement("label", { class: "container" })
     const checkbox = createElement(
@@ -360,8 +360,14 @@
     }
     return container
   }
-  function createSwitchOption(text, options) {
+  function createSwitchOption(icon, text, options) {
+    if (typeof text !== "string") {
+      return createSwitchOption(void 0, icon, text)
+    }
     const div = createElement("div", { class: "switch_option" })
+    if (icon) {
+      addElement2(div, "img", { src: icon })
+    }
     addElement2(div, "span", { textContent: text })
     div.append(createSwitch(options))
     return div
@@ -556,12 +562,25 @@
     var _a
     return (_a = await getValue(storageKey)) != null ? _a : {}
   }
-  async function saveSattingsValue(key, value) {
+  async function saveSettingsValue(key, value) {
     const settings2 = await getSettings()
     settings2[key] =
       settingsTable[key] && settingsTable[key].defaultValue === value
         ? void 0
         : value
+    await setValue(storageKey, settings2)
+  }
+  async function saveSettingsValues(values) {
+    const settings2 = await getSettings()
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const value = values[key]
+        settings2[key] =
+          settingsTable[key] && settingsTable[key].defaultValue === value
+            ? void 0
+            : value
+      }
+    }
     await setValue(storageKey, settings2)
   }
   function getSettingsValue(key) {
@@ -726,11 +745,11 @@
           const optionGroup = getOptionGroup(group)
           switch (type) {
             case "switch": {
-              const switchOption = createSwitchOption(item.title, {
+              const switchOption = createSwitchOption(item.icon, item.title, {
                 async onchange(event) {
                   const checkbox = event.target
                   if (checkbox) {
-                    await saveSattingsValue(key, checkbox.checked)
+                    await saveSettingsValue(key, checkbox.checked)
                   }
                 },
               })
@@ -754,7 +773,7 @@
                   }
                   timeoutId = setTimeout(async () => {
                     if (textArea) {
-                      await saveSattingsValue(key, textArea.value.trim())
+                      await saveSettingsValue(key, textArea.value.trim())
                     }
                   }, 100)
                 },
@@ -923,6 +942,7 @@
     "shapes",
     "thumbs",
   ]
+  var allAvatarStyleList = styles
   function getRandomInt(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
@@ -962,8 +982,10 @@
     const value = values[getRandomInt(0, values.length)]
     return value ? "&backgroundColor=" + value : ""
   }
-  function getRandomAvatar(prefix2) {
-    const randomStyle = styles[getRandomInt(0, styles.length)]
+  function getRandomAvatar(prefix2, styleList) {
+    const styles2 =
+      !styleList || styleList.length === 0 ? allAvatarStyleList : styleList
+    const randomStyle = styles2[getRandomInt(0, styles2.length)]
     return (
       "https://api.dicebear.com/6.x/"
         .concat(randomStyle, "/svg?seed=")
@@ -1014,6 +1036,168 @@
       title: "Enable current site",
       defaultValue: isEnabledByDefault(),
     },
+    "style-adventurer": {
+      title: "Adventurer",
+      icon: "https://api.dicebear.com/6.x/adventurer/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-adventurer-neutral": {
+      title: "Adventurer Neutral",
+      icon: "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-avataaars": {
+      title: "Avataaars",
+      icon: "https://api.dicebear.com/6.x/avataaars/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-avataaars-neutral": {
+      title: "Avataaars Neutral",
+      icon: "https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-big-ears": {
+      title: "Big Ears",
+      icon: "https://api.dicebear.com/6.x/big-ears/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-big-ears-neutral": {
+      title: "Big Ears Neutral",
+      icon: "https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-big-smile": {
+      title: "Big Smile",
+      icon: "https://api.dicebear.com/6.x/big-smile/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-bottts": {
+      title: "Bottts",
+      icon: "https://api.dicebear.com/6.x/bottts/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-bottts-neutral": {
+      title: "Bottts Neutral",
+      icon: "https://api.dicebear.com/6.x/bottts-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-croodles": {
+      title: "Croodles",
+      icon: "https://api.dicebear.com/6.x/croodles/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-croodles-neutral": {
+      title: "Croodles Neutral",
+      icon: "https://api.dicebear.com/6.x/croodles-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-fun-emoji": {
+      title: "Fun Emoji",
+      icon: "https://api.dicebear.com/6.x/fun-emoji/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-icons": {
+      title: "Icons",
+      icon: "https://api.dicebear.com/6.x/icons/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-identicon": {
+      title: "Identicon",
+      icon: "https://api.dicebear.com/6.x/identicon/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-initials": {
+      title: "Initials",
+      icon: "https://api.dicebear.com/6.x/initials/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-lorelei": {
+      title: "Lorelei",
+      icon: "https://api.dicebear.com/6.x/lorelei/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-lorelei-neutral": {
+      title: "Lorelei Neutral",
+      icon: "https://api.dicebear.com/6.x/lorelei-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-micah": {
+      title: "Micah",
+      icon: "https://api.dicebear.com/6.x/micah/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-miniavs": {
+      title: "Miniavs",
+      icon: "https://api.dicebear.com/6.x/miniavs/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-notionists": {
+      title: "Notionists",
+      icon: "https://api.dicebear.com/6.x/notionists/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-notionists-neutral": {
+      title: "Notionists Neutral",
+      icon: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-open-peeps": {
+      title: "Open Peeps",
+      icon: "https://api.dicebear.com/6.x/open-peeps/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-personas": {
+      title: "Personas",
+      icon: "https://api.dicebear.com/6.x/personas/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-pixel-art": {
+      title: "Pixel Art",
+      icon: "https://api.dicebear.com/6.x/pixel-art/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-pixel-art-neutral": {
+      title: "Pixel Art Neutral",
+      icon: "https://api.dicebear.com/6.x/pixel-art-neutral/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-shapes": {
+      title: "Shapes",
+      icon: "https://api.dicebear.com/6.x/shapes/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
+    "style-thumbs": {
+      title: "Thumbs",
+      icon: "https://api.dicebear.com/6.x/thumbs/svg?seed=JD",
+      defaultValue: true,
+      group: 2,
+    },
     clearData: {
       title: "\u6E05\u7A7A\u88AB\u66FF\u6362\u7684\u5934\u50CF\u6570\u636E",
       type: "action",
@@ -1029,8 +1213,30 @@
           })
         }
       },
-      group: 2,
+      group: 3,
     },
+  }
+  var avatarStyleList = []
+  function updateAvatarStyleList() {
+    avatarStyleList = allAvatarStyleList.filter((style) =>
+      getSettingsValue("style-".concat(style))
+    )
+    if (avatarStyleList.length === 0) {
+      setTimeout(async () => {
+        alert(
+          "\u81F3\u5C11\u9700\u8981\u542F\u7528\u4E00\u79CD\u5934\u50CF\u98CE\u683C"
+        )
+        await saveSettingsValues({
+          "style-adventurer": true,
+        })
+        const firstStyleOption = $(
+          '.browser_extension_settings_container [data-key="style-adventurer"]'
+        )
+        if (firstStyleOption) {
+          firstStyleOption.scrollIntoView({ block: "nearest" })
+        }
+      }, 200)
+    }
   }
   function onSettingsChange() {
     if (getSettingsValue("enableCurrentSite_".concat(host2))) {
@@ -1045,6 +1251,7 @@
         }
       }
     }
+    updateAvatarStyleList()
   }
   function isAvatar(element) {
     if (!element || element.tagName !== "IMG") {
@@ -1074,7 +1281,7 @@
             removeClass(changeButton, "active")
           }, 200)
           const userName = currentTarget.dataset.ruaUserName || "noname"
-          const avatarUrl = getRandomAvatar(userName)
+          const avatarUrl = getRandomAvatar(userName, avatarStyleList)
           changeAvatar(currentTarget, avatarUrl, true)
           await saveAvatar(userName, avatarUrl)
         },
@@ -1212,6 +1419,7 @@
     if (!getSettingsValue("enableCurrentSite_".concat(host2))) {
       return
     }
+    updateAvatarStyleList()
     runWhenHeadExists(() => {
       addElement2("style", {
         textContent: content_default,
