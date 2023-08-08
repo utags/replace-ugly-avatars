@@ -1,4 +1,9 @@
 import {
+  getSettingsValue,
+  initSettings,
+  showSettings,
+} from "browser-extension-settings"
+import {
   $,
   $$,
   addClass,
@@ -6,6 +11,7 @@ import {
   addEventListener,
   doc,
   getOffsetPosition,
+  registerMenuCommand,
   removeClass,
   removeEventListener,
   runWhenHeadExists,
@@ -15,7 +21,57 @@ import styleText from "data-text:./content.scss"
 
 import { getRandomAvatar } from "./avatar"
 import { changeIcon } from "./common"
-import { getChangedAavatar, initStorage, saveAvatar } from "./storage"
+import {
+  clearAvatarData,
+  getChangedAavatar,
+  initStorage,
+  saveAvatar,
+} from "./storage"
+
+const host = location.host
+
+const isEnabledByDefault = () => {
+  if (host.includes("xxxxxxxx")) {
+    return false
+  }
+
+  return true
+}
+
+const settingsTable = {
+  [`enableCurrentSite_${host}`]: {
+    title: "Enable current site",
+    defaultValue: isEnabledByDefault(),
+  },
+  clearData: {
+    title: "清空被替换的头像数据",
+    type: "action",
+    async onclick() {
+      if (confirm("确定要删除所有被替换的头像数据吗？")) {
+        await clearAvatarData()
+        setTimeout(() => {
+          alert("删除完毕!")
+        })
+      }
+    },
+    group: 2,
+  },
+}
+
+function onSettingsChange() {
+  if (getSettingsValue(`enableCurrentSite_${host}`)) {
+    scanAvatars()
+  } else {
+    for (const element of $$("img[data-rua-org-src]") as HTMLImageElement[]) {
+      if (
+        element.dataset.ruaOrgSrc &&
+        element.src !== element.dataset.ruaOrgSrc
+      ) {
+        element.src = element.dataset.ruaOrgSrc
+      }
+    }
+  }
+}
 
 function isAvatar(element: HTMLElement) {
   if (!element || element.tagName !== "IMG") {
@@ -127,9 +183,9 @@ function changeAvatar(
     return
   }
 
-  if (!element.dataset.orgSrc) {
+  if (!element.dataset.ruaOrgSrc) {
     const orgSrc = element.dataset.src /* v2hot */ || element.src
-    element.dataset.orgSrc = orgSrc
+    element.dataset.ruaOrgSrc = orgSrc
   }
 
   element.ruaLoading = true
@@ -192,6 +248,12 @@ function scanAvatars() {
       // console.log("change", userName)
       // console.log(avatar)
       changeAvatar(avatar, newAvatarSrc)
+    } else if (
+      !newAvatarSrc &&
+      avatar.dataset.ruaOrgSrc &&
+      avatar.src !== avatar.dataset.ruaOrgSrc
+    ) {
+      avatar.src = avatar.dataset.ruaOrgSrc
     }
   }
 }
@@ -199,6 +261,31 @@ function scanAvatars() {
 async function main() {
   if ($("#rua_tyle")) {
     // already running
+    return
+  }
+
+  await initSettings({
+    id: "replace-ugly-avatars",
+    title: "赐你个头像吧",
+    footer: `
+    <p>After change settings, reload the page to take effect</p>
+    <p>
+    <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">
+    Report and Issue...
+    </a></p>
+    <p>Made with ❤️ by
+    <a href="https://www.pipecraft.net/" target="_blank">
+      Pipecraft
+    </a></p>`,
+    settingsTable,
+    async onValueChange() {
+      onSettingsChange()
+    },
+  })
+
+  registerMenuCommand("⚙️ 设置", showSettings, "o")
+
+  if (!getSettingsValue(`enableCurrentSite_${host}`)) {
     return
   }
 
