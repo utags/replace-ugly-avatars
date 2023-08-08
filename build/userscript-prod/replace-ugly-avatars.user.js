@@ -4,7 +4,7 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.0.6
+// @version              0.0.7
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -264,7 +264,7 @@
         }
       : addElement
   var content_default =
-    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block}img.rua_fadeout{box-sizing:border-box;padding:20px;transition:all 2s ease-out}#Main .header .fr a img{width:73px;height:73px}td[width="48"] img{width:48px;height:48px}'
+    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block}img.rua_fadeout{box-sizing:border-box;padding:45%;transition:all 1s ease-out}#Main .header .fr a img{width:73px;height:73px}td[width="48"] img{width:48px;height:48px}'
   var styles = [
     "adventurer",
     "adventurer-neutral",
@@ -303,11 +303,12 @@
     if (style === "initials" || style === "identicon") {
       return ""
     }
-    const flip = getRandomInt(0, 2)
-    return flip ? "&flip=true" : ""
+    const values = [false, false, false, false, true]
+    const value = values[getRandomInt(0, values.length)]
+    return value ? "&flip=true" : ""
   }
   function getRandomRadiusParameter(style) {
-    const values = [0, 10, 20, 30, 50]
+    const values = [0, 0, 0, 10, 10, 10, 20, 20, 30, 50]
     const value = values[getRandomInt(0, values.length)]
     return value ? "&radius=" + value : ""
   }
@@ -316,6 +317,13 @@
       "",
       "",
       "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "ffffff",
       "b6e3f4",
       "c0aede",
       "d1d4f9",
@@ -463,12 +471,14 @@
     removeClass(changeButton, "hide")
     removeClass(changeButton2, "hide")
     const pos = getOffsetPosition(element)
+    const leftOffset =
+      element.clientWidth - changeButton.clientWidth > 20
+        ? element.clientWidth - changeButton.clientWidth
+        : element.clientWidth - 1
     changeButton.style.top = pos.top + "px"
-    changeButton.style.left =
-      pos.left + element.clientWidth - changeButton.clientWidth + "px"
+    changeButton.style.left = pos.left + leftOffset + "px"
     changeButton2.style.top = pos.top + changeButton.clientHeight + "px"
-    changeButton2.style.left =
-      pos.left + element.clientWidth - changeButton.clientWidth + "px"
+    changeButton2.style.left = pos.left + leftOffset + "px"
     const mouseoutHandler = () => {
       addClass(changeButton, "hide")
       addClass(changeButton2, "hide")
