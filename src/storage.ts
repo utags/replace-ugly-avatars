@@ -1,5 +1,6 @@
 import {
   addValueChangeListener,
+  deleteValue,
   getValue,
   setValue,
 } from "browser-extension-storage"
@@ -11,6 +12,10 @@ export async function saveAvatar(userName: string, src: string) {
   const values = (await getValue(storageKey)) || {}
   values[userName] = src
   await setValue(storageKey, values)
+}
+
+export async function clearAvatarData() {
+  await deleteValue(storageKey)
 }
 
 let cachedValues = {}
