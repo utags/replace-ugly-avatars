@@ -2,7 +2,7 @@
   "name": "replace-ugly-avatars",
   "displayName": "Replace Ugly Avatars",
   "displayName:zh-CN": "赐你个头像吧",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "🔃 Replace specified user's avatar (profile photo) and username (nickname)",
   "description:zh-CN": "🔃 换掉别人的头像与昵称",
   "author": "Pipecraft",
