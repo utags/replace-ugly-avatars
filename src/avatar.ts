@@ -28,6 +28,8 @@ const styles = [
   "thumbs",
 ]
 
+export const allAvatarStyleList = styles
+
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min)
   max = Math.floor(max)
@@ -72,7 +74,9 @@ function getRandomBackgroundColorParameter(style?: string) {
   return value ? "&backgroundColor=" + value : ""
 }
 
-export function getRandomAvatar(prefix: string) {
+export function getRandomAvatar(prefix: string, styleList?: string[]) {
+  const styles =
+    !styleList || styleList.length === 0 ? allAvatarStyleList : styleList
   const randomStyle = styles[getRandomInt(0, styles.length)]
   return (
     `https://api.dicebear.com/6.x/${randomStyle}/svg?seed=${prefix}.${Date.now()}` +

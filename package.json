@@ -75,6 +75,7 @@
       "document"
     ],
     "rules": {
+      "no-alert": 0,
       "import/extensions": 0,
       "import/order": 0,
       "@typescript-eslint/prefer-nullish-coalescing": 0,
