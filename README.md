@@ -32,6 +32,8 @@ We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. T
 
 ## Release Notes
 
+- 0.1.0
+  - Add settings, add enable option, add clear data option
 - 0.0.6
   - Add more random parameters
 - 0.0.5
