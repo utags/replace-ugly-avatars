@@ -45,6 +45,8 @@ We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. T
 
 ## Release Notes
 
+- 0.0.6
+  - 添加更多随机参数
 - 0.0.5
   - 添加图片替换时的动画，用户名关键字改为小写
 - 0.0.1
