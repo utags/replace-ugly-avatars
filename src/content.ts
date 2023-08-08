@@ -1,6 +1,7 @@
 import {
   getSettingsValue,
   initSettings,
+  saveSettingsValues,
   showSettings,
 } from "browser-extension-settings"
 import {
@@ -19,7 +20,7 @@ import {
 } from "browser-extension-utils"
 import styleText from "data-text:./content.scss"
 
-import { getRandomAvatar } from "./avatar"
+import { allAvatarStyleList, getRandomAvatar } from "./avatar"
 import { changeIcon } from "./common"
 import {
   clearAvatarData,
@@ -43,6 +44,170 @@ const settingsTable = {
     title: "Enable current site",
     defaultValue: isEnabledByDefault(),
   },
+
+  "style-adventurer": {
+    title: "Adventurer",
+    icon: "https://api.dicebear.com/6.x/adventurer/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-adventurer-neutral": {
+    title: "Adventurer Neutral",
+    icon: "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-avataaars": {
+    title: "Avataaars",
+    icon: "https://api.dicebear.com/6.x/avataaars/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-avataaars-neutral": {
+    title: "Avataaars Neutral",
+    icon: "https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-big-ears": {
+    title: "Big Ears",
+    icon: "https://api.dicebear.com/6.x/big-ears/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-big-ears-neutral": {
+    title: "Big Ears Neutral",
+    icon: "https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-big-smile": {
+    title: "Big Smile",
+    icon: "https://api.dicebear.com/6.x/big-smile/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-bottts": {
+    title: "Bottts",
+    icon: "https://api.dicebear.com/6.x/bottts/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-bottts-neutral": {
+    title: "Bottts Neutral",
+    icon: "https://api.dicebear.com/6.x/bottts-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-croodles": {
+    title: "Croodles",
+    icon: "https://api.dicebear.com/6.x/croodles/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-croodles-neutral": {
+    title: "Croodles Neutral",
+    icon: "https://api.dicebear.com/6.x/croodles-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-fun-emoji": {
+    title: "Fun Emoji",
+    icon: "https://api.dicebear.com/6.x/fun-emoji/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-icons": {
+    title: "Icons",
+    icon: "https://api.dicebear.com/6.x/icons/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-identicon": {
+    title: "Identicon",
+    icon: "https://api.dicebear.com/6.x/identicon/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-initials": {
+    title: "Initials",
+    icon: "https://api.dicebear.com/6.x/initials/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-lorelei": {
+    title: "Lorelei",
+    icon: "https://api.dicebear.com/6.x/lorelei/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-lorelei-neutral": {
+    title: "Lorelei Neutral",
+    icon: "https://api.dicebear.com/6.x/lorelei-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-micah": {
+    title: "Micah",
+    icon: "https://api.dicebear.com/6.x/micah/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-miniavs": {
+    title: "Miniavs",
+    icon: "https://api.dicebear.com/6.x/miniavs/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-notionists": {
+    title: "Notionists",
+    icon: "https://api.dicebear.com/6.x/notionists/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-notionists-neutral": {
+    title: "Notionists Neutral",
+    icon: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-open-peeps": {
+    title: "Open Peeps",
+    icon: "https://api.dicebear.com/6.x/open-peeps/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-personas": {
+    title: "Personas",
+    icon: "https://api.dicebear.com/6.x/personas/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-pixel-art": {
+    title: "Pixel Art",
+    icon: "https://api.dicebear.com/6.x/pixel-art/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-pixel-art-neutral": {
+    title: "Pixel Art Neutral",
+    icon: "https://api.dicebear.com/6.x/pixel-art-neutral/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-shapes": {
+    title: "Shapes",
+    icon: "https://api.dicebear.com/6.x/shapes/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+  "style-thumbs": {
+    title: "Thumbs",
+    icon: "https://api.dicebear.com/6.x/thumbs/svg?seed=JD",
+    defaultValue: true,
+    group: 2,
+  },
+
   clearData: {
     title: "清空被替换的头像数据",
     type: "action",
@@ -54,8 +219,32 @@ const settingsTable = {
         })
       }
     },
-    group: 2,
+    group: 3,
   },
+}
+
+let avatarStyleList: string[] = []
+function updateAvatarStyleList() {
+  avatarStyleList = allAvatarStyleList.filter((style) =>
+    getSettingsValue(`style-${style}`)
+  )
+
+  if (avatarStyleList.length === 0) {
+    setTimeout(async () => {
+      alert("至少需要启用一种头像风格")
+
+      await saveSettingsValues({
+        "style-adventurer": true,
+      })
+
+      const firstStyleOption = $(
+        '.browser_extension_settings_container [data-key="style-adventurer"]'
+      )
+      if (firstStyleOption) {
+        firstStyleOption.scrollIntoView({ block: "nearest" })
+      }
+    }, 200)
+  }
 }
 
 function onSettingsChange() {
@@ -71,6 +260,8 @@ function onSettingsChange() {
       }
     }
   }
+
+  updateAvatarStyleList()
 }
 
 function isAvatar(element: HTMLElement) {
@@ -106,7 +297,7 @@ function addChangeButton(element: HTMLImageElement) {
           removeClass(changeButton, "active")
         }, 200)
         const userName = currentTarget.dataset.ruaUserName || "noname"
-        const avatarUrl = getRandomAvatar(userName)
+        const avatarUrl = getRandomAvatar(userName, avatarStyleList)
         changeAvatar(currentTarget, avatarUrl, true)
         await saveAvatar(userName, avatarUrl)
       },
@@ -288,6 +479,8 @@ async function main() {
   if (!getSettingsValue(`enableCurrentSite_${host}`)) {
     return
   }
+
+  updateAvatarStyleList()
 
   runWhenHeadExists(() => {
     addElement("style", {
