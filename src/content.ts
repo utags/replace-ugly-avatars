@@ -15,7 +15,9 @@ import {
   registerMenuCommand,
   removeClass,
   removeEventListener,
+  runOnce,
   runWhenHeadExists,
+  setAttributes,
   throttle,
 } from "browser-extension-utils"
 import styleText from "data-text:./content.scss"
@@ -27,6 +29,7 @@ import {
   getChangedAavatar,
   initStorage,
   saveAvatar,
+  saveAvatars,
 } from "./storage"
 
 const host = location.host
@@ -208,6 +211,12 @@ const settingsTable = {
     group: 2,
   },
 
+  autoReplaceAll: {
+    title: "自动替换全部头像",
+    defaultValue: false,
+    group: 3,
+  },
+
   clearData: {
     title: "清空被替换的头像数据",
     type: "action",
@@ -219,7 +228,7 @@ const settingsTable = {
         })
       }
     },
-    group: 3,
+    group: 4,
   },
 }
 
@@ -229,7 +238,7 @@ function updateAvatarStyleList() {
     getSettingsValue(`style-${style}`)
   )
 
-  if (avatarStyleList.length === 0) {
+  if (avatarStyleList.length === 0 && !doc.hidden) {
     setTimeout(async () => {
       alert("至少需要启用一种头像风格")
 
@@ -247,10 +256,18 @@ function updateAvatarStyleList() {
   }
 }
 
-function onSettingsChange() {
+let lastValueOfEnableCurrentSite = true
+let lastValueOfAutoReplaceAll = false
+async function onSettingsChange() {
   if (getSettingsValue(`enableCurrentSite_${host}`)) {
-    scanAvatars()
-  } else {
+    if (!lastValueOfEnableCurrentSite) {
+      if ($("#rua_tyle")) {
+        scanAvatars()
+      } else {
+        await main()
+      }
+    }
+  } else if (lastValueOfEnableCurrentSite) {
     for (const element of $$("img[data-rua-org-src]") as HTMLImageElement[]) {
       if (
         element.dataset.ruaOrgSrc &&
@@ -260,6 +277,27 @@ function onSettingsChange() {
       }
     }
   }
+
+  lastValueOfEnableCurrentSite = getSettingsValue(
+    `enableCurrentSite_${host}`
+  ) as boolean
+
+  if (
+    getSettingsValue("autoReplaceAll") &&
+    !lastValueOfAutoReplaceAll &&
+    !doc.hidden
+  ) {
+    if (confirm("确定要自动替换全部头像吗？")) {
+      lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
+      scanAvatars()
+    } else {
+      await saveSettingsValues({
+        autoReplaceAll: false,
+      })
+    }
+  }
+
+  lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
 
   updateAvatarStyleList()
 }
@@ -411,15 +449,20 @@ function changeAvatar(
 
   setTimeout(() => {
     element.src = src
-  })
+  }, 100)
   if (element.dataset.src) {
     /* v2hot */
     element.dataset.src = src
   }
 }
 
-function scanAvatars() {
-  // console.log("scanAvatars")
+const scanAvatars = throttle(async () => {
+  if (doc.hidden || !getSettingsValue(`enableCurrentSite_${host}`)) {
+    return
+  }
+
+  const newValues = {}
+  // console.log("scanAvatars", lastValueOfAutoReplaceAll)
   const avatars = $$(`.avatar,a[href*="/member/"] img`) as HTMLImageElement[]
   for (const avatar of avatars) {
     let userName = avatar.dataset.ruaUserName
@@ -434,20 +477,35 @@ function scanAvatars() {
       avatar.dataset.ruaUserName = userName
     }
 
+    // Use lazy loading, because of th API limit the number of requests per second to 50
+    setAttributes(avatar, {
+      loading: "lazy",
+      referrerpolicy: "no-referrer",
+      rel: "noreferrer",
+    })
+
     const newAvatarSrc = getChangedAavatar(userName)
     if (newAvatarSrc && avatar.src !== newAvatarSrc) {
       // console.log("change", userName)
       // console.log(avatar)
       changeAvatar(avatar, newAvatarSrc)
-    } else if (
-      !newAvatarSrc &&
-      avatar.dataset.ruaOrgSrc &&
-      avatar.src !== avatar.dataset.ruaOrgSrc
-    ) {
-      avatar.src = avatar.dataset.ruaOrgSrc
+    } else if (!newAvatarSrc) {
+      if (avatar.dataset.ruaOrgSrc && avatar.src !== avatar.dataset.ruaOrgSrc) {
+        avatar.src = avatar.dataset.ruaOrgSrc
+      }
+
+      if (lastValueOfAutoReplaceAll && Object.entries(newValues).length < 3) {
+        // console.log("replace", userName)
+        const avatarUrl = getRandomAvatar(userName, avatarStyleList)
+        newValues[userName] = avatarUrl
+      }
     }
   }
-}
+
+  if (lastValueOfAutoReplaceAll) {
+    await saveAvatars(newValues)
+  }
+}, 100)
 
 async function main() {
   if ($("#rua_tyle")) {
@@ -455,10 +513,11 @@ async function main() {
     return
   }
 
-  await initSettings({
-    id: "replace-ugly-avatars",
-    title: "赐你个头像吧",
-    footer: `
+  await runOnce("main", async () => {
+    await initSettings({
+      id: "replace-ugly-avatars",
+      title: "赐你个头像吧",
+      footer: `
     <p>After change settings, reload the page to take effect</p>
     <p>
     <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">
@@ -468,13 +527,19 @@ async function main() {
     <a href="https://www.pipecraft.net/" target="_blank">
       Pipecraft
     </a></p>`,
-    settingsTable,
-    async onValueChange() {
-      onSettingsChange()
-    },
+      settingsTable,
+      async onValueChange() {
+        await onSettingsChange()
+      },
+    })
+
+    registerMenuCommand("⚙️ 设置", showSettings, "o")
   })
 
-  registerMenuCommand("⚙️ 设置", showSettings, "o")
+  lastValueOfEnableCurrentSite = getSettingsValue(
+    `enableCurrentSite_${host}`
+  ) as boolean
+  lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
 
   if (!getSettingsValue(`enableCurrentSite_${host}`)) {
     return
@@ -499,19 +564,25 @@ async function main() {
     addChangeButton(target as HTMLImageElement)
   })
 
+  addEventListener(doc, "visibilitychange", () => {
+    if (!doc.hidden) {
+      scanAvatars()
+    }
+  })
+
   await initStorage({
     avatarValueChangeListener() {
       scanAvatars()
     },
   })
 
-  scanAvatars()
+  if ($("img")) {
+    scanAvatars()
+  }
 
-  const observer = new MutationObserver(
-    throttle(async () => {
-      scanAvatars()
-    }, 500) as MutationCallback
-  )
+  const observer = new MutationObserver(() => {
+    scanAvatars()
+  })
 
   observer.observe(doc, {
     childList: true,
