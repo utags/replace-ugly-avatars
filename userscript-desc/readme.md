@@ -15,10 +15,14 @@
 - 看到某人的言论总是很白痴、很恶心，给他一个 🐷 猪头头像，下次看到直接跳过
 - 到哪里都能看到某些摸鱼王，由于太眼熟，注意力不知不觉地总落在他那里。换个头像，强制产生陌生感，分散注意力
 - 某些平台一堆 momo 头像，政治关联的头像。给它们换个随机头像，不受它们的干扰 （其他网站后续会支持）
-- 强迫症，把所有人都换成统一风格的头像 （批量自动替换的功能后续推出）
+- 强迫症，把所有人都换成统一风格的头像
 - 无聊时，消磨时间，头像换呀换呀换 🔃
 
 ![screenshots](https://raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots.gif)
+
+---
+
+![screenshots](https://raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-02.png)
 
 ## Avatar Source
 
@@ -45,6 +49,8 @@ Compatible with the following userscript managers
 
 ## Release Notes
 
+- 0.2.0
+  - Automatically update all avatars
 - 0.1.1
   - Add options to enable/disable each style
 - 0.1.0

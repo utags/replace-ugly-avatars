@@ -4,7 +4,7 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.1.1
+// @version              0.2.0
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -223,6 +223,17 @@
       element = element.offsetParent
     }
     return position
+  }
+  var runOnceCache = {}
+  var runOnce = async (key, func) => {
+    if (Object.hasOwn(runOnceCache, key)) {
+      return runOnceCache[key]
+    }
+    const result = await func()
+    if (key) {
+      runOnceCache[key] = result
+    }
+    return result
   }
   var parseInt10 = (number, defaultValue) => {
     if (typeof number === "number" && !Number.isNaN(number)) {
@@ -1005,6 +1016,11 @@
     values[userName] = src
     await setValue(storageKey2, values)
   }
+  async function saveAvatars(newValues) {
+    let values = (await getValue(storageKey2)) || {}
+    values = Object.assign(values, newValues)
+    await setValue(storageKey2, values)
+  }
   async function clearAvatarData() {
     await deleteValue(storageKey2)
   }
@@ -1198,6 +1214,11 @@
       defaultValue: true,
       group: 2,
     },
+    autoReplaceAll: {
+      title: "\u81EA\u52A8\u66FF\u6362\u5168\u90E8\u5934\u50CF",
+      defaultValue: false,
+      group: 3,
+    },
     clearData: {
       title: "\u6E05\u7A7A\u88AB\u66FF\u6362\u7684\u5934\u50CF\u6570\u636E",
       type: "action",
@@ -1213,7 +1234,7 @@
           })
         }
       },
-      group: 3,
+      group: 4,
     },
   }
   var avatarStyleList = []
@@ -1221,7 +1242,7 @@
     avatarStyleList = allAvatarStyleList.filter((style) =>
       getSettingsValue("style-".concat(style))
     )
-    if (avatarStyleList.length === 0) {
+    if (avatarStyleList.length === 0 && !doc.hidden) {
       setTimeout(async () => {
         alert(
           "\u81F3\u5C11\u9700\u8981\u542F\u7528\u4E00\u79CD\u5934\u50CF\u98CE\u683C"
@@ -1238,10 +1259,18 @@
       }, 200)
     }
   }
-  function onSettingsChange() {
+  var lastValueOfEnableCurrentSite = true
+  var lastValueOfAutoReplaceAll = false
+  async function onSettingsChange() {
     if (getSettingsValue("enableCurrentSite_".concat(host2))) {
-      scanAvatars()
-    } else {
+      if (!lastValueOfEnableCurrentSite) {
+        if ($("#rua_tyle")) {
+          scanAvatars()
+        } else {
+          await main()
+        }
+      }
+    } else if (lastValueOfEnableCurrentSite) {
       for (const element of $$("img[data-rua-org-src]")) {
         if (
           element.dataset.ruaOrgSrc &&
@@ -1251,6 +1280,28 @@
         }
       }
     }
+    lastValueOfEnableCurrentSite = getSettingsValue(
+      "enableCurrentSite_".concat(host2)
+    )
+    if (
+      getSettingsValue("autoReplaceAll") &&
+      !lastValueOfAutoReplaceAll &&
+      !doc.hidden
+    ) {
+      if (
+        confirm(
+          "\u786E\u5B9A\u8981\u81EA\u52A8\u66FF\u6362\u5168\u90E8\u5934\u50CF\u5417\uFF1F"
+        )
+      ) {
+        lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll")
+        scanAvatars()
+      } else {
+        await saveSettingsValues({
+          autoReplaceAll: false,
+        })
+      }
+    }
+    lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll")
     updateAvatarStyleList()
   }
   function isAvatar(element) {
@@ -1372,12 +1423,16 @@
     }
     setTimeout(() => {
       element.src = src
-    })
+    }, 100)
     if (element.dataset.src) {
       element.dataset.src = src
     }
   }
-  function scanAvatars() {
+  var scanAvatars = throttle(async () => {
+    if (doc.hidden || !getSettingsValue("enableCurrentSite_".concat(host2))) {
+      return
+    }
+    const newValues = {}
     const avatars = $$('.avatar,a[href*="/member/"] img')
     for (const avatar of avatars) {
       let userName = avatar.dataset.ruaUserName
@@ -1389,33 +1444,52 @@
         }
         avatar.dataset.ruaUserName = userName
       }
+      setAttributes(avatar, {
+        loading: "lazy",
+        referrerpolicy: "no-referrer",
+        rel: "noreferrer",
+      })
       const newAvatarSrc = getChangedAavatar(userName)
       if (newAvatarSrc && avatar.src !== newAvatarSrc) {
         changeAvatar(avatar, newAvatarSrc)
-      } else if (
-        !newAvatarSrc &&
-        avatar.dataset.ruaOrgSrc &&
-        avatar.src !== avatar.dataset.ruaOrgSrc
-      ) {
-        avatar.src = avatar.dataset.ruaOrgSrc
+      } else if (!newAvatarSrc) {
+        if (
+          avatar.dataset.ruaOrgSrc &&
+          avatar.src !== avatar.dataset.ruaOrgSrc
+        ) {
+          avatar.src = avatar.dataset.ruaOrgSrc
+        }
+        if (lastValueOfAutoReplaceAll && Object.entries(newValues).length < 3) {
+          const avatarUrl = getRandomAvatar(userName, avatarStyleList)
+          newValues[userName] = avatarUrl
+        }
       }
     }
-  }
+    if (lastValueOfAutoReplaceAll) {
+      await saveAvatars(newValues)
+    }
+  }, 100)
   async function main() {
     if ($("#rua_tyle")) {
       return
     }
-    await initSettings({
-      id: "replace-ugly-avatars",
-      title: "\u8D50\u4F60\u4E2A\u5934\u50CF\u5427",
-      footer:
-        '\n    <p>After change settings, reload the page to take effect</p>\n    <p>\n    <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">\n    Report and Issue...\n    </a></p>\n    <p>Made with \u2764\uFE0F by\n    <a href="https://www.pipecraft.net/" target="_blank">\n      Pipecraft\n    </a></p>',
-      settingsTable: settingsTable2,
-      async onValueChange() {
-        onSettingsChange()
-      },
+    await runOnce("main", async () => {
+      await initSettings({
+        id: "replace-ugly-avatars",
+        title: "\u8D50\u4F60\u4E2A\u5934\u50CF\u5427",
+        footer:
+          '\n    <p>After change settings, reload the page to take effect</p>\n    <p>\n    <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">\n    Report and Issue...\n    </a></p>\n    <p>Made with \u2764\uFE0F by\n    <a href="https://www.pipecraft.net/" target="_blank">\n      Pipecraft\n    </a></p>',
+        settingsTable: settingsTable2,
+        async onValueChange() {
+          await onSettingsChange()
+        },
+      })
+      registerMenuCommand("\u2699\uFE0F \u8BBE\u7F6E", showSettings, "o")
     })
-    registerMenuCommand("\u2699\uFE0F \u8BBE\u7F6E", showSettings, "o")
+    lastValueOfEnableCurrentSite = getSettingsValue(
+      "enableCurrentSite_".concat(host2)
+    )
+    lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll")
     if (!getSettingsValue("enableCurrentSite_".concat(host2))) {
       return
     }
@@ -1433,17 +1507,22 @@
       }
       addChangeButton(target)
     })
+    addEventListener(doc, "visibilitychange", () => {
+      if (!doc.hidden) {
+        scanAvatars()
+      }
+    })
     await initStorage({
       avatarValueChangeListener() {
         scanAvatars()
       },
     })
-    scanAvatars()
-    const observer = new MutationObserver(
-      throttle(async () => {
-        scanAvatars()
-      }, 500)
-    )
+    if ($("img")) {
+      scanAvatars()
+    }
+    const observer = new MutationObserver(() => {
+      scanAvatars()
+    })
     observer.observe(doc, {
       childList: true,
       subtree: true,
