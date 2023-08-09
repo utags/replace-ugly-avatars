@@ -14,6 +14,12 @@ export async function saveAvatar(userName: string, src: string) {
   await setValue(storageKey, values)
 }
 
+export async function saveAvatars(newValues: Record<string, unknown>) {
+  let values = (await getValue(storageKey)) || {}
+  values = Object.assign(values, newValues)
+  await setValue(storageKey, values)
+}
+
 export async function clearAvatarData() {
   await deleteValue(storageKey)
 }
