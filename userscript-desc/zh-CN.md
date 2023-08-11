@@ -18,15 +18,25 @@
 - 强迫症，把所有人都换成统一风格的头像
 - 无聊时，消磨时间，头像换呀换呀换 🔃
 
-![screenshots](https://raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots.gif)
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots.gif&output=gif&n=-1)
 
 ---
 
-![screenshots](https://raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-02.png)
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-02.png)
+
+---
+
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-03.png)
+
+---
+
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-04.png)
 
 ## Avatar Source
 
 We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. Thanks to the [DiceBear](https://github.com/dicebear/dicebear) project and [designers](https://www.dicebear.com/licenses) for the great works.
+
+We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as random avatars. Thanks to the [Gfriends](https://github.com/gfriends/gfriends) project.
 
 ## 兼容性
 
@@ -49,6 +59,8 @@ We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. T
 
 ## Release Notes
 
+- 0.3.0
+  - Add Japan Girl Friends avatars
 - 0.2.0
   - Automatically update all avatars
 - 0.1.1
