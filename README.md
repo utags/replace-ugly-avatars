@@ -23,6 +23,14 @@
 
 ![screenshots](./assets/replace-ugly-avatars-screenshots-02.png)
 
+---
+
+![screenshots](./assets/replace-ugly-avatars-screenshots-03.png)
+
+---
+
+![screenshots](./assets/replace-ugly-avatars-screenshots-04.png)
+
 ## Installation
 
 - Chrome Extension: [Manual Installation](manual-installation.md)
@@ -34,8 +42,12 @@
 
 We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. Thanks to the [DiceBear](https://github.com/dicebear/dicebear) project and [designers](https://www.dicebear.com/licenses) for the great works.
 
+We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as random avatars. Thanks to the [Gfriends](https://github.com/gfriends/gfriends) project.
+
 ## Release Notes
 
+- 0.3.0
+  - Add Japan Girl Friends avatars
 - 0.2.0
   - Automatically update all avatars
 - 0.1.1

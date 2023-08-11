@@ -4,7 +4,9 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.2.0
+// @updateURL            https://greasyfork.org/scripts/472616-replace-ugly-avatars/code/Replace%20Ugly%20Avatars.user.js
+// @downloadURL          https://greasyfork.org/scripts/472616-replace-ugly-avatars/code/Replace%20Ugly%20Avatars.user.js
+// @version              0.3.0
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -234,6 +236,13 @@
       runOnceCache[key] = result
     }
     return result
+  }
+  var sleep = async (time) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(1)
+      }, time)
+    })
   }
   var parseInt10 = (number, defaultValue) => {
     if (typeof number === "number" && !Number.isNaN(number)) {
@@ -952,6 +961,7 @@
     "pixel-art-neutral",
     "shapes",
     "thumbs",
+    "gfriends",
   ]
   var allAvatarStyleList = styles
   function getRandomInt(min, max) {
@@ -993,10 +1003,68 @@
     const value = values[getRandomInt(0, values.length)]
     return value ? "&backgroundColor=" + value : ""
   }
+  var cachedGfirendsData
+  function getRamdomGfirendsAvatar() {
+    if (cachedGfirendsData && cachedGfirendsData.length > 0) {
+      let avatar =
+        cachedGfirendsData[getRandomInt(0, cachedGfirendsData.length)]
+      avatar = encodeURIComponent(avatar).replaceAll("%2F", "/")
+      return "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/".concat(
+        avatar,
+        "&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp"
+      )
+    }
+    setTimeout(initRamdomGfirendsAvatar)
+  }
+  var retryCount = 0
+  async function fetchRamdomGfirendsAvatar() {
+    const url =
+      "https://cdn.jsdelivr.net/gh/utags/random-avatars@main/public/gfriends-".concat(
+        getRandomInt(1, 101),
+        ".json"
+      )
+    try {
+      const response = await fetch(url)
+      if (response.status === 200) {
+        return await response.json()
+      }
+    } catch (error) {
+      console.error(error)
+      retryCount++
+      if (retryCount < 3) {
+        await sleep(1e3)
+        return fetchRamdomGfirendsAvatar()
+      }
+    }
+  }
+  var gfriendsStorageKey = "gfriendsData"
+  async function initRamdomGfirendsAvatar() {
+    if (cachedGfirendsData) {
+      return
+    }
+    cachedGfirendsData = await getValue(gfriendsStorageKey)
+    if (cachedGfirendsData) {
+      setTimeout(async () => {
+        const data = await fetchRamdomGfirendsAvatar()
+        if (data) {
+          await setValue(gfriendsStorageKey, data)
+        }
+      }, 1e3 * 60)
+    } else {
+      const data = await fetchRamdomGfirendsAvatar()
+      if (data) {
+        cachedGfirendsData = data
+        await setValue(gfriendsStorageKey, data)
+      }
+    }
+  }
   function getRandomAvatar(prefix2, styleList) {
     const styles2 =
       !styleList || styleList.length === 0 ? allAvatarStyleList : styleList
     const randomStyle = styles2[getRandomInt(0, styles2.length)]
+    if (randomStyle === "gfriends") {
+      return getRamdomGfirendsAvatar()
+    }
     return (
       "https://api.dicebear.com/6.x/"
         .concat(randomStyle, "/svg?seed=")
@@ -1214,6 +1282,12 @@
       defaultValue: true,
       group: 2,
     },
+    "style-gfriends": {
+      title: "Japan Girl Friends (NSFW)",
+      icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/z-DMM(%E9%AA%91)/AI-Fix-%E4%B8%AD%E9%87%8E%E4%B8%83%E7%B7%92.jpg%3Ft%3D1607433636&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
+      defaultValue: false,
+      group: 2,
+    },
     autoReplaceAll: {
       title: "\u81EA\u52A8\u66FF\u6362\u5168\u90E8\u5934\u50CF",
       defaultValue: false,
@@ -1257,6 +1331,9 @@
           firstStyleOption.scrollIntoView({ block: "nearest" })
         }
       }, 200)
+    }
+    if (getSettingsValue("style-gfriends") && !doc.hidden) {
+      setTimeout(initRamdomGfirendsAvatar)
     }
   }
   var lastValueOfEnableCurrentSite = true
@@ -1333,8 +1410,10 @@
           }, 200)
           const userName = currentTarget.dataset.ruaUserName || "noname"
           const avatarUrl = getRandomAvatar(userName, avatarStyleList)
-          changeAvatar(currentTarget, avatarUrl, true)
-          await saveAvatar(userName, avatarUrl)
+          if (avatarUrl) {
+            changeAvatar(currentTarget, avatarUrl, true)
+            await saveAvatar(userName, avatarUrl)
+          }
         },
       })
     const changeButton2 =
@@ -1461,7 +1540,9 @@
         }
         if (lastValueOfAutoReplaceAll && Object.entries(newValues).length < 3) {
           const avatarUrl = getRandomAvatar(userName, avatarStyleList)
-          newValues[userName] = avatarUrl
+          if (avatarUrl) {
+            newValues[userName] = avatarUrl
+          }
         }
       }
     }
