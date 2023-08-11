@@ -22,7 +22,11 @@ import {
 } from "browser-extension-utils"
 import styleText from "data-text:./content.scss"
 
-import { allAvatarStyleList, getRandomAvatar } from "./avatar"
+import {
+  allAvatarStyleList,
+  getRandomAvatar,
+  initRamdomGfirendsAvatar,
+} from "./avatar"
 import { changeIcon } from "./common"
 import {
   clearAvatarData,
@@ -210,6 +214,12 @@ const settingsTable = {
     defaultValue: true,
     group: 2,
   },
+  "style-gfriends": {
+    title: "Japan Girl Friends (NSFW)",
+    icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/z-DMM(%E9%AA%91)/AI-Fix-%E4%B8%AD%E9%87%8E%E4%B8%83%E7%B7%92.jpg%3Ft%3D1607433636&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
+    defaultValue: false,
+    group: 2,
+  },
 
   autoReplaceAll: {
     title: "自动替换全部头像",
@@ -253,6 +263,10 @@ function updateAvatarStyleList() {
         firstStyleOption.scrollIntoView({ block: "nearest" })
       }
     }, 200)
+  }
+
+  if (getSettingsValue("style-gfriends") && !doc.hidden) {
+    setTimeout(initRamdomGfirendsAvatar)
   }
 }
 
@@ -336,8 +350,10 @@ function addChangeButton(element: HTMLImageElement) {
         }, 200)
         const userName = currentTarget.dataset.ruaUserName || "noname"
         const avatarUrl = getRandomAvatar(userName, avatarStyleList)
-        changeAvatar(currentTarget, avatarUrl, true)
-        await saveAvatar(userName, avatarUrl)
+        if (avatarUrl) {
+          changeAvatar(currentTarget, avatarUrl, true)
+          await saveAvatar(userName, avatarUrl)
+        }
       },
     })
 
@@ -437,6 +453,8 @@ function changeAvatar(
 
   if (height > 1) {
     element.style.height = height + "px"
+    // element.style.height = "unset"
+    // element.style.maxHeight = "unset"
   }
 
   if (animation) {
@@ -497,7 +515,9 @@ const scanAvatars = throttle(async () => {
       if (lastValueOfAutoReplaceAll && Object.entries(newValues).length < 3) {
         // console.log("replace", userName)
         const avatarUrl = getRandomAvatar(userName, avatarStyleList)
-        newValues[userName] = avatarUrl
+        if (avatarUrl) {
+          newValues[userName] = avatarUrl
+        }
       }
     }
   }
