@@ -216,7 +216,7 @@ const settingsTable = {
   },
   "style-gfriends": {
     title: "Japan Girl Friends (NSFW)",
-    icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/z-DMM(%E9%AA%91)/AI-Fix-%E4%B8%AD%E9%87%8E%E4%B8%83%E7%B7%92.jpg%3Ft%3D1607433636&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
+    icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/8-Honnaka/%E8%91%89%E6%9C%88%E3%81%BF%E3%82%8A%E3%81%82.jpg%3Ft%3D1644908887&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
     defaultValue: false,
     group: 2,
   },
@@ -449,10 +449,12 @@ function changeAvatar(
   const height = element.clientHeight
   if (width > 1) {
     element.style.width = width + "px"
+    element.style.height = width + "px"
   }
 
-  if (height > 1) {
+  if (height > 1 && width === 0) {
     element.style.height = height + "px"
+    element.style.width = height + "px"
     // element.style.height = "unset"
     // element.style.maxHeight = "unset"
   }
@@ -483,7 +485,7 @@ const scanAvatars = throttle(async () => {
   // console.log("scanAvatars", lastValueOfAutoReplaceAll)
   const avatars = $$(`.avatar,a[href*="/member/"] img`) as HTMLImageElement[]
   for (const avatar of avatars) {
-    let userName = avatar.dataset.ruaUserName
+    let userName: string | undefined // avatar.dataset.ruaUserName
     if (!userName) {
       userName = getUserName(avatar)
       if (!userName) {
