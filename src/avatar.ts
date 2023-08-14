@@ -74,7 +74,11 @@ function getRandomBackgroundColorParameter(style?: string) {
     "ffd5dc",
     "ffdfbf",
   ]
-  const value = values[getRandomInt(0, values.length)]
+  let value = values[getRandomInt(0, values.length)]
+  if ((style === "initials" || style === "icons") && value === "ffffff") {
+    value = ""
+  }
+
   return value ? "&backgroundColor=" + value : ""
 }
 
