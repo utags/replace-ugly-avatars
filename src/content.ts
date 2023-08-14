@@ -530,11 +530,6 @@ const scanAvatars = throttle(async () => {
 }, 100)
 
 async function main() {
-  if ($("#rua_tyle")) {
-    // already running
-    return
-  }
-
   await runOnce("main", async () => {
     await initSettings({
       id: "replace-ugly-avatars",
@@ -612,5 +607,8 @@ async function main() {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
-main()
+if (!doc.rua) {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
+  main()
+  doc.rua = true
+}
