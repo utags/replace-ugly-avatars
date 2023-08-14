@@ -6,7 +6,7 @@
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
 // @updateURL            https://greasyfork.org/scripts/472616-replace-ugly-avatars/code/Replace%20Ugly%20Avatars.user.js
 // @downloadURL          https://greasyfork.org/scripts/472616-replace-ugly-avatars/code/Replace%20Ugly%20Avatars.user.js
-// @version              0.3.0
+// @version              0.3.1
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -1000,7 +1000,10 @@
       "ffd5dc",
       "ffdfbf",
     ]
-    const value = values[getRandomInt(0, values.length)]
+    let value = values[getRandomInt(0, values.length)]
+    if ((style === "initials" || style === "icons") && value === "ffffff") {
+      value = ""
+    }
     return value ? "&backgroundColor=" + value : ""
   }
   var cachedGfirendsData
@@ -1284,7 +1287,7 @@
     },
     "style-gfriends": {
       title: "Japan Girl Friends (NSFW)",
-      icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/z-DMM(%E9%AA%91)/AI-Fix-%E4%B8%AD%E9%87%8E%E4%B8%83%E7%B7%92.jpg%3Ft%3D1607433636&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
+      icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/8-Honnaka/%E8%91%89%E6%9C%88%E3%81%BF%E3%82%8A%E3%81%82.jpg%3Ft%3D1644908887&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
       defaultValue: false,
       group: 2,
     },
@@ -1490,9 +1493,11 @@
     const height = element.clientHeight
     if (width > 1) {
       element.style.width = width + "px"
+      element.style.height = width + "px"
     }
-    if (height > 1) {
+    if (height > 1 && width === 0) {
       element.style.height = height + "px"
+      element.style.width = height + "px"
     }
     if (animation) {
       addClass(element, "rua_fadeout")
@@ -1514,7 +1519,7 @@
     const newValues = {}
     const avatars = $$('.avatar,a[href*="/member/"] img')
     for (const avatar of avatars) {
-      let userName = avatar.dataset.ruaUserName
+      let userName
       if (!userName) {
         userName = getUserName(avatar)
         if (!userName) {
