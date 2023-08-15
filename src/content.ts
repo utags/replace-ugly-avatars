@@ -265,7 +265,7 @@ function updateAvatarStyleList() {
     }, 200)
   }
 
-  if (getSettingsValue("style-gfriends") && !doc.hidden) {
+  if (getSettingsValue("style-gfriends")) {
     setTimeout(initRamdomGfirendsAvatar)
   }
 }
@@ -482,7 +482,7 @@ const scanAvatars = throttle(async () => {
   }
 
   const newValues = {}
-  // console.log("scanAvatars", lastValueOfAutoReplaceAll)
+  // console.log("scanAvatars", lastValueOfAutoReplaceAll, new Date())
   const avatars = $$(`.avatar,a[href*="/member/"] img`) as HTMLImageElement[]
   for (const avatar of avatars) {
     let userName: string | undefined // avatar.dataset.ruaUserName
@@ -514,7 +514,7 @@ const scanAvatars = throttle(async () => {
         avatar.src = avatar.dataset.ruaOrgSrc
       }
 
-      if (lastValueOfAutoReplaceAll && Object.entries(newValues).length < 3) {
+      if (lastValueOfAutoReplaceAll && Object.keys(newValues).length < 3) {
         // console.log("replace", userName)
         const avatarUrl = getRandomAvatar(userName, avatarStyleList)
         if (avatarUrl) {
@@ -524,7 +524,7 @@ const scanAvatars = throttle(async () => {
     }
   }
 
-  if (lastValueOfAutoReplaceAll) {
+  if (lastValueOfAutoReplaceAll && Object.keys(newValues).length > 0) {
     await saveAvatars(newValues)
   }
 }, 100)

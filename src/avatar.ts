@@ -119,7 +119,7 @@ async function fetchRamdomGfirendsAvatar() {
 
 const gfriendsStorageKey = "gfriendsData"
 export async function initRamdomGfirendsAvatar() {
-  if (cachedGfirendsData) {
+  if (cachedGfirendsData && cachedGfirendsData.length > 0) {
     return
   }
 
