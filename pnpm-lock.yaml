@@ -2,14 +2,14 @@ lockfileVersion: '6.0'
 
 dependencies:
   browser-extension-settings:
-    specifier: ^0.3.1
-    version: 0.3.1(react@18.2.0)
+    specifier: ^0.4.0
+    version: 0.4.0(react@18.2.0)
   browser-extension-storage:
     specifier: ^0.1.2
     version: 0.1.2(react@18.2.0)
   browser-extension-utils:
-    specifier: ^0.1.16
-    version: 0.1.16
+    specifier: ^0.1.17
+    version: 0.1.17
   plasmo:
     specifier: ^0.77.5
     version: 0.77.5(react-dom@18.2.0)(react@18.2.0)
@@ -3333,12 +3333,12 @@ packages:
     dependencies:
       fill-range: 7.0.1
 
-  /browser-extension-settings@0.3.1(react@18.2.0):
-    resolution: {integrity: sha512-AHtalrQS71L7g1gkSm7bQ3eeYEejAssX+gJopAjU24VQa+TyJOLgg5FBjH2QImpIVLJ7i+XjlleLx1iHDZ0CcQ==}
+  /browser-extension-settings@0.4.0(react@18.2.0):
+    resolution: {integrity: sha512-uQXA1VYWsFM/LixlVr581/jFw1G3x10lNtwxYqAMOEzkF4Xy0/LSwvIx16ZDEnX5IAmyOBZg9P2TPOysUaNaZg==}
     engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
       browser-extension-storage: 0.1.2(react@18.2.0)
-      browser-extension-utils: 0.1.16
+      browser-extension-utils: 0.1.17
     transitivePeerDependencies:
       - react
     dev: false
@@ -3352,8 +3352,8 @@ packages:
       - react
     dev: false
 
-  /browser-extension-utils@0.1.16:
-    resolution: {integrity: sha512-HM1IACWC7RZwoye6EgrnPJ1xt9tcmAeDMeFV8TyyMa+ADPbWKsLzhNB25PBvospNIpcfufkrpc0sXb2az/h6FA==}
+  /browser-extension-utils@0.1.17:
+    resolution: {integrity: sha512-HJzNVd2Vhikmc4ZJNosVqzLKuMCiC4aJyjOetPX0LWV5Rk9h+I9WpNbZTn2b9j229gPLpGhAKMFIJmiln/fzdw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
