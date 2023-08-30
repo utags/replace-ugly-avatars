@@ -2,7 +2,6 @@ import {
   getSettingsValue,
   initSettings,
   saveSettingsValues,
-  showSettings,
 } from "browser-extension-settings"
 import {
   $,
@@ -12,7 +11,6 @@ import {
   addEventListener,
   doc,
   getOffsetPosition,
-  registerMenuCommand,
   removeClass,
   removeEventListener,
   runOnce,
@@ -28,6 +26,7 @@ import {
   initRamdomGfirendsAvatar,
 } from "./avatar"
 import { changeIcon } from "./common"
+import { i } from "./messages"
 import {
   clearAvatarData,
   getChangedAavatar,
@@ -48,7 +47,7 @@ const isEnabledByDefault = () => {
 
 const settingsTable = {
   [`enableCurrentSite_${host}`]: {
-    title: "Enable current site",
+    title: i("settings.enableCurrentSite"),
     defaultValue: isEnabledByDefault(),
   },
 
@@ -222,19 +221,19 @@ const settingsTable = {
   },
 
   autoReplaceAll: {
-    title: "自动替换全部头像",
+    title: i("settings.autoReplaceAll"),
     defaultValue: false,
     group: 3,
   },
 
   clearData: {
-    title: "清空被替换的头像数据",
+    title: i("settings.clearData"),
     type: "action",
     async onclick() {
-      if (confirm("确定要删除所有被替换的头像数据吗？")) {
+      if (confirm(i("settings.clearData.confirm"))) {
         await clearAvatarData()
         setTimeout(() => {
-          alert("删除完毕!")
+          alert(i("settings.clearData.done"))
         })
       }
     },
@@ -250,7 +249,7 @@ function updateAvatarStyleList() {
 
   if (avatarStyleList.length === 0 && !doc.hidden) {
     setTimeout(async () => {
-      alert("至少需要启用一种头像风格")
+      alert(i("alert.needsSelectOneAavatar"))
 
       await saveSettingsValues({
         "style-adventurer": true,
@@ -301,7 +300,7 @@ async function onSettingsChange() {
     !lastValueOfAutoReplaceAll &&
     !doc.hidden
   ) {
-    if (confirm("确定要自动替换全部头像吗？")) {
+    if (confirm(i("settings.autoReplaceAll.confirm"))) {
       lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
       scanAvatars()
     } else {
@@ -369,7 +368,7 @@ function addChangeButton(element: HTMLImageElement) {
           removeClass(changeButton2, "active")
         }, 200)
         const userName = currentTarget.dataset.ruaUserName || "noname"
-        const avatarUrl = prompt("请输入头像链接", "")
+        const avatarUrl = prompt(i("prompt.enterAvatarLink"), "")
         // const avatarUrl = getRandomAvatar(userName)
         if (avatarUrl) {
           changeAvatar(currentTarget, avatarUrl, true)
@@ -533,12 +532,12 @@ async function main() {
   await runOnce("main", async () => {
     await initSettings({
       id: "replace-ugly-avatars",
-      title: "赐你个头像吧",
+      title: i("settings.title"),
       footer: `
-    <p>After change settings, reload the page to take effect</p>
+    <p>${i("settings.information")}</p>
     <p>
     <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">
-    Report and Issue...
+    ${i("settings.report")}
     </a></p>
     <p>Made with ❤️ by
     <a href="https://www.pipecraft.net/" target="_blank">
@@ -549,8 +548,6 @@ async function main() {
         await onSettingsChange()
       },
     })
-
-    registerMenuCommand("⚙️ 设置", showSettings, "o")
   })
 
   lastValueOfEnableCurrentSite = getSettingsValue(
@@ -607,8 +604,9 @@ async function main() {
   })
 }
 
-if (!doc.rua) {
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
-  main()
-  doc.rua = true
-}
+runWhenHeadExists(async () => {
+  if (doc.documentElement.dataset.replaceUglyAvatars === undefined) {
+    doc.documentElement.dataset.replaceUglyAvatars = ""
+    await main()
+  }
+})
