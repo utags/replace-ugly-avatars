@@ -59,6 +59,8 @@ We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as r
 
 ## Release Notes
 
+- 0.4.0
+  - 支持多国语言
 - 0.3.0
   - Add Japan Girl Friends avatars
 - 0.2.0

@@ -59,6 +59,8 @@ Compatible with the following userscript managers
 
 ## Release Notes
 
+- 0.4.0
+  - Support multi-languages
 - 0.3.0
   - Add Japan Girl Friends avatars
 - 0.2.0
