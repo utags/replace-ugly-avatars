@@ -4,8 +4,6 @@
 // @namespace            {namespace}
 // @homepageURL          {homepage}
 // @supportURL           {bugs.url}
-// @updateURL            https://greasyfork.org/scripts/472616-replace-ugly-avatars/code/Replace%20Ugly%20Avatars.user.js
-// @downloadURL          https://greasyfork.org/scripts/472616-replace-ugly-avatars/code/Replace%20Ugly%20Avatars.user.js
 // @version              {version}
 // @description          {description}
 // @description:zh-CN    {description:zh-CN}
