@@ -223,6 +223,13 @@ const settingsTable = {
   autoReplaceAll: {
     title: i("settings.autoReplaceAll"),
     defaultValue: false,
+    onConfirmChange(checked: boolean) {
+      if (checked) {
+        return confirm(i("settings.autoReplaceAll.confirm"))
+      }
+
+      return true
+    },
     group: 3,
   },
 
@@ -300,14 +307,8 @@ async function onSettingsChange() {
     !lastValueOfAutoReplaceAll &&
     !doc.hidden
   ) {
-    if (confirm(i("settings.autoReplaceAll.confirm"))) {
-      lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
-      scanAvatars()
-    } else {
-      await saveSettingsValues({
-        autoReplaceAll: false,
-      })
-    }
+    lastValueOfAutoReplaceAll = true
+    scanAvatars()
   }
 
   lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
