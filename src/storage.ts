@@ -6,7 +6,7 @@ import {
 } from "browser-extension-storage"
 
 const host = location.host
-const storageKey = "avatar:v2ex.com"
+const storageKey = host.includes("v2ex") ? "avatar:v2ex.com" : `avatar:${host}`
 
 export async function saveAvatar(userName: string, src: string) {
   const values = (await getValue(storageKey)) || {}

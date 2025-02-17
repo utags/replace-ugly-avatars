@@ -11,6 +11,8 @@
 // @author               {author}
 // @license              {license}
 // @match                https://*.v2ex.com/*
+// @match                https://*.v2ex.co/*
+// @match                https://linux.do/*
 // @match                https://v2hot.pipecraft.net/*
 // @run-at               document-start
 // ==/UserScript==

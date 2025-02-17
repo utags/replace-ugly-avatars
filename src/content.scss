@@ -8,6 +8,7 @@
     border: 1px solid;
     cursor: pointer;
     color: #0d6efd;
+    z-index: 10001;
 
     &.advanced {
       color: darkblue;
@@ -26,23 +27,31 @@
   }
 
   &:hover .change_button {
-    display: block;
+    display: block !important;
   }
 }
 
 img.rua_fadeout {
+  /*
   box-sizing: border-box;
   padding: 45%;
+  */
+  opacity: 10%;
   transition: all 1s ease-out;
 }
 
-/* v2ex */
-#Main .header .fr a img {
-  width: 73px;
-  height: 73px;
-}
+[data-replace-ugly-avatars*="v2ex.co"] {
+  /* v2ex post detail page */
+  /* The size of the image must be specified since its style is set as `float: right` */
+  #Main .header .fr a img {
+    width: 73px;
+    height: 73px;
+  }
 
-td[width="48"] img {
-  width: 48px;
-  height: 48px;
+  /* v2ex comments */
+  /* The size of the image must to be specified, as its width is not defined */
+  td[width="48"] img {
+    width: 48px;
+    height: 48px;
+  }
 }

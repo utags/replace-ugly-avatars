@@ -27,6 +27,7 @@ import {
 } from "./avatar"
 import { changeIcon } from "./common"
 import { i } from "./messages"
+import { currentSite } from "./sites"
 import {
   clearAvatarData,
   getChangedAavatar,
@@ -36,6 +37,7 @@ import {
 } from "./storage"
 
 const host = location.host
+const suffix = host.includes("v2ex") ? "" : "_" + host
 
 const isEnabledByDefault = () => {
   if (host.includes("xxxxxxxx")) {
@@ -51,176 +53,176 @@ const settingsTable = {
     defaultValue: isEnabledByDefault(),
   },
 
-  "style-adventurer": {
+  [`style-adventurer${suffix}`]: {
     title: "Adventurer",
     icon: "https://api.dicebear.com/6.x/adventurer/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-adventurer-neutral": {
+  [`style-adventurer-neutral${suffix}`]: {
     title: "Adventurer Neutral",
     icon: "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-avataaars": {
+  [`style-avataaars${suffix}`]: {
     title: "Avataaars",
     icon: "https://api.dicebear.com/6.x/avataaars/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-avataaars-neutral": {
+  [`style-avataaars-neutral${suffix}`]: {
     title: "Avataaars Neutral",
     icon: "https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-big-ears": {
+  [`style-big-ears${suffix}`]: {
     title: "Big Ears",
     icon: "https://api.dicebear.com/6.x/big-ears/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-big-ears-neutral": {
+  [`style-big-ears-neutral${suffix}`]: {
     title: "Big Ears Neutral",
     icon: "https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-big-smile": {
+  [`style-big-smile${suffix}`]: {
     title: "Big Smile",
     icon: "https://api.dicebear.com/6.x/big-smile/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-bottts": {
+  [`style-bottts${suffix}`]: {
     title: "Bottts",
     icon: "https://api.dicebear.com/6.x/bottts/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-bottts-neutral": {
+  [`style-bottts-neutral${suffix}`]: {
     title: "Bottts Neutral",
     icon: "https://api.dicebear.com/6.x/bottts-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-croodles": {
+  [`style-croodles${suffix}`]: {
     title: "Croodles",
     icon: "https://api.dicebear.com/6.x/croodles/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-croodles-neutral": {
+  [`style-croodles-neutral${suffix}`]: {
     title: "Croodles Neutral",
     icon: "https://api.dicebear.com/6.x/croodles-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-fun-emoji": {
+  [`style-fun-emoji${suffix}`]: {
     title: "Fun Emoji",
     icon: "https://api.dicebear.com/6.x/fun-emoji/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-icons": {
+  [`style-icons${suffix}`]: {
     title: "Icons",
     icon: "https://api.dicebear.com/6.x/icons/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-identicon": {
+  [`style-identicon${suffix}`]: {
     title: "Identicon",
     icon: "https://api.dicebear.com/6.x/identicon/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-initials": {
+  [`style-initials${suffix}`]: {
     title: "Initials",
     icon: "https://api.dicebear.com/6.x/initials/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-lorelei": {
+  [`style-lorelei${suffix}`]: {
     title: "Lorelei",
     icon: "https://api.dicebear.com/6.x/lorelei/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-lorelei-neutral": {
+  [`style-lorelei-neutral${suffix}`]: {
     title: "Lorelei Neutral",
     icon: "https://api.dicebear.com/6.x/lorelei-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-micah": {
+  [`style-micah${suffix}`]: {
     title: "Micah",
     icon: "https://api.dicebear.com/6.x/micah/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-miniavs": {
+  [`style-miniavs${suffix}`]: {
     title: "Miniavs",
     icon: "https://api.dicebear.com/6.x/miniavs/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-notionists": {
+  [`style-notionists${suffix}`]: {
     title: "Notionists",
     icon: "https://api.dicebear.com/6.x/notionists/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-notionists-neutral": {
+  [`style-notionists-neutral${suffix}`]: {
     title: "Notionists Neutral",
     icon: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-open-peeps": {
+  [`style-open-peeps${suffix}`]: {
     title: "Open Peeps",
     icon: "https://api.dicebear.com/6.x/open-peeps/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-personas": {
+  [`style-personas${suffix}`]: {
     title: "Personas",
     icon: "https://api.dicebear.com/6.x/personas/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-pixel-art": {
+  [`style-pixel-art${suffix}`]: {
     title: "Pixel Art",
     icon: "https://api.dicebear.com/6.x/pixel-art/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-pixel-art-neutral": {
+  [`style-pixel-art-neutral${suffix}`]: {
     title: "Pixel Art Neutral",
     icon: "https://api.dicebear.com/6.x/pixel-art-neutral/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-shapes": {
+  [`style-shapes${suffix}`]: {
     title: "Shapes",
     icon: "https://api.dicebear.com/6.x/shapes/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-thumbs": {
+  [`style-thumbs${suffix}`]: {
     title: "Thumbs",
     icon: "https://api.dicebear.com/6.x/thumbs/svg?seed=JD",
     defaultValue: true,
     group: 2,
   },
-  "style-gfriends": {
+  [`style-gfriends${suffix}`]: {
     title: "Japan Girl Friends (NSFW)",
     icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/8-Honnaka/%E8%91%89%E6%9C%88%E3%81%BF%E3%82%8A%E3%81%82.jpg%3Ft%3D1644908887&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
     defaultValue: false,
     group: 2,
   },
 
-  autoReplaceAll: {
+  [`autoReplaceAll${suffix}`]: {
     title: i("settings.autoReplaceAll"),
     defaultValue: false,
     onConfirmChange(checked: boolean) {
@@ -251,7 +253,7 @@ const settingsTable = {
 let avatarStyleList: string[] = []
 function updateAvatarStyleList() {
   avatarStyleList = allAvatarStyleList.filter((style) =>
-    getSettingsValue(`style-${style}`)
+    getSettingsValue(`style-${style}${suffix}`)
   )
 
   if (avatarStyleList.length === 0 && !doc.hidden) {
@@ -259,11 +261,11 @@ function updateAvatarStyleList() {
       alert(i("alert.needsSelectOneAavatar"))
 
       await saveSettingsValues({
-        "style-adventurer": true,
+        [`style-adventurer${suffix}`]: true,
       })
 
       const firstStyleOption = $(
-        '.browser_extension_settings_container [data-key="style-adventurer"]'
+        `.browser_extension_settings_container [data-key="style-adventurer${suffix}"]`
       )
       if (firstStyleOption) {
         firstStyleOption.scrollIntoView({ block: "nearest" })
@@ -271,7 +273,7 @@ function updateAvatarStyleList() {
     }, 200)
   }
 
-  if (getSettingsValue("style-gfriends")) {
+  if (getSettingsValue(`style-gfriends${suffix}`)) {
     setTimeout(initRamdomGfirendsAvatar)
   }
 }
@@ -303,7 +305,7 @@ async function onSettingsChange() {
   ) as boolean
 
   if (
-    getSettingsValue("autoReplaceAll") &&
+    getSettingsValue(`autoReplaceAll${suffix}`) &&
     !lastValueOfAutoReplaceAll &&
     !doc.hidden
   ) {
@@ -311,7 +313,9 @@ async function onSettingsChange() {
     scanAvatars()
   }
 
-  lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
+  lastValueOfAutoReplaceAll = getSettingsValue(
+    `autoReplaceAll${suffix}`
+  ) as boolean
 
   updateAvatarStyleList()
 }
@@ -401,24 +405,6 @@ function addChangeButton(element: HTMLImageElement) {
   addEventListener(element, "mouseout", mouseoutHandler)
 }
 
-function getUserName(element: HTMLElement) {
-  if (!element) {
-    return
-  }
-
-  const userNameElement = $('a[href*="/member/"]', element) as HTMLAnchorElement
-  if (userNameElement) {
-    const userName = (/member\/(\w+)/.exec(userNameElement.href) || [])[1]
-    if (userName) {
-      return userName.toLowerCase()
-    }
-
-    return
-  }
-
-  return getUserName(element.parentElement!)
-}
-
 function changeAvatar(
   element: HTMLImageElement,
   src: string,
@@ -445,19 +431,19 @@ function changeAvatar(
   addEventListener(element, "load", imgOnloadHandler)
   addEventListener(element, "error", imgOnloadHandler)
 
-  const width = element.clientWidth
-  const height = element.clientHeight
-  if (width > 1) {
-    element.style.width = width + "px"
-    element.style.height = width + "px"
-  }
+  // const width = element.clientWidth
+  // const height = element.clientHeight
+  // if (width > 1) {
+  //   element.style.width = width + "px"
+  //   element.style.height = width + "px"
+  // }
 
-  if (height > 1 && width === 0) {
-    element.style.height = height + "px"
-    element.style.width = height + "px"
-    // element.style.height = "unset"
-    // element.style.maxHeight = "unset"
-  }
+  // if (height > 1 && width === 0) {
+  //   element.style.height = height + "px"
+  //   element.style.width = height + "px"
+  //   // element.style.height = "unset"
+  //   // element.style.maxHeight = "unset"
+  // }
 
   if (animation) {
     addClass(element, "rua_fadeout")
@@ -483,11 +469,11 @@ const scanAvatars = throttle(async () => {
 
   const newValues = {}
   // console.log("scanAvatars", lastValueOfAutoReplaceAll, new Date())
-  const avatars = $$(`.avatar,a[href*="/member/"] img`) as HTMLImageElement[]
+  const avatars = currentSite.getAvatarElements()
   for (const avatar of avatars) {
     let userName: string | undefined // avatar.dataset.ruaUserName
     if (!userName) {
-      userName = getUserName(avatar)
+      userName = currentSite.getUserName(avatar)
       if (!userName) {
         console.error("Can't get username", avatar, userName)
         continue
@@ -554,7 +540,9 @@ async function main() {
   lastValueOfEnableCurrentSite = getSettingsValue(
     `enableCurrentSite_${host}`
   ) as boolean
-  lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll") as boolean
+  lastValueOfAutoReplaceAll = getSettingsValue(
+    `autoReplaceAll${suffix}`
+  ) as boolean
 
   if (!getSettingsValue(`enableCurrentSite_${host}`)) {
     return
@@ -607,7 +595,7 @@ async function main() {
 
 runWhenHeadExists(async () => {
   if (doc.documentElement.dataset.replaceUglyAvatars === undefined) {
-    doc.documentElement.dataset.replaceUglyAvatars = ""
+    doc.documentElement.dataset.replaceUglyAvatars = `${host}`
     await main()
   }
 })
