@@ -6,16 +6,34 @@
 
 🔃 换掉别人的头像与昵称。
 
+## Application Scenarios
+
+This script has a variety of practical application scenarios. Here are the details for you:
+
+- **Enhance Visual Experience**: When you find someone's profile picture 🤡 extremely unpleasant, you can use this script to replace it with a harmless one 🥸, instantly making your visual experience more comfortable.
+- **Express Your Attitude**: If someone's remarks are always stupid and disgusting, you can give them a 🐷 pig - head profile picture. Then, when you see them again, you can simply skip over them and avoid the annoyance.
+- **Avoid Distraction**: In various situations, there are always some "slackers" with very familiar profile pictures that unconsciously draw your attention. By changing their profile pictures, you can forcefully create a sense of unfamiliarity and effectively distract your attention.
+- **Reduce Interference**: Some platforms are filled with a large number of "momo" profile pictures or those with political associations, which can easily interfere with you. Use this script to randomly change their profile pictures and free yourself from such interference (more websites will be supported in the future).
+- **Meet the Needs of OCD**: If you have obsessive - compulsive disorder and want all profile pictures to have a unified style, this script can easily fulfill your wish.
+- **Kill Boredom**: When you're bored, you can use the script to continuously change profile pictures 🔃, killing time and adding a bit of fun in the process.
+
 ## 应用场景
 
-这个脚本可能有以下几种应用场景。
+此脚本具备多种实用的应用场景：
 
-- 看到某人的头像 🤡 感到不适，给他换一个人畜无害的头像 🥸
-- 看到某人的言论总是很白痴、很恶心，给他一个 🐷 猪头头像，下次看到直接跳过
-- 到哪里都能看到某些摸鱼王，由于太眼熟，注意力不知不觉地总落在他那里。换个头像，强制产生陌生感，分散注意力
-- 某些平台一堆 momo 头像，政治关联的头像。给它们换个随机头像，不受它们的干扰 （其他网站后续会支持）
-- 强迫症，把所有人都换成统一风格的头像
-- 无聊时，消磨时间，头像换呀换呀换 🔃
+- **改善视觉体验**：当您看到某人的头像 🤡 实在令人不适时，不妨使用本脚本为其更换一个人畜无害的头像 🥸，瞬间让您的视觉感受更加舒适。
+- **表达态度**：若某人的言论总是愚蠢又令人反感，您可以给他换上一个 🐷 猪头头像。此后再看到他，您便能直接跳过，眼不见心不烦。
+- **避免注意力分散**：在各种场合，总有一些 “摸鱼王”、“水王” 的头像十分眼熟，您的注意力会不自觉地被吸引过去。此时，通过更换他们的头像，强制营造出陌生感，从而有效分散您的注意力。
+- **减少干扰**：某些平台上充斥着大量 “momo” 头像或带有政治关联的头像，这些头像容易对您造成干扰。使用本脚本为它们随机更换头像，让您免受干扰之苦 （后续还将支持更多网站）。
+- **满足强迫症需求**：如果您有强迫症，希望所有人的头像都呈现统一风格，那么本脚本就能轻松帮您达成心愿。
+- **打发无聊时光**：当您感到无聊时，不妨用脚本不断更换头像 🔃，在这个过程中消磨时间，增添一些小乐趣。
+
+## For Now It Works On
+
+目前支持的网站
+
+- V2EX ([www.v2ex.com](https://www.v2ex.com/))
+- LINUX DO ([linux.do](https://linux.do/))
 
 ![screenshots](./assets/replace-ugly-avatars-screenshots.gif)
 
@@ -31,6 +49,18 @@
 
 ![screenshots](./assets/replace-ugly-avatars-screenshots-04.png)
 
+---
+
+![screenshots](./assets/replace-ugly-avatars-screenshots-05.png)
+
+---
+
+![screenshots](./assets/replace-ugly-avatars-screenshots-06.png)
+
+---
+
+![screenshots](./assets/replace-ugly-avatars-screenshots-07.png)
+
 ## Installation
 
 - Chrome Extension: [Manual Installation](manual-installation.md)
@@ -38,14 +68,21 @@
 - Firefox Addon: [Manual Installation](manual-installation.md)
 - Userscript: [https://greasyfork.org/scripts/472616-replace-ugly-avatars](https://greasyfork.org/scripts/472616-replace-ugly-avatars)
 
-## Avatar Source
+## Avatar Sources
 
 We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. Thanks to the [DiceBear](https://github.com/dicebear/dicebear) project and [designers](https://www.dicebear.com/licenses) for the great works.
+
+We also use the [ugly-avatar](https://github.com/txstc55/ugly-avatar) project and the [ugly-avatar-api](https://github.com/mamumu123/next-api-share) project to generate random avatars. Thanks to these two projects for the great works.
 
 We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as random avatars. Thanks to the [Gfriends](https://github.com/gfriends/gfriends) project.
 
 ## Release Notes
 
+- 0.5.0
+  - Add ugly-face avatar
+  - Implement support for the avatar replacement feature on the linux.do website
+- 0.4.0
+  - Support multi-languages
 - 0.3.0
   - Add Japan Girl Friends avatars
 - 0.2.0

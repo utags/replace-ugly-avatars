@@ -4,13 +4,15 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.4.1
+// @version              0.5.0
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
 // @author               Pipecraft
 // @license              MIT
 // @match                https://*.v2ex.com/*
+// @match                https://*.v2ex.co/*
+// @match                https://linux.do/*
 // @match                https://v2hot.pipecraft.net/*
 // @run-at               document-start
 // @grant                GM.getValue
@@ -134,6 +136,8 @@
       element.removeEventListener(type, listener, options)
     }
   }
+  var getAttribute = (element, name) =>
+    element ? element.getAttribute(name) : null
   var setAttribute = (element, name, value) =>
     element ? element.setAttribute(name, value) : void 0
   var setAttributes = (element, attributes) => {
@@ -1100,7 +1104,118 @@
     handleShowSettingsUrl()
   }
   var content_default =
-    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block}img.rua_fadeout{box-sizing:border-box;padding:45%;transition:all 1s ease-out}#Main .header .fr a img{width:73px;height:73px}td[width="48"] img{width:48px;height:48px}'
+    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd;z-index:10001}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block !important}img.rua_fadeout{opacity:10%;transition:all 1s ease-out}[data-replace-ugly-avatars*="v2ex.co"] #Main .header .fr a img{width:73px;height:73px}[data-replace-ugly-avatars*="v2ex.co"] td[width="48"] img{width:48px;height:48px}'
+  function getRandomInt(min, max) {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min)) + min
+  }
+  var cachedData
+  function getRamdomAvatar() {
+    if (cachedData && cachedData.length > 0) {
+      let avatar = cachedData[getRandomInt(0, cachedData.length)]
+      avatar = encodeURIComponent(avatar).replaceAll("%2F", "/")
+      return "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/".concat(
+        avatar,
+        "&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp"
+      )
+    }
+    setTimeout(initRamdomAvatar)
+  }
+  var retryCount = 0
+  async function fetchRamdomAvatar() {
+    const url =
+      "https://cdn.jsdelivr.net/gh/utags/random-avatars@2025021816/public/gfriends-".concat(
+        getRandomInt(1, 101),
+        ".json"
+      )
+    try {
+      const response = await fetch(url)
+      if (response.status === 200) {
+        return await response.json()
+      }
+    } catch (error) {
+      console.error(error)
+      retryCount++
+      if (retryCount < 3) {
+        await sleep(1e3)
+        return fetchRamdomAvatar()
+      }
+    }
+  }
+  var storageKey2 = "gfriendsData"
+  async function initRamdomAvatar() {
+    if (cachedData && cachedData.length > 0) {
+      return
+    }
+    cachedData = await getValue(storageKey2)
+    if (cachedData) {
+      setTimeout(async () => {
+        const data = await fetchRamdomAvatar()
+        if (data) {
+          await setValue(storageKey2, data)
+        }
+      }, 1e3 * 60)
+    } else {
+      const data = await fetchRamdomAvatar()
+      if (data) {
+        cachedData = data
+        await setValue(storageKey2, data)
+      }
+    }
+  }
+  var cachedData2
+  function getRamdomAvatar2() {
+    if (cachedData2 && cachedData2.length > 0) {
+      const avatar = cachedData2[getRandomInt(0, cachedData2.length)]
+      return "https://cdn.jsdelivr.net/gh/utags/ugly-avatar-generated@main/".concat(
+        avatar
+      )
+    }
+    setTimeout(initRamdomAvatar2)
+  }
+  var retryCount2 = 0
+  async function fetchRamdomAvatar2() {
+    const url =
+      "https://cdn.jsdelivr.net/gh/utags/random-avatars@2025021816/public/ugly-avatar/ugly-avatar-".concat(
+        getRandomInt(1, 11),
+        ".json"
+      )
+    try {
+      const response = await fetch(url)
+      if (response.status === 200) {
+        return await response.json()
+      }
+    } catch (error) {
+      console.error(error)
+      retryCount2++
+      if (retryCount2 < 3) {
+        await sleep(1e3)
+        return fetchRamdomAvatar2()
+      }
+    }
+  }
+  var storageKey3 = "uglyAvatarData"
+  async function initRamdomAvatar2() {
+    if (cachedData2 && cachedData2.length > 0) {
+      return
+    }
+    cachedData2 = await getValue(storageKey3)
+    if (cachedData2) {
+      setTimeout(async () => {
+        const data = await fetchRamdomAvatar2()
+        if (data) {
+          await setValue(storageKey3, data)
+        }
+      }, 1e3 * 60)
+    } else {
+      const data = await fetchRamdomAvatar2()
+      if (data) {
+        cachedData2 = data
+        await setValue(storageKey3, data)
+      }
+    }
+  }
   var styles = [
     "adventurer",
     "adventurer-neutral",
@@ -1129,14 +1244,10 @@
     "pixel-art-neutral",
     "shapes",
     "thumbs",
+    "ugly-avatar",
     "gfriends",
   ]
   var allAvatarStyleList = styles
-  function getRandomInt(min, max) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min)) + min
-  }
   function getRandomFlipParameter(style) {
     if (style === "initials" || style === "identicon") {
       return ""
@@ -1174,67 +1285,15 @@
     }
     return value ? "&backgroundColor=" + value : ""
   }
-  var cachedGfirendsData
-  function getRamdomGfirendsAvatar() {
-    if (cachedGfirendsData && cachedGfirendsData.length > 0) {
-      let avatar =
-        cachedGfirendsData[getRandomInt(0, cachedGfirendsData.length)]
-      avatar = encodeURIComponent(avatar).replaceAll("%2F", "/")
-      return "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/".concat(
-        avatar,
-        "&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp"
-      )
-    }
-    setTimeout(initRamdomGfirendsAvatar)
-  }
-  var retryCount = 0
-  async function fetchRamdomGfirendsAvatar() {
-    const url =
-      "https://cdn.jsdelivr.net/gh/utags/random-avatars@main/public/gfriends-".concat(
-        getRandomInt(1, 101),
-        ".json"
-      )
-    try {
-      const response = await fetch(url)
-      if (response.status === 200) {
-        return await response.json()
-      }
-    } catch (error) {
-      console.error(error)
-      retryCount++
-      if (retryCount < 3) {
-        await sleep(1e3)
-        return fetchRamdomGfirendsAvatar()
-      }
-    }
-  }
-  var gfriendsStorageKey = "gfriendsData"
-  async function initRamdomGfirendsAvatar() {
-    if (cachedGfirendsData && cachedGfirendsData.length > 0) {
-      return
-    }
-    cachedGfirendsData = await getValue(gfriendsStorageKey)
-    if (cachedGfirendsData) {
-      setTimeout(async () => {
-        const data = await fetchRamdomGfirendsAvatar()
-        if (data) {
-          await setValue(gfriendsStorageKey, data)
-        }
-      }, 1e3 * 60)
-    } else {
-      const data = await fetchRamdomGfirendsAvatar()
-      if (data) {
-        cachedGfirendsData = data
-        await setValue(gfriendsStorageKey, data)
-      }
-    }
-  }
   function getRandomAvatar(prefix2, styleList) {
     const styles2 =
       !styleList || styleList.length === 0 ? allAvatarStyleList : styleList
     const randomStyle = styles2[getRandomInt(0, styles2.length)]
+    if (randomStyle === "ugly-avatar") {
+      return getRamdomAvatar2()
+    }
     if (randomStyle === "gfriends") {
-      return getRamdomGfirendsAvatar()
+      return getRamdomAvatar()
     }
     return (
       "https://api.dicebear.com/6.x/"
@@ -1291,38 +1350,117 @@
     "en,en-US": en_default2,
     "zh,zh-CN": zh_cn_default2,
   })
+  var site = {
+    matches: /^linux\.do$/,
+    getAvatarElements() {
+      return $$(
+        'img[src^="https://linux.do/user_avatar/linux.do/"],img[src^="/user_avatar/linux.do/"],img[src^="https://linux.do/letter_avatar_proxy/"],img[src^="/letter_avatar_proxy/"],img[data-rua-org-src]'
+      )
+    },
+    getUserName(element) {
+      const src =
+        getAttribute(element, "data-rua-org-src") ||
+        getAttribute(element, "src")
+      if (!src) {
+        return
+      }
+      if (src.includes("letter_avatar_proxy")) {
+        const name2 = src.replace(
+          /.*\/letter_avatar_proxy\/v4\/letter\/(\w\/[^/]+)\/.*/,
+          "$1"
+        )
+        return name2.toLowerCase()
+      }
+      const name = src.replace(/.*\/user_avatar\/linux\.do\/([^/]+)\/.*/, "$1")
+      return name.toLowerCase()
+    },
+  }
+  var linux_do_default = site
+  var site2 = {
+    matches: /v2ex\.com$|^v2hot\.|v2ex\.co$/,
+    getAvatarElements() {
+      return $$('.avatar,a[href*="/member/"] img')
+    },
+    getUserName,
+  }
+  function getUserName(element) {
+    if (!element) {
+      return
+    }
+    const userNameElement = $('a[href*="/member/"]', element)
+    if (userNameElement) {
+      const userName = (/member\/(\w+)/.exec(userNameElement.href) || [])[1]
+      if (userName) {
+        return userName.toLowerCase()
+      }
+      return
+    }
+    return getUserName(element.parentElement)
+  }
+  var v2ex_com_default = site2
+  var sites = [
+    //
+    v2ex_com_default,
+    linux_do_default,
+  ]
+  var defaultSite = {
+    matches: /.*/,
+    getAvatarElements() {
+      return []
+    },
+    getUserName(element) {
+      return ""
+    },
+  }
+  function matchedSite(hostname2) {
+    for (const s of sites) {
+      if (s.matches.test(hostname2)) {
+        return s
+      }
+    }
+    return defaultSite
+  }
+  var hostname = location.hostname
+  var currentSite = matchedSite(hostname)
   var host = location.host
-  var storageKey2 = "avatar:v2ex.com"
+  var storageKey4 = host.includes("v2ex")
+    ? "avatar:v2ex.com"
+    : "avatar:".concat(host)
   async function saveAvatar(userName, src) {
-    const values = (await getValue(storageKey2)) || {}
+    const values = (await getValue(storageKey4)) || {}
     values[userName] = src
-    await setValue(storageKey2, values)
+    await setValue(storageKey4, values)
   }
   async function saveAvatars(newValues) {
-    let values = (await getValue(storageKey2)) || {}
+    let values = (await getValue(storageKey4)) || {}
     values = Object.assign(values, newValues)
-    await setValue(storageKey2, values)
+    await setValue(storageKey4, values)
   }
   async function clearAvatarData() {
-    await deleteValue(storageKey2)
+    await deleteValue(storageKey4)
   }
   var cachedValues = {}
   async function reloadCachedValues() {
-    cachedValues = (await getValue(storageKey2)) || {}
+    cachedValues = (await getValue(storageKey4)) || {}
   }
   function getChangedAavatar(userName) {
     return cachedValues[userName]
   }
   async function initStorage(options) {
-    addValueChangeListener(storageKey2, async () => {
+    addValueChangeListener(storageKey4, async () => {
       await reloadCachedValues()
       if (options && typeof options.avatarValueChangeListener === "function") {
         options.avatarValueChangeListener()
       }
     })
     await reloadCachedValues()
+    console.log(
+      "The number of avatars that have been replaced:",
+      Object.keys(cachedValues).length
+    )
   }
   var host2 = location.host
+  var suffix = host2.includes("v2ex") ? "" : "_" + host2
   var isEnabledByDefault = () => {
     if (host2.includes("xxxxxxxx")) {
       return false
@@ -1334,175 +1472,181 @@
       title: i2("settings.enableCurrentSite"),
       defaultValue: isEnabledByDefault(),
     },
-    "style-adventurer": {
+    ["style-adventurer".concat(suffix)]: {
       title: "Adventurer",
       icon: "https://api.dicebear.com/6.x/adventurer/svg?seed=JD",
       defaultValue: true,
       group: 2,
     },
-    "style-adventurer-neutral": {
+    ["style-adventurer-neutral".concat(suffix)]: {
       title: "Adventurer Neutral",
       icon: "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-avataaars": {
+    ["style-avataaars".concat(suffix)]: {
       title: "Avataaars",
       icon: "https://api.dicebear.com/6.x/avataaars/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-avataaars-neutral": {
+    ["style-avataaars-neutral".concat(suffix)]: {
       title: "Avataaars Neutral",
       icon: "https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-big-ears": {
+    ["style-big-ears".concat(suffix)]: {
       title: "Big Ears",
       icon: "https://api.dicebear.com/6.x/big-ears/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-big-ears-neutral": {
+    ["style-big-ears-neutral".concat(suffix)]: {
       title: "Big Ears Neutral",
       icon: "https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-big-smile": {
+    ["style-big-smile".concat(suffix)]: {
       title: "Big Smile",
       icon: "https://api.dicebear.com/6.x/big-smile/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-bottts": {
+    ["style-bottts".concat(suffix)]: {
       title: "Bottts",
       icon: "https://api.dicebear.com/6.x/bottts/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-bottts-neutral": {
+    ["style-bottts-neutral".concat(suffix)]: {
       title: "Bottts Neutral",
       icon: "https://api.dicebear.com/6.x/bottts-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-croodles": {
+    ["style-croodles".concat(suffix)]: {
       title: "Croodles",
       icon: "https://api.dicebear.com/6.x/croodles/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-croodles-neutral": {
+    ["style-croodles-neutral".concat(suffix)]: {
       title: "Croodles Neutral",
       icon: "https://api.dicebear.com/6.x/croodles-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-fun-emoji": {
+    ["style-fun-emoji".concat(suffix)]: {
       title: "Fun Emoji",
       icon: "https://api.dicebear.com/6.x/fun-emoji/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-icons": {
+    ["style-icons".concat(suffix)]: {
       title: "Icons",
       icon: "https://api.dicebear.com/6.x/icons/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-identicon": {
+    ["style-identicon".concat(suffix)]: {
       title: "Identicon",
       icon: "https://api.dicebear.com/6.x/identicon/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-initials": {
+    ["style-initials".concat(suffix)]: {
       title: "Initials",
       icon: "https://api.dicebear.com/6.x/initials/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-lorelei": {
+    ["style-lorelei".concat(suffix)]: {
       title: "Lorelei",
       icon: "https://api.dicebear.com/6.x/lorelei/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-lorelei-neutral": {
+    ["style-lorelei-neutral".concat(suffix)]: {
       title: "Lorelei Neutral",
       icon: "https://api.dicebear.com/6.x/lorelei-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-micah": {
+    ["style-micah".concat(suffix)]: {
       title: "Micah",
       icon: "https://api.dicebear.com/6.x/micah/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-miniavs": {
+    ["style-miniavs".concat(suffix)]: {
       title: "Miniavs",
       icon: "https://api.dicebear.com/6.x/miniavs/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-notionists": {
+    ["style-notionists".concat(suffix)]: {
       title: "Notionists",
       icon: "https://api.dicebear.com/6.x/notionists/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-notionists-neutral": {
+    ["style-notionists-neutral".concat(suffix)]: {
       title: "Notionists Neutral",
       icon: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-open-peeps": {
+    ["style-open-peeps".concat(suffix)]: {
       title: "Open Peeps",
       icon: "https://api.dicebear.com/6.x/open-peeps/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-personas": {
+    ["style-personas".concat(suffix)]: {
       title: "Personas",
       icon: "https://api.dicebear.com/6.x/personas/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-pixel-art": {
+    ["style-pixel-art".concat(suffix)]: {
       title: "Pixel Art",
       icon: "https://api.dicebear.com/6.x/pixel-art/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-pixel-art-neutral": {
+    ["style-pixel-art-neutral".concat(suffix)]: {
       title: "Pixel Art Neutral",
       icon: "https://api.dicebear.com/6.x/pixel-art-neutral/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-shapes": {
+    ["style-shapes".concat(suffix)]: {
       title: "Shapes",
       icon: "https://api.dicebear.com/6.x/shapes/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-thumbs": {
+    ["style-thumbs".concat(suffix)]: {
       title: "Thumbs",
       icon: "https://api.dicebear.com/6.x/thumbs/svg?seed=JD",
-      defaultValue: true,
+      defaultValue: false,
       group: 2,
     },
-    "style-gfriends": {
+    ["style-ugly-avatar".concat(suffix)]: {
+      title: "Ugly Avatar",
+      icon: "https://cdn.jsdelivr.net/gh/utags/ugly-avatar-generated@main/svg/00/0010afd433ff844eb3da1d22515a96f8.svg",
+      defaultValue: false,
+      group: 2,
+    },
+    ["style-gfriends".concat(suffix)]: {
       title: "Japan Girl Friends (NSFW)",
       icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/8-Honnaka/%E8%91%89%E6%9C%88%E3%81%BF%E3%82%8A%E3%81%82.jpg%3Ft%3D1644908887&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
       defaultValue: false,
       group: 2,
     },
-    autoReplaceAll: {
+    ["autoReplaceAll".concat(suffix)]: {
       title: i2("settings.autoReplaceAll"),
       defaultValue: false,
       onConfirmChange(checked) {
@@ -1530,24 +1674,30 @@
   var avatarStyleList = []
   function updateAvatarStyleList() {
     avatarStyleList = allAvatarStyleList.filter((style) =>
-      getSettingsValue("style-".concat(style))
+      getSettingsValue("style-".concat(style).concat(suffix))
     )
     if (avatarStyleList.length === 0 && !doc.hidden) {
       setTimeout(async () => {
         alert(i2("alert.needsSelectOneAavatar"))
         await saveSettingsValues({
-          "style-adventurer": true,
+          ["style-adventurer".concat(suffix)]: true,
         })
         const firstStyleOption = $(
-          '.browser_extension_settings_container [data-key="style-adventurer"]'
+          '.browser_extension_settings_container [data-key="style-adventurer'.concat(
+            suffix,
+            '"]'
+          )
         )
         if (firstStyleOption) {
           firstStyleOption.scrollIntoView({ block: "nearest" })
         }
       }, 200)
     }
-    if (getSettingsValue("style-gfriends")) {
-      setTimeout(initRamdomGfirendsAvatar)
+    if (getSettingsValue("style-ugly-avatar".concat(suffix))) {
+      setTimeout(initRamdomAvatar2)
+    }
+    if (getSettingsValue("style-gfriends".concat(suffix))) {
+      setTimeout(initRamdomAvatar)
     }
   }
   var lastValueOfEnableCurrentSite = true
@@ -1575,14 +1725,16 @@
       "enableCurrentSite_".concat(host2)
     )
     if (
-      getSettingsValue("autoReplaceAll") &&
+      getSettingsValue("autoReplaceAll".concat(suffix)) &&
       !lastValueOfAutoReplaceAll &&
       !doc.hidden
     ) {
       lastValueOfAutoReplaceAll = true
       scanAvatars()
     }
-    lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll")
+    lastValueOfAutoReplaceAll = getSettingsValue(
+      "autoReplaceAll".concat(suffix)
+    )
     updateAvatarStyleList()
   }
   function isAvatar(element) {
@@ -1656,20 +1808,6 @@
     }
     addEventListener(element, "mouseout", mouseoutHandler)
   }
-  function getUserName(element) {
-    if (!element) {
-      return
-    }
-    const userNameElement = $('a[href*="/member/"]', element)
-    if (userNameElement) {
-      const userName = (/member\/(\w+)/.exec(userNameElement.href) || [])[1]
-      if (userName) {
-        return userName.toLowerCase()
-      }
-      return
-    }
-    return getUserName(element.parentElement)
-  }
   function changeAvatar(element, src, animation = false) {
     if (element.ruaLoading) {
       return
@@ -1680,22 +1818,13 @@
     }
     element.ruaLoading = true
     const imgOnloadHandler = () => {
+      if (element.src !== src) {
+        return
+      }
       element.ruaLoading = false
       removeClass(element, "rua_fadeout")
       removeEventListener(element, "load", imgOnloadHandler)
       removeEventListener(element, "error", imgOnloadHandler)
-    }
-    addEventListener(element, "load", imgOnloadHandler)
-    addEventListener(element, "error", imgOnloadHandler)
-    const width = element.clientWidth
-    const height = element.clientHeight
-    if (width > 1) {
-      element.style.width = width + "px"
-      element.style.height = width + "px"
-    }
-    if (height > 1 && width === 0) {
-      element.style.height = height + "px"
-      element.style.width = height + "px"
     }
     if (animation) {
       addClass(element, "rua_fadeout")
@@ -1703,34 +1832,32 @@
       element.src =
         "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
     }
-    setTimeout(() => {
-      element.src = src
-    }, 100)
-    if (element.dataset.src) {
-      element.dataset.src = src
-    }
+    addEventListener(element, "load", imgOnloadHandler)
+    addEventListener(element, "error", imgOnloadHandler)
+    element.src = src
   }
   var scanAvatars = throttle(async () => {
     if (doc.hidden || !getSettingsValue("enableCurrentSite_".concat(host2))) {
       return
     }
     const newValues = {}
-    const avatars = $$('.avatar,a[href*="/member/"] img')
+    const avatars = currentSite.getAvatarElements()
     for (const avatar of avatars) {
-      let userName
+      let userName = avatar.dataset.ruaUserName
       if (!userName) {
-        userName = getUserName(avatar)
+        userName = currentSite.getUserName(avatar)
         if (!userName) {
           console.error("Can't get username", avatar, userName)
           continue
         }
         avatar.dataset.ruaUserName = userName
+        setAttributes(avatar, {
+          loading: "lazy",
+          decoding: "async",
+          referrerpolicy: "no-referrer",
+          rel: "noreferrer",
+        })
       }
-      setAttributes(avatar, {
-        loading: "lazy",
-        referrerpolicy: "no-referrer",
-        rel: "noreferrer",
-      })
       const newAvatarSrc = getChangedAavatar(userName)
       if (newAvatarSrc && avatar.src !== newAvatarSrc) {
         changeAvatar(avatar, newAvatarSrc)
@@ -1745,6 +1872,8 @@
           const avatarUrl = getRandomAvatar(userName, avatarStyleList)
           if (avatarUrl) {
             newValues[userName] = avatarUrl
+          } else {
+            setTimeout(scanAvatars, 100)
           }
         }
       }
@@ -1752,7 +1881,7 @@
     if (lastValueOfAutoReplaceAll && Object.keys(newValues).length > 0) {
       await saveAvatars(newValues)
     }
-  }, 100)
+  }, 300)
   async function main() {
     await runOnce("main", async () => {
       await initSettings({
@@ -1776,7 +1905,9 @@
     lastValueOfEnableCurrentSite = getSettingsValue(
       "enableCurrentSite_".concat(host2)
     )
-    lastValueOfAutoReplaceAll = getSettingsValue("autoReplaceAll")
+    lastValueOfAutoReplaceAll = getSettingsValue(
+      "autoReplaceAll".concat(suffix)
+    )
     if (!getSettingsValue("enableCurrentSite_".concat(host2))) {
       return
     }
@@ -1817,7 +1948,7 @@
   }
   runWhenHeadExists(async () => {
     if (doc.documentElement.dataset.replaceUglyAvatars === void 0) {
-      doc.documentElement.dataset.replaceUglyAvatars = ""
+      doc.documentElement.dataset.replaceUglyAvatars = "".concat(host2)
       await main()
     }
   })

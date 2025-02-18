@@ -9,14 +9,19 @@
 
 ## 应用场景
 
-这个脚本可能有以下几种应用场景。
+此脚本具备多种实用的应用场景：
 
-- 看到某人的头像 🤡 感到不适，给他换一个人畜无害的头像 🥸
-- 看到某人的言论总是很白痴、很恶心，给他一个 🐷 猪头头像，下次看到直接跳过
-- 到哪里都能看到某些摸鱼王，由于太眼熟，注意力不知不觉地总落在他那里。换个头像，强制产生陌生感，分散注意力
-- 某些平台一堆 momo 头像，政治关联的头像。给它们换个随机头像，不受它们的干扰 （其他网站后续会支持）
-- 强迫症，把所有人都换成统一风格的头像
-- 无聊时，消磨时间，头像换呀换呀换 🔃
+- **改善视觉体验**：当您看到某人的头像 🤡 实在令人不适时，不妨使用本脚本为其更换一个人畜无害的头像 🥸，瞬间让您的视觉感受更加舒适。
+- **表达态度**：若某人的言论总是愚蠢又令人反感，您可以给他换上一个 🐷 猪头头像。此后再看到他，您便能直接跳过，眼不见心不烦。
+- **避免注意力分散**：在各种场合，总有一些 “摸鱼王”、“水王” 的头像十分眼熟，您的注意力会不自觉地被吸引过去。此时，通过更换他们的头像，强制营造出陌生感，从而有效分散您的注意力。
+- **减少干扰**：某些平台上充斥着大量 “momo” 头像或带有政治关联的头像，这些头像容易对您造成干扰。使用本脚本为它们随机更换头像，让您免受干扰之苦 （后续还将支持更多网站）。
+- **满足强迫症需求**：如果您有强迫症，希望所有人的头像都呈现统一风格，那么本脚本就能轻松帮您达成心愿。
+- **打发无聊时光**：当您感到无聊时，不妨用脚本不断更换头像 🔃，在这个过程中消磨时间，增添一些小乐趣。
+
+## 目前支持的网站
+
+- V2EX ([www.v2ex.com](https://www.v2ex.com/))
+- LINUX DO ([linux.do](https://linux.do/))
 
 ![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots.gif&output=gif&n=-1)
 
@@ -32,9 +37,23 @@
 
 ![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-04.png)
 
-## Avatar Source
+---
+
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-05.png)
+
+---
+
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-06.png)
+
+---
+
+![screenshots](https://wsrv.nl/?url=raw.githubusercontent.com/utags/replace-ugly-avatars/main/assets/replace-ugly-avatars-screenshots-07.png)
+
+## Avatar Sources
 
 We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. Thanks to the [DiceBear](https://github.com/dicebear/dicebear) project and [designers](https://www.dicebear.com/licenses) for the great works.
+
+We also use the [ugly-avatar](https://github.com/txstc55/ugly-avatar) project and the [ugly-avatar-api](https://github.com/mamumu123/next-api-share) project to generate random avatars. Thanks to these two projects for the great works.
 
 We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as random avatars. Thanks to the [Gfriends](https://github.com/gfriends/gfriends) project.
 
@@ -45,6 +64,7 @@ We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as r
 - Tampermonkey (推荐)
 - Violentmonkey
 - Greasemonkey
+- ScriptCat
 - Userscripts (Safari)
 
 ## About
@@ -59,6 +79,9 @@ We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as r
 
 ## Release Notes
 
+- 0.5.0
+  - 新增 ugly-face 头像
+  - 实现替换头像功能对 linux.do 网站的支持
 - 0.4.0
   - 支持多国语言
 - 0.3.0
@@ -84,5 +107,3 @@ Copyright (c) 2023 [Pipecraft](https://www.pipecraft.net). Licensed under the [M
 
 [![Pipecraft](https://img.shields.io/badge/site-pipecraft-brightgreen)](https://www.pipecraft.net)
 [![UTags](https://img.shields.io/badge/site-UTags-brightgreen)](https://utags.pipecraft.net)
-[![DTO](https://img.shields.io/badge/site-DTO-brightgreen)](https://dto.pipecraft.net)
-[![BestXTools](https://img.shields.io/badge/site-bestxtools-brightgreen)](https://www.bestxtools.com)
