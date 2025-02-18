@@ -41,4 +41,8 @@ export async function initStorage(options?: Record<string, unknown>) {
     }
   })
   await reloadCachedValues()
+  console.log(
+    "The number of avatars that have been replaced:",
+    Object.keys(cachedValues).length
+  )
 }
