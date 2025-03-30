@@ -32,6 +32,12 @@ const site = {
       return name.toLowerCase()
     }
 
+    // https://cdn.linux.do/letter_avatar/ziyun/48/5_d44a9b381edc88181525e3c8350177ca.png
+    if (src.includes("letter_avatar/")) {
+      const name = src.replace(/.*\/letter_avatar\/(\w+)\/.*/, "$1")
+      return name.toLowerCase()
+    }
+
     const name = src.replace(/.*\/user_avatar\/linux\.do\/([^/]+)\/.*/, "$1")
     return name.toLowerCase()
   },
