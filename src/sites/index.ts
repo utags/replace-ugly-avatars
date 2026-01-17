@@ -1,5 +1,5 @@
-import linux_do from "./linux.do"
-import v2ex_com from "./v2ex.com"
+import linux_do from './linux.do'
+import v2ex_com from './v2ex.com'
 
 type Site = {
   matches: RegExp
@@ -19,7 +19,7 @@ const defaultSite = {
     return []
   },
   getUserName(element: HTMLElement) {
-    return ""
+    return ''
   },
 }
 

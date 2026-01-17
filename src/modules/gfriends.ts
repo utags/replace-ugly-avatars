@@ -1,16 +1,16 @@
 // Fetch from https://github.com/gfriends/gfriends
 
-import { getValue, setValue } from "browser-extension-storage"
-import { sleep } from "browser-extension-utils"
+import { getValue, setValue } from 'browser-extension-storage'
+import { sleep } from 'browser-extension-utils'
 
-import { getRandomInt } from "../utils"
+import { getRandomInt } from '../utils'
 
 let cachedData: string[]
 
 export function getRamdomAvatar() {
   if (cachedData && cachedData.length > 0) {
     let avatar = cachedData[getRandomInt(0, cachedData.length)]
-    avatar = encodeURIComponent(avatar).replaceAll("%2F", "/")
+    avatar = encodeURIComponent(avatar).replaceAll('%2F', '/')
     // return `https://cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/${avatar.replaceAll("%3Ft%3D", "?t=")}`
     return `https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/${avatar}&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp`
   }
@@ -40,7 +40,7 @@ async function fetchRamdomAvatar() {
   }
 }
 
-const storageKey = "gfriendsData"
+const storageKey = 'gfriendsData'
 export async function initRamdomAvatar() {
   if (cachedData && cachedData.length > 0) {
     return

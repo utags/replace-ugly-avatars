@@ -3,10 +3,10 @@ import {
   deleteValue,
   getValue,
   setValue,
-} from "browser-extension-storage"
+} from 'browser-extension-storage'
 
 const host = location.host
-const storageKey = host.includes("v2ex") ? "avatar:v2ex.com" : `avatar:${host}`
+const storageKey = host.includes('v2ex') ? 'avatar:v2ex.com' : `avatar:${host}`
 
 export async function saveAvatar(userName: string, src: string) {
   const values = (await getValue(storageKey)) || {}
@@ -36,13 +36,13 @@ export function getChangedAavatar(userName: string) {
 export async function initStorage(options?: Record<string, unknown>) {
   addValueChangeListener(storageKey, async () => {
     await reloadCachedValues()
-    if (options && typeof options.avatarValueChangeListener === "function") {
+    if (options && typeof options.avatarValueChangeListener === 'function') {
       options.avatarValueChangeListener()
     }
   })
   await reloadCachedValues()
   console.log(
-    "The number of avatars that have been replaced:",
+    'The number of avatars that have been replaced:',
     Object.keys(cachedValues).length
   )
 }

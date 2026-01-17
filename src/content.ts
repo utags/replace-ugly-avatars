@@ -2,7 +2,7 @@ import {
   getSettingsValue,
   initSettings,
   saveSettingsValues,
-} from "browser-extension-settings"
+} from 'browser-extension-settings'
 import {
   $,
   $$,
@@ -17,28 +17,28 @@ import {
   runWhenHeadExists,
   setAttributes,
   throttle,
-} from "browser-extension-utils"
-import styleText from "data-text:./content.scss"
+} from 'browser-extension-utils'
+import styleText from 'data-text:./content.scss'
 
-import { allAvatarStyleList, getRandomAvatar } from "./avatar"
-import { changeIcon } from "./common"
-import { i } from "./messages"
-import { initRamdomAvatar as initRamdomGfriendsAvatar } from "./modules/gfriends"
-import { initRamdomAvatar as initRamdomUglyAvatar } from "./modules/ugly-avatar"
-import { currentSite } from "./sites"
+import { allAvatarStyleList, getRandomAvatar } from './avatar'
+import { changeIcon } from './common'
+import { i } from './messages'
+import { initRamdomAvatar as initRamdomGfriendsAvatar } from './modules/gfriends'
+import { initRamdomAvatar as initRamdomUglyAvatar } from './modules/ugly-avatar'
+import { currentSite } from './sites'
 import {
   clearAvatarData,
   getChangedAavatar,
   initStorage,
   saveAvatar,
   saveAvatars,
-} from "./storage"
+} from './storage'
 
 const host = location.host
-const suffix = host.includes("v2ex") ? "" : "_" + host
+const suffix = host.includes('v2ex') ? '' : '_' + host
 
 const isEnabledByDefault = () => {
-  if (host.includes("xxxxxxxx")) {
+  if (host.includes('xxxxxxxx')) {
     return false
   }
 
@@ -47,191 +47,191 @@ const isEnabledByDefault = () => {
 
 const settingsTable = {
   [`enableCurrentSite_${host}`]: {
-    title: i("settings.enableCurrentSite"),
+    title: i('settings.enableCurrentSite'),
     defaultValue: isEnabledByDefault(),
   },
 
   [`style-adventurer${suffix}`]: {
-    title: "Adventurer",
-    icon: "https://api.dicebear.com/6.x/adventurer/svg?seed=JD",
+    title: 'Adventurer',
+    icon: 'https://api.dicebear.com/6.x/adventurer/svg?seed=JD',
     defaultValue: true,
     group: 2,
   },
   [`style-adventurer-neutral${suffix}`]: {
-    title: "Adventurer Neutral",
-    icon: "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=JD",
+    title: 'Adventurer Neutral',
+    icon: 'https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-avataaars${suffix}`]: {
-    title: "Avataaars",
-    icon: "https://api.dicebear.com/6.x/avataaars/svg?seed=JD",
+    title: 'Avataaars',
+    icon: 'https://api.dicebear.com/6.x/avataaars/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-avataaars-neutral${suffix}`]: {
-    title: "Avataaars Neutral",
-    icon: "https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=JD",
+    title: 'Avataaars Neutral',
+    icon: 'https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-big-ears${suffix}`]: {
-    title: "Big Ears",
-    icon: "https://api.dicebear.com/6.x/big-ears/svg?seed=JD",
+    title: 'Big Ears',
+    icon: 'https://api.dicebear.com/6.x/big-ears/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-big-ears-neutral${suffix}`]: {
-    title: "Big Ears Neutral",
-    icon: "https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=JD",
+    title: 'Big Ears Neutral',
+    icon: 'https://api.dicebear.com/6.x/big-ears-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-big-smile${suffix}`]: {
-    title: "Big Smile",
-    icon: "https://api.dicebear.com/6.x/big-smile/svg?seed=JD",
+    title: 'Big Smile',
+    icon: 'https://api.dicebear.com/6.x/big-smile/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-bottts${suffix}`]: {
-    title: "Bottts",
-    icon: "https://api.dicebear.com/6.x/bottts/svg?seed=JD",
+    title: 'Bottts',
+    icon: 'https://api.dicebear.com/6.x/bottts/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-bottts-neutral${suffix}`]: {
-    title: "Bottts Neutral",
-    icon: "https://api.dicebear.com/6.x/bottts-neutral/svg?seed=JD",
+    title: 'Bottts Neutral',
+    icon: 'https://api.dicebear.com/6.x/bottts-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-croodles${suffix}`]: {
-    title: "Croodles",
-    icon: "https://api.dicebear.com/6.x/croodles/svg?seed=JD",
+    title: 'Croodles',
+    icon: 'https://api.dicebear.com/6.x/croodles/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-croodles-neutral${suffix}`]: {
-    title: "Croodles Neutral",
-    icon: "https://api.dicebear.com/6.x/croodles-neutral/svg?seed=JD",
+    title: 'Croodles Neutral',
+    icon: 'https://api.dicebear.com/6.x/croodles-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-fun-emoji${suffix}`]: {
-    title: "Fun Emoji",
-    icon: "https://api.dicebear.com/6.x/fun-emoji/svg?seed=JD",
+    title: 'Fun Emoji',
+    icon: 'https://api.dicebear.com/6.x/fun-emoji/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-icons${suffix}`]: {
-    title: "Icons",
-    icon: "https://api.dicebear.com/6.x/icons/svg?seed=JD",
+    title: 'Icons',
+    icon: 'https://api.dicebear.com/6.x/icons/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-identicon${suffix}`]: {
-    title: "Identicon",
-    icon: "https://api.dicebear.com/6.x/identicon/svg?seed=JD",
+    title: 'Identicon',
+    icon: 'https://api.dicebear.com/6.x/identicon/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-initials${suffix}`]: {
-    title: "Initials",
-    icon: "https://api.dicebear.com/6.x/initials/svg?seed=JD",
+    title: 'Initials',
+    icon: 'https://api.dicebear.com/6.x/initials/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-lorelei${suffix}`]: {
-    title: "Lorelei",
-    icon: "https://api.dicebear.com/6.x/lorelei/svg?seed=JD",
+    title: 'Lorelei',
+    icon: 'https://api.dicebear.com/6.x/lorelei/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-lorelei-neutral${suffix}`]: {
-    title: "Lorelei Neutral",
-    icon: "https://api.dicebear.com/6.x/lorelei-neutral/svg?seed=JD",
+    title: 'Lorelei Neutral',
+    icon: 'https://api.dicebear.com/6.x/lorelei-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-micah${suffix}`]: {
-    title: "Micah",
-    icon: "https://api.dicebear.com/6.x/micah/svg?seed=JD",
+    title: 'Micah',
+    icon: 'https://api.dicebear.com/6.x/micah/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-miniavs${suffix}`]: {
-    title: "Miniavs",
-    icon: "https://api.dicebear.com/6.x/miniavs/svg?seed=JD",
+    title: 'Miniavs',
+    icon: 'https://api.dicebear.com/6.x/miniavs/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-notionists${suffix}`]: {
-    title: "Notionists",
-    icon: "https://api.dicebear.com/6.x/notionists/svg?seed=JD",
+    title: 'Notionists',
+    icon: 'https://api.dicebear.com/6.x/notionists/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-notionists-neutral${suffix}`]: {
-    title: "Notionists Neutral",
-    icon: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=JD",
+    title: 'Notionists Neutral',
+    icon: 'https://api.dicebear.com/6.x/notionists-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-open-peeps${suffix}`]: {
-    title: "Open Peeps",
-    icon: "https://api.dicebear.com/6.x/open-peeps/svg?seed=JD",
+    title: 'Open Peeps',
+    icon: 'https://api.dicebear.com/6.x/open-peeps/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-personas${suffix}`]: {
-    title: "Personas",
-    icon: "https://api.dicebear.com/6.x/personas/svg?seed=JD",
+    title: 'Personas',
+    icon: 'https://api.dicebear.com/6.x/personas/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-pixel-art${suffix}`]: {
-    title: "Pixel Art",
-    icon: "https://api.dicebear.com/6.x/pixel-art/svg?seed=JD",
+    title: 'Pixel Art',
+    icon: 'https://api.dicebear.com/6.x/pixel-art/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-pixel-art-neutral${suffix}`]: {
-    title: "Pixel Art Neutral",
-    icon: "https://api.dicebear.com/6.x/pixel-art-neutral/svg?seed=JD",
+    title: 'Pixel Art Neutral',
+    icon: 'https://api.dicebear.com/6.x/pixel-art-neutral/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-shapes${suffix}`]: {
-    title: "Shapes",
-    icon: "https://api.dicebear.com/6.x/shapes/svg?seed=JD",
+    title: 'Shapes',
+    icon: 'https://api.dicebear.com/6.x/shapes/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-thumbs${suffix}`]: {
-    title: "Thumbs",
-    icon: "https://api.dicebear.com/6.x/thumbs/svg?seed=JD",
+    title: 'Thumbs',
+    icon: 'https://api.dicebear.com/6.x/thumbs/svg?seed=JD',
     defaultValue: false,
     group: 2,
   },
   [`style-ugly-avatar${suffix}`]: {
-    title: "Ugly Avatar",
-    icon: "https://cdn.jsdelivr.net/gh/utags/ugly-avatar-generated@main/svg/00/0010afd433ff844eb3da1d22515a96f8.svg",
+    title: 'Ugly Avatar',
+    icon: 'https://cdn.jsdelivr.net/gh/utags/ugly-avatar-generated@main/svg/00/0010afd433ff844eb3da1d22515a96f8.svg',
     defaultValue: false,
     group: 2,
   },
   [`style-gfriends${suffix}`]: {
-    title: "Japan Girl Friends (NSFW)",
-    icon: "https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/8-Honnaka/%E8%91%89%E6%9C%88%E3%81%BF%E3%82%8A%E3%81%82.jpg%3Ft%3D1644908887&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp",
+    title: 'Japan Girl Friends (NSFW)',
+    icon: 'https://wsrv.nl/?url=cdn.jsdelivr.net/gh/gfriends/gfriends@master/Content/8-Honnaka/%E8%91%89%E6%9C%88%E3%81%BF%E3%82%8A%E3%81%82.jpg%3Ft%3D1644908887&w=96&h=96&dpr=2&fit=cover&a=focal&fpy=0.35&output=webp',
     defaultValue: false,
     group: 2,
   },
 
   [`autoReplaceAll${suffix}`]: {
-    title: i("settings.autoReplaceAll"),
+    title: i('settings.autoReplaceAll'),
     defaultValue: false,
     onConfirmChange(checked: boolean) {
       if (checked) {
-        return confirm(i("settings.autoReplaceAll.confirm"))
+        return confirm(i('settings.autoReplaceAll.confirm'))
       }
 
       return true
@@ -240,13 +240,13 @@ const settingsTable = {
   },
 
   clearData: {
-    title: i("settings.clearData"),
-    type: "action",
+    title: i('settings.clearData'),
+    type: 'action',
     async onclick() {
-      if (confirm(i("settings.clearData.confirm"))) {
+      if (confirm(i('settings.clearData.confirm'))) {
         await clearAvatarData()
         setTimeout(() => {
-          alert(i("settings.clearData.done"))
+          alert(i('settings.clearData.done'))
         })
       }
     },
@@ -262,7 +262,7 @@ function updateAvatarStyleList() {
 
   if (avatarStyleList.length === 0 && !doc.hidden) {
     setTimeout(async () => {
-      alert(i("alert.needsSelectOneAavatar"))
+      alert(i('alert.needsSelectOneAavatar'))
 
       await saveSettingsValues({
         [`style-adventurer${suffix}`]: true,
@@ -272,7 +272,7 @@ function updateAvatarStyleList() {
         `.browser_extension_settings_container [data-key="style-adventurer${suffix}"]`
       )
       if (firstStyleOption) {
-        firstStyleOption.scrollIntoView({ block: "nearest" })
+        firstStyleOption.scrollIntoView({ block: 'nearest' })
       }
     }, 200)
   }
@@ -291,14 +291,14 @@ let lastValueOfAutoReplaceAll = false
 async function onSettingsChange() {
   if (getSettingsValue(`enableCurrentSite_${host}`)) {
     if (!lastValueOfEnableCurrentSite) {
-      if ($("#rua_tyle")) {
+      if ($('#rua_tyle')) {
         scanAvatars()
       } else {
         await main()
       }
     }
   } else if (lastValueOfEnableCurrentSite) {
-    for (const element of $$("img[data-rua-org-src]") as HTMLImageElement[]) {
+    for (const element of $$('img[data-rua-org-src]') as HTMLImageElement[]) {
       if (
         element.dataset.ruaOrgSrc &&
         element.src !== element.dataset.ruaOrgSrc
@@ -329,7 +329,7 @@ async function onSettingsChange() {
 }
 
 function isAvatar(element: HTMLElement) {
-  if (!element || element.tagName !== "IMG") {
+  if (!element || element.tagName !== 'IMG') {
     return false
   }
 
@@ -344,23 +344,23 @@ let currentTarget: HTMLImageElement
 function addChangeButton(element: HTMLImageElement) {
   currentTarget = element
   const container =
-    $("#rua_container") ||
-    addElement(doc.body, "div", {
-      id: "rua_container",
+    $('#rua_container') ||
+    addElement(doc.body, 'div', {
+      id: 'rua_container',
     })
 
   const changeButton =
-    $(".change_button.quick", container) ||
-    addElement(container, "button", {
+    $('.change_button.quick', container) ||
+    addElement(container, 'button', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       innerHTML: changeIcon,
-      class: "change_button quick",
+      class: 'change_button quick',
       async onclick() {
-        addClass(changeButton, "active")
+        addClass(changeButton, 'active')
         setTimeout(() => {
-          removeClass(changeButton, "active")
+          removeClass(changeButton, 'active')
         }, 200)
-        const userName = currentTarget.dataset.ruaUserName || "noname"
+        const userName = currentTarget.dataset.ruaUserName || 'noname'
         const avatarUrl = getRandomAvatar(userName, avatarStyleList)
         if (avatarUrl) {
           changeAvatar(currentTarget, avatarUrl, true)
@@ -370,18 +370,18 @@ function addChangeButton(element: HTMLImageElement) {
     })
 
   const changeButton2 =
-    $(".change_button.advanced", container) ||
-    addElement(container, "button", {
+    $('.change_button.advanced', container) ||
+    addElement(container, 'button', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       innerHTML: changeIcon,
-      class: "change_button advanced",
+      class: 'change_button advanced',
       async onclick() {
-        addClass(changeButton2, "active")
+        addClass(changeButton2, 'active')
         setTimeout(() => {
-          removeClass(changeButton2, "active")
+          removeClass(changeButton2, 'active')
         }, 200)
-        const userName = currentTarget.dataset.ruaUserName || "noname"
-        const avatarUrl = prompt(i("prompt.enterAvatarLink"), "")
+        const userName = currentTarget.dataset.ruaUserName || 'noname'
+        const avatarUrl = prompt(i('prompt.enterAvatarLink'), '')
         // const avatarUrl = getRandomAvatar(userName)
         if (avatarUrl) {
           changeAvatar(currentTarget, avatarUrl, true)
@@ -390,27 +390,27 @@ function addChangeButton(element: HTMLImageElement) {
       },
     })
 
-  removeClass(changeButton, "hide")
-  removeClass(changeButton2, "hide")
+  removeClass(changeButton, 'hide')
+  removeClass(changeButton2, 'hide')
 
   const pos = getOffsetPosition(element)
   const leftOffset =
     element.clientWidth - changeButton.clientWidth > 20
       ? element.clientWidth - changeButton.clientWidth
       : element.clientWidth - 1
-  changeButton.style.top = pos.top + "px"
-  changeButton.style.left = pos.left + leftOffset + "px"
+  changeButton.style.top = pos.top + 'px'
+  changeButton.style.left = pos.left + leftOffset + 'px'
 
-  changeButton2.style.top = pos.top + changeButton.clientHeight + "px"
-  changeButton2.style.left = pos.left + leftOffset + "px"
+  changeButton2.style.top = pos.top + changeButton.clientHeight + 'px'
+  changeButton2.style.left = pos.left + leftOffset + 'px'
 
   const mouseoutHandler = () => {
-    addClass(changeButton, "hide")
-    addClass(changeButton2, "hide")
-    removeEventListener(element, "mouseout", mouseoutHandler)
+    addClass(changeButton, 'hide')
+    addClass(changeButton2, 'hide')
+    removeEventListener(element, 'mouseout', mouseoutHandler)
   }
 
-  addEventListener(element, "mouseout", mouseoutHandler)
+  addEventListener(element, 'mouseout', mouseoutHandler)
 }
 
 function changeAvatar(
@@ -436,9 +436,9 @@ function changeAvatar(
     }
 
     element.ruaLoading = false
-    removeClass(element, "rua_fadeout")
-    removeEventListener(element, "load", imgOnloadHandler)
-    removeEventListener(element, "error", imgOnloadHandler)
+    removeClass(element, 'rua_fadeout')
+    removeEventListener(element, 'load', imgOnloadHandler)
+    removeEventListener(element, 'error', imgOnloadHandler)
   }
 
   // const width = element.clientWidth
@@ -456,15 +456,15 @@ function changeAvatar(
   // }
 
   if (animation) {
-    addClass(element, "rua_fadeout")
+    addClass(element, 'rua_fadeout')
   } else {
     // white image placeholder, to cancel loading original images
     element.src =
-      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
   }
 
-  addEventListener(element, "load", imgOnloadHandler)
-  addEventListener(element, "error", imgOnloadHandler)
+  addEventListener(element, 'load', imgOnloadHandler)
+  addEventListener(element, 'error', imgOnloadHandler)
 
   element.src = src
   // setTimeout(() => {
@@ -498,10 +498,10 @@ const scanAvatars = throttle(async () => {
 
       // Use lazy loading, because of th API limit the number of requests per second to 50
       setAttributes(avatar, {
-        loading: "lazy",
-        decoding: "async",
-        referrerpolicy: "no-referrer",
-        rel: "noreferrer",
+        loading: 'lazy',
+        decoding: 'async',
+        referrerpolicy: 'no-referrer',
+        rel: 'noreferrer',
       })
     }
 
@@ -534,15 +534,15 @@ const scanAvatars = throttle(async () => {
 }, 300)
 
 async function main() {
-  await runOnce("main", async () => {
+  await runOnce('main', async () => {
     await initSettings({
-      id: "replace-ugly-avatars",
-      title: i("settings.title"),
+      id: 'replace-ugly-avatars',
+      title: i('settings.title'),
       footer: `
-    <p>${i("settings.information")}</p>
+    <p>${i('settings.information')}</p>
     <p>
     <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">
-    ${i("settings.report")}
+    ${i('settings.report')}
     </a></p>
     <p>Made with ❤️ by
     <a href="https://www.pipecraft.net/" target="_blank">
@@ -569,13 +569,13 @@ async function main() {
   updateAvatarStyleList()
 
   runWhenHeadExists(() => {
-    addElement("style", {
+    addElement('style', {
       textContent: styleText,
-      id: "rua_tyle",
+      id: 'rua_tyle',
     })
   })
 
-  addEventListener(doc, "mouseover", (event: Event) => {
+  addEventListener(doc, 'mouseover', (event: Event) => {
     const target = event.target as HTMLElement
     if (!isAvatar(target)) {
       return
@@ -585,7 +585,7 @@ async function main() {
     addChangeButton(target as HTMLImageElement)
   })
 
-  addEventListener(doc, "visibilitychange", () => {
+  addEventListener(doc, 'visibilitychange', () => {
     if (!doc.hidden) {
       scanAvatars()
     }
@@ -597,7 +597,7 @@ async function main() {
     },
   })
 
-  if ($("img")) {
+  if ($('img')) {
     scanAvatars()
   }
 

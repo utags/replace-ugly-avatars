@@ -1,4 +1,4 @@
-import { $$, getAttribute } from "browser-extension-utils"
+import { $$, getAttribute } from 'browser-extension-utils'
 
 const site = {
   matches: /^linux\.do$/,
@@ -12,33 +12,33 @@ const site = {
         'img[src^="/letter_avatar_proxy/"]',
         'img[src^="https://cdn.linux.do/letter_avatar_proxy/"]',
         'img[src^="https://cdn.linux.do/letter_avatar/"]',
-        "img[data-rua-org-src]",
-      ].join(",")
+        'img[data-rua-org-src]',
+      ].join(',')
     ) as HTMLImageElement[]
   },
   getUserName(element: HTMLElement) {
     const src =
-      getAttribute(element, "data-rua-org-src") || getAttribute(element, "src")
+      getAttribute(element, 'data-rua-org-src') || getAttribute(element, 'src')
     if (!src) {
       return
     }
 
     // https://linux.do/letter_avatar_proxy/v4/letter/p/a9a28c/48.png
-    if (src.includes("letter_avatar_proxy")) {
+    if (src.includes('letter_avatar_proxy')) {
       const name = src.replace(
         /.*\/letter_avatar_proxy\/v4\/letter\/(\w\/[^/]+)\/.*/,
-        "$1"
+        '$1'
       )
       return name.toLowerCase()
     }
 
     // https://cdn.linux.do/letter_avatar/ziyun/48/5_d44a9b381edc88181525e3c8350177ca.png
-    if (src.includes("letter_avatar/")) {
-      const name = src.replace(/.*\/letter_avatar\/(\w+)\/.*/, "$1")
+    if (src.includes('letter_avatar/')) {
+      const name = src.replace(/.*\/letter_avatar\/(\w+)\/.*/, '$1')
       return name.toLowerCase()
     }
 
-    const name = src.replace(/.*\/user_avatar\/linux\.do\/([^/]+)\/.*/, "$1")
+    const name = src.replace(/.*\/user_avatar\/linux\.do\/([^/]+)\/.*/, '$1')
     return name.toLowerCase()
   },
 }

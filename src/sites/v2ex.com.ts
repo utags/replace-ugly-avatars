@@ -1,4 +1,4 @@
-import { $, $$ } from "browser-extension-utils"
+import { $, $$ } from 'browser-extension-utils'
 
 const site = {
   matches: /v2ex\.com$|^v2hot\.|v2ex\.co$/,

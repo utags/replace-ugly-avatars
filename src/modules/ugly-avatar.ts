@@ -1,9 +1,9 @@
 // Fetch from https://github.com/utags/ugly-avatar-generated
 
-import { getValue, setValue } from "browser-extension-storage"
-import { sleep } from "browser-extension-utils"
+import { getValue, setValue } from 'browser-extension-storage'
+import { sleep } from 'browser-extension-utils'
 
-import { getRandomInt } from "../utils"
+import { getRandomInt } from '../utils'
 
 let cachedData: string[]
 
@@ -38,7 +38,7 @@ async function fetchRamdomAvatar() {
   }
 }
 
-const storageKey = "uglyAvatarData"
+const storageKey = 'uglyAvatarData'
 export async function initRamdomAvatar() {
   if (cachedData && cachedData.length > 0) {
     return
