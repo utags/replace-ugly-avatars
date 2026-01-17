@@ -25,13 +25,13 @@
     "dev:bookmarklet": "node scripts/bookmarklet/watch.mjs",
     "dev:module": "node scripts/module/watch.mjs",
     "staging": "run-p staging:*",
-    "staging:userscript": "node scripts/userscript/build.mjs --staging && pnpm prettier --loglevel warn --write build/userscript-staging/ && http-server build/userscript-staging/ -o",
+    "staging:userscript": "node scripts/userscript/build.mjs --staging && pnpm prettier --log-level warn --write build/userscript-staging/",
     "build": "run-s build:*",
     "build:chrome": "plasmo build",
     "build:firefox": "plasmo build --target=firefox-mv2",
-    "build:userscript": "node scripts/userscript/build.mjs && pnpm prettier --loglevel warn --write build/userscript-prod/",
+    "build:userscript": "node scripts/userscript/build.mjs && pnpm prettier --log-level warn --write build/userscript-prod/",
     "build:bookmarklet": "node scripts/bookmarklet/build.mjs",
-    "build:module": "node scripts/module/build.mjs && pnpm prettier --loglevel warn --write build/module-prod/",
+    "build:module": "node scripts/module/build.mjs && pnpm prettier --log-level warn --write build/module-prod/",
     "package": "run-s package:*",
     "package:chrome": "plasmo package",
     "package:firefox": "plasmo package --target=firefox-mv2"
@@ -41,21 +41,21 @@
     "browser-extension-settings": "^0.5.4",
     "browser-extension-storage": "^0.1.2",
     "browser-extension-utils": "^0.1.18",
-    "plasmo": "^0.77.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "plasmo": "^0.90.5",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@plasmohq/prettier-plugin-sort-imports": "^3.6.4",
-    "@types/chrome": "^0.0.244",
-    "@types/node": "^20.5.7",
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
+    "@ianvs/prettier-plugin-sort-imports": "^4.6.2",
+    "@types/chrome": "^0.1.33",
+    "@types/node": "^25.0.9",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
     "bookmarkleter": "^1.1.0",
     "esbuild": "^0.19.2",
     "http-server": "^14.1.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8",
+    "prettier": "^3.8.0",
     "sass": "^1.66.1",
     "typescript": "^5.2.2",
     "xo": "^0.56.0"
@@ -89,6 +89,9 @@
           "@typescript-eslint/naming-convention": 0
         }
       }
+    ],
+    "ignores": [
+      "**/*.user.js"
     ]
   }
 }
