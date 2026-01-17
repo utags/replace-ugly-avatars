@@ -34,7 +34,7 @@ export function getChangedAavatar(userName: string) {
 }
 
 export async function initStorage(options?: Record<string, unknown>) {
-  addValueChangeListener(storageKey, async () => {
+  await addValueChangeListener(storageKey, async () => {
     await reloadCachedValues()
     if (options && typeof options.avatarValueChangeListener === 'function') {
       options.avatarValueChangeListener()
