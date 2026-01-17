@@ -35,7 +35,7 @@ async function fetchRamdomAvatar() {
     retryCount++
     if (retryCount < 3) {
       await sleep(1000)
-      return fetchRamdomAvatar() as Promise<string>
+      return fetchRamdomAvatar()
     }
   }
 }

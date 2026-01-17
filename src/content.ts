@@ -352,7 +352,6 @@ function addChangeButton(element: HTMLImageElement) {
   const changeButton =
     $('.change_button.quick', container) ||
     addElement(container, 'button', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       innerHTML: changeIcon,
       class: 'change_button quick',
       async onclick() {
@@ -372,7 +371,6 @@ function addChangeButton(element: HTMLImageElement) {
   const changeButton2 =
     $('.change_button.advanced', container) ||
     addElement(container, 'button', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       innerHTML: changeIcon,
       class: 'change_button advanced',
       async onclick() {
