@@ -1,7 +1,9 @@
+import { getPrefferedLocale } from 'browser-extension-i18n'
 import {
   getSettingsValue,
   initSettings,
   saveSettingsValues,
+  type SettingsTable,
 } from 'browser-extension-settings'
 import {
   $,
@@ -22,7 +24,7 @@ import styleText from 'data-text:./content.scss'
 
 import { allAvatarStyleList, getRandomAvatar } from './avatar'
 import { changeIcon } from './common'
-import { i } from './messages'
+import { getAvailableLocales, i, resetI18n } from './messages'
 import { initRamdomAvatar as initRamdomGfriendsAvatar } from './modules/gfriends'
 import { initRamdomAvatar as initRamdomUglyAvatar } from './modules/ugly-avatar'
 import { currentSite } from './sites'
@@ -45,7 +47,7 @@ const isEnabledByDefault = () => {
   return true
 }
 
-const settingsTable = {
+const getSettingsTable = (): SettingsTable => ({
   [`enableCurrentSite_${host}`]: {
     title: i('settings.enableCurrentSite'),
     defaultValue: isEnabledByDefault(),
@@ -252,7 +254,7 @@ const settingsTable = {
     },
     group: 4,
   },
-}
+})
 
 let avatarStyleList: string[] = []
 function updateAvatarStyleList() {
@@ -289,6 +291,10 @@ function updateAvatarStyleList() {
 let lastValueOfEnableCurrentSite = true
 let lastValueOfAutoReplaceAll = false
 async function onSettingsChange() {
+  const locale =
+    getSettingsValue<string | undefined>('locale') || getPrefferedLocale()
+  resetI18n(locale)
+
   if (getSettingsValue(`enableCurrentSite_${host}`)) {
     if (!lastValueOfEnableCurrentSite) {
       if ($('#rua_tyle')) {
@@ -308,9 +314,7 @@ async function onSettingsChange() {
     }
   }
 
-  lastValueOfEnableCurrentSite = getSettingsValue(
-    `enableCurrentSite_${host}`
-  ) as boolean
+  lastValueOfEnableCurrentSite = getSettingsValue(`enableCurrentSite_${host}`)
 
   if (
     getSettingsValue(`autoReplaceAll${suffix}`) &&
@@ -321,9 +325,7 @@ async function onSettingsChange() {
     scanAvatars()
   }
 
-  lastValueOfAutoReplaceAll = getSettingsValue(
-    `autoReplaceAll${suffix}`
-  ) as boolean
+  lastValueOfAutoReplaceAll = getSettingsValue(`autoReplaceAll${suffix}`)
 
   updateAvatarStyleList()
 }
@@ -533,10 +535,12 @@ const scanAvatars = throttle(async () => {
 
 async function main() {
   await runOnce('main', async () => {
-    await initSettings({
-      id: 'replace-ugly-avatars',
-      title: i('settings.title'),
-      footer: `
+    await initSettings(() => {
+      const settingsTable = getSettingsTable()
+      return {
+        id: 'replace-ugly-avatars',
+        title: i('settings.title'),
+        footer: `
     <p>${i('settings.information')}</p>
     <p>
     <a href="https://github.com/utags/replace-ugly-avatars/issues" target="_blank">
@@ -546,19 +550,17 @@ async function main() {
     <a href="https://www.pipecraft.net/" target="_blank">
       Pipecraft
     </a></p>`,
-      settingsTable,
-      async onValueChange() {
-        await onSettingsChange()
-      },
+        settingsTable,
+        availableLocales: getAvailableLocales(),
+        async onValueChange() {
+          await onSettingsChange()
+        },
+      }
     })
   })
 
-  lastValueOfEnableCurrentSite = getSettingsValue(
-    `enableCurrentSite_${host}`
-  ) as boolean
-  lastValueOfAutoReplaceAll = getSettingsValue(
-    `autoReplaceAll${suffix}`
-  ) as boolean
+  lastValueOfEnableCurrentSite = getSettingsValue(`enableCurrentSite_${host}`)
+  lastValueOfAutoReplaceAll = getSettingsValue(`autoReplaceAll${suffix}`)
 
   if (!getSettingsValue(`enableCurrentSite_${host}`)) {
     return

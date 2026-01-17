@@ -1,5 +1,5 @@
 const messages = {
-  'settings.enableCurrentSite': '在当前网站启用脚本',
+  'settings.enableCurrentSite': '在当前网站启用',
   'settings.autoReplaceAll': '自动替换全部头像',
   'settings.autoReplaceAll.confirm': '确定要自动替换全部头像吗？',
   'settings.clearData': '清空被替换的头像数据',
@@ -10,6 +10,7 @@ const messages = {
   'settings.report': '反馈问题',
   'alert.needsSelectOneAavatar': '至少需要启用一种头像风格',
   'prompt.enterAvatarLink': '请输入头像链接',
+  'popup.settings': '设置',
 }
 
 export default messages

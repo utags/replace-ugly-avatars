@@ -2,7 +2,7 @@
   "name": "replace-ugly-avatars",
   "displayName": "Replace Ugly Avatars",
   "displayName:zh-CN": "赐你个头像吧",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "🔃 Replace specified user's avatar (profile photo) and username (nickname)",
   "description:zh-CN": "🔃 换掉别人的头像与昵称",
   "author": "Pipecraft",
@@ -42,8 +42,8 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "browser-extension-i18n": "^0.0.6",
-    "browser-extension-settings": "^0.5.4",
+    "browser-extension-i18n": "^0.1.3",
+    "browser-extension-settings": "^0.8.9",
     "browser-extension-storage": "^0.2.10",
     "browser-extension-utils": "^0.3.4",
     "plasmo": "^0.90.5",
@@ -56,9 +56,9 @@
     "@types/node": "^25.0.9",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
-    "@vitest/coverage-v8": "^4.0.16",
-    "@vitest/ui": "^4.0.16",
-    "addons-linter": "^9.3.0",
+    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/ui": "^4.0.17",
+    "addons-linter": "^9.4.0",
     "bookmarkleter": "^1.1.0",
     "cross-env": "^10.1.0",
     "esbuild": "^0.27.2",
@@ -68,7 +68,7 @@
     "prettier": "^3.8.0",
     "sass": "^1.97.2",
     "typescript": "^5.2.2",
-    "vitest": "^4.0.16",
+    "vitest": "^4.0.17",
     "xo": "^1.2.3"
   },
   "manifest": {

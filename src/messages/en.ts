@@ -1,5 +1,5 @@
 const messages = {
-  'settings.enableCurrentSite': 'Enable on current site',
+  'settings.enableCurrentSite': 'Enable for the current site',
   'settings.autoReplaceAll': 'Automatically replace all avatars',
   'settings.autoReplaceAll.confirm': 'Are you sure you want to automatically replace all avatars?',
   'settings.clearData': 'Clear the replaced avatar data',
@@ -10,6 +10,7 @@ const messages = {
   'settings.report': 'Report and Issue...',
   'alert.needsSelectOneAavatar': 'At least one avatar style needs to be enabled',
   'prompt.enterAvatarLink': 'Please enter the avatar link',
+  'popup.settings': 'Settings',
 }
 
 export default messages
