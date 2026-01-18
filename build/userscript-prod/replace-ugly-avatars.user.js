@@ -4,7 +4,7 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.6.3
+// @version              0.6.4
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -1539,7 +1539,7 @@
     handleShowSettingsUrl()
   }
   var content_default =
-    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd;z-index:10001}#rua_container .change_button.more{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block !important}#rua_container .rua_menu{position:absolute;box-sizing:border-box;min-width:160px;max-width:260px;padding:4px 0;background:#fff;border:1px solid rgba(0,0,0,.15);border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:10002}#rua_container .rua_menu.hide{display:none}#rua_container .rua_menu_item{display:block;width:100%;padding:4px 8px;box-sizing:border-box;text-align:left;background:rgba(0,0,0,0);border:0;cursor:pointer;font-size:12px;line-height:1.4;color:#333}#rua_container .rua_menu_item:hover{background:#f0f0f0}img.rua_fadeout{opacity:10%;transition:all 1s ease-out}[data-replace-ugly-avatars*="v2ex.co"] #Main .header .fr a img{width:73px;height:73px}[data-replace-ugly-avatars*="v2ex.co"] td[width="48"] img{width:48px;height:48px}'
+    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd;z-index:10001}#rua_container .change_button.more{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block !important}#rua_container .rua_menu{position:absolute;box-sizing:border-box;min-width:160px;max-width:260px;padding:4px 0;background:#fff;border:1px solid rgba(0,0,0,.15);border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:10002}#rua_container .rua_menu.hide{display:none}#rua_container .rua_menu_item{display:block;width:100%;padding:4px 8px;box-sizing:border-box;text-align:left;background:rgba(0,0,0,0);border:0;cursor:pointer;font-size:12px;line-height:1.4;color:#333}#rua_container .rua_menu_item:hover{background:#f0f0f0}#rua_container .rua_menu_item.rua_menu_close{border-top:1px solid #e5e5e5;margin-top:4px;padding-top:6px;color:#666}img.rua_fadeout{opacity:10%;transition:all 1s ease-out}[data-replace-ugly-avatars*="v2ex.co"] #Main .header .fr a img{width:73px;height:73px}[data-replace-ugly-avatars*="v2ex.co"] td[width="48"] img{width:48px;height:48px}'
   function getRandomInt(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
@@ -2349,6 +2349,7 @@
         textContent: i2("menu.close"),
         onclick() {
           addClass(menu, "hide")
+          menu.style.display = "none"
         },
       })
     }
@@ -2364,6 +2365,7 @@
           }, 200)
           removeClass(menu, "hide")
           const targetElement = currentTarget || element
+          updateMenuItemsVisibility(targetElement)
           const pos2 = getOffsetPosition(targetElement)
           const scrollTop = window.scrollY || doc.documentElement.scrollTop || 0
           const scrollLeft =
@@ -2411,10 +2413,27 @@
     const mouseoutHandler = () => {
       addClass(changeButton, "hide")
       addClass(changeButton2, "hide")
-      addClass(menu, "hide")
       removeEventListener(element, "mouseout", mouseoutHandler)
     }
     addEventListener(element, "mouseout", mouseoutHandler)
+  }
+  function updateMenuItemsVisibility(target) {
+    const menu = $(".rua_menu")
+    const avatar = target || currentTarget
+    if (!menu || !avatar) {
+      return
+    }
+    const userName = avatar.dataset.ruaUserName || "noname"
+    const hasChangedAvatar =
+      Boolean(avatar.dataset.ruaOrgSrc) && Boolean(getChangedAavatar(userName))
+    const toggleItem = $(".rua_menu_toggle", menu)
+    const restoreItem = $(".rua_menu_restore", menu)
+    if (toggleItem) {
+      toggleItem.style.display = hasChangedAvatar ? "" : "none"
+    }
+    if (restoreItem) {
+      restoreItem.style.display = hasChangedAvatar ? "" : "none"
+    }
   }
   function changeAvatar(element, src, animation = false) {
     if (element.ruaLoading) {
@@ -2535,6 +2554,9 @@
       if (!isAvatar(target)) {
         return
       }
+      if ($(".rua_menu:not(.hide)")) {
+        return
+      }
       addChangeButton(target)
     })
     addEventListener(doc, "keydown", (event) => {
@@ -2542,6 +2564,7 @@
         const menu = $(".rua_menu")
         if (menu) {
           addClass(menu, "hide")
+          menu.style.display = "none"
         }
       }
     })
@@ -2553,6 +2576,7 @@
     await initStorage({
       avatarValueChangeListener() {
         scanAvatars()
+        updateMenuItemsVisibility()
       },
     })
     if ($("img")) {

@@ -463,6 +463,7 @@ function addChangeButton(element: HTMLImageElement) {
       textContent: i('menu.close'),
       onclick() {
         addClass(menu, 'hide')
+        menu.style.display = 'none'
       },
     })
   }
@@ -480,6 +481,8 @@ function addChangeButton(element: HTMLImageElement) {
         removeClass(menu, 'hide')
 
         const targetElement = currentTarget || element
+        updateMenuItemsVisibility(targetElement)
+
         const pos = getOffsetPosition(targetElement)
         const scrollTop = window.scrollY || doc.documentElement.scrollTop || 0
         const scrollLeft = window.scrollX || doc.documentElement.scrollLeft || 0
@@ -538,11 +541,37 @@ function addChangeButton(element: HTMLImageElement) {
   const mouseoutHandler = () => {
     addClass(changeButton, 'hide')
     addClass(changeButton2, 'hide')
-    addClass(menu, 'hide')
     removeEventListener(element, 'mouseout', mouseoutHandler)
   }
 
   addEventListener(element, 'mouseout', mouseoutHandler)
+}
+
+function updateMenuItemsVisibility(target?: HTMLImageElement) {
+  const menu = $('.rua_menu') as HTMLDivElement | undefined
+  const avatar = target || currentTarget
+  if (!menu || !avatar) {
+    return
+  }
+
+  const userName = avatar.dataset.ruaUserName || 'noname'
+  const hasChangedAvatar =
+    Boolean(avatar.dataset.ruaOrgSrc) && Boolean(getChangedAavatar(userName))
+
+  const toggleItem = $('.rua_menu_toggle', menu) as
+    | HTMLButtonElement
+    | undefined
+  const restoreItem = $('.rua_menu_restore', menu) as
+    | HTMLButtonElement
+    | undefined
+
+  if (toggleItem) {
+    toggleItem.style.display = hasChangedAvatar ? '' : 'none'
+  }
+
+  if (restoreItem) {
+    restoreItem.style.display = hasChangedAvatar ? '' : 'none'
+  }
 }
 
 function changeAvatar(
@@ -713,6 +742,11 @@ async function main() {
       return
     }
 
+    // Skip if menu is visible
+    if ($('.rua_menu:not(.hide)')) {
+      return
+    }
+
     // console.log(target)
     addChangeButton(target as HTMLImageElement)
   })
@@ -722,6 +756,7 @@ async function main() {
       const menu = $('.rua_menu')
       if (menu) {
         addClass(menu, 'hide')
+        menu.style.display = 'none'
       }
     }
   })
@@ -735,6 +770,7 @@ async function main() {
   await initStorage({
     avatarValueChangeListener() {
       scanAvatars()
+      updateMenuItemsVisibility()
     },
   })
 
