@@ -3,6 +3,7 @@ import {
   getSettingsValue,
   initSettings,
   saveSettingsValues,
+  showSettings,
   type SettingsTable,
 } from 'browser-extension-settings'
 import {
@@ -21,6 +22,7 @@ import {
   throttle,
 } from 'browser-extension-utils'
 import styleText from 'data-text:./content.scss'
+import type { PlasmoCSConfig } from 'plasmo'
 
 import { allAvatarStyleList, getRandomAvatar } from './avatar'
 import { changeIcon } from './common'
@@ -36,6 +38,27 @@ import {
   saveAvatar,
   saveAvatars,
 } from './storage'
+
+if (
+  // eslint-disable-next-line n/prefer-global/process
+  process.env.PLASMO_TARGET === 'chrome-mv3' ||
+  // eslint-disable-next-line n/prefer-global/process
+  process.env.PLASMO_TARGET === 'firefox-mv3'
+) {
+  // Receive popup trigger to show settings in the content context
+  const runtime =
+    (globalThis as any).chrome?.runtime ?? (globalThis as any).browser?.runtime
+  runtime?.onMessage?.addListener((message: any) => {
+    if (message?.type === 'replace-ugly-avatars:show-settings') {
+      void showSettings()
+    }
+  })
+}
+
+export const config: PlasmoCSConfig = {
+  all_frames: true,
+  run_at: 'document_start',
+}
 
 const host = location.host
 const suffix = host.includes('v2ex') ? '' : '_' + host
