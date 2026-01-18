@@ -78,6 +78,10 @@ We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as r
 
 ## Release Notes
 
+- 0.6.x
+  - Add "more" dropdown menu
+  - Add temporary toggle between original and replaced avatar
+  - Improve dropdown menu positioning and ESC key closing behavior
 - 0.5.0
   - Add ugly-face avatar
   - Implement support for the avatar replacement feature on the linux.do website

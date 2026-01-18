@@ -10,7 +10,7 @@
     color: #0d6efd;
     z-index: 10001;
 
-    &.advanced {
+    &.more {
       color: darkblue;
       display: none;
     }
@@ -28,6 +28,41 @@
 
   &:hover .change_button {
     display: block !important;
+  }
+
+  .rua_menu {
+    position: absolute;
+    box-sizing: border-box;
+    min-width: 160px;
+    max-width: 260px;
+    padding: 4px 0;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 10002;
+
+    &.hide {
+      display: none;
+    }
+  }
+
+  .rua_menu_item {
+    display: block;
+    width: 100%;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #333333;
+
+    &:hover {
+      background: #f0f0f0;
+    }
   }
 }
 

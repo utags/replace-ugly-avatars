@@ -14,6 +14,18 @@ export async function saveAvatar(userName: string, src: string) {
   await setValue(storageKey, values)
 }
 
+export async function removeAvatar(userName: string) {
+  const values = (await getValue(storageKey)) || {}
+  const newValues: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(values)) {
+    if (key !== userName) {
+      newValues[key] = value
+    }
+  }
+
+  await setValue(storageKey, newValues)
+}
+
 export async function saveAvatars(newValues: Record<string, unknown>) {
   let values = (await getValue(storageKey)) || {}
   values = Object.assign(values, newValues)

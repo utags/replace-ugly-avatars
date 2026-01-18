@@ -4,7 +4,7 @@
 // @namespace            https://github.com/utags/replace-ugly-avatars
 // @homepageURL          https://github.com/utags/replace-ugly-avatars#readme
 // @supportURL           https://github.com/utags/replace-ugly-avatars/issues
-// @version              0.6.0
+// @version              0.6.1
 // @description          🔃 Replace specified user's avatar (profile photo) and username (nickname)
 // @description:zh-CN    🔃 换掉别人的头像与昵称
 // @icon                 data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230d6efd' class='bi bi-arrow-repeat' viewBox='0 0 16 16'%3E %3Cpath d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/%3E %3Cpath fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/%3E %3C/svg%3E
@@ -1539,7 +1539,7 @@
     handleShowSettingsUrl()
   }
   var content_default =
-    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd;z-index:10001}#rua_container .change_button.advanced{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block !important}img.rua_fadeout{opacity:10%;transition:all 1s ease-out}[data-replace-ugly-avatars*="v2ex.co"] #Main .header .fr a img{width:73px;height:73px}[data-replace-ugly-avatars*="v2ex.co"] td[width="48"] img{width:48px;height:48px}'
+    '#rua_container .change_button{position:absolute;box-sizing:border-box;width:20px;height:20px;padding:1px;border:1px solid;cursor:pointer;color:#0d6efd;z-index:10001}#rua_container .change_button.more{color:#00008b;display:none}#rua_container .change_button.hide{display:none}#rua_container .change_button:active,#rua_container .change_button.active{opacity:50%;transition:all .2s}#rua_container:hover .change_button{display:block !important}#rua_container .rua_menu{position:absolute;box-sizing:border-box;min-width:160px;max-width:260px;padding:4px 0;background:#fff;border:1px solid rgba(0,0,0,.15);border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:10002}#rua_container .rua_menu.hide{display:none}#rua_container .rua_menu_item{display:block;width:100%;padding:4px 8px;box-sizing:border-box;text-align:left;background:rgba(0,0,0,0);border:0;cursor:pointer;font-size:12px;line-height:1.4;color:#333}#rua_container .rua_menu_item:hover{background:#f0f0f0}img.rua_fadeout{opacity:10%;transition:all 1s ease-out}[data-replace-ugly-avatars*="v2ex.co"] #Main .header .fr a img{width:73px;height:73px}[data-replace-ugly-avatars*="v2ex.co"] td[width="48"] img{width:48px;height:48px}'
   function getRandomInt(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
@@ -1574,7 +1574,8 @@
       retryCount++
       if (retryCount < 3) {
         await sleep(1e3)
-        return fetchRamdomAvatar()
+        const data = await fetchRamdomAvatar()
+        return data
       }
     }
   }
@@ -1583,19 +1584,20 @@
     if (cachedData && cachedData.length > 0) {
       return
     }
-    cachedData = await getValue2(storageKey2)
-    if (cachedData) {
+    const data = await getValue2(storageKey2)
+    if (data && Array.isArray(data) && data.length > 0) {
+      cachedData = data
       setTimeout(async () => {
-        const data = await fetchRamdomAvatar()
-        if (data) {
-          await setValue2(storageKey2, data)
+        const data2 = await fetchRamdomAvatar()
+        if (data2) {
+          await setValue2(storageKey2, data2)
         }
       }, 1e3 * 60)
     } else {
-      const data = await fetchRamdomAvatar()
-      if (data) {
-        cachedData = data
-        await setValue2(storageKey2, data)
+      const data2 = await fetchRamdomAvatar()
+      if (data2) {
+        cachedData = data2
+        await setValue2(storageKey2, data2)
       }
     }
   }
@@ -1626,7 +1628,8 @@
       retryCount2++
       if (retryCount2 < 3) {
         await sleep(1e3)
-        return fetchRamdomAvatar2()
+        const data = await fetchRamdomAvatar2()
+        return data
       }
     }
   }
@@ -1635,19 +1638,20 @@
     if (cachedData2 && cachedData2.length > 0) {
       return
     }
-    cachedData2 = await getValue2(storageKey3)
-    if (cachedData2) {
+    const data = await getValue2(storageKey3)
+    if (data && Array.isArray(data) && data.length > 0) {
+      cachedData2 = data
       setTimeout(async () => {
-        const data = await fetchRamdomAvatar2()
-        if (data) {
-          await setValue2(storageKey3, data)
+        const data2 = await fetchRamdomAvatar2()
+        if (data2) {
+          await setValue2(storageKey3, data2)
         }
       }, 1e3 * 60)
     } else {
-      const data = await fetchRamdomAvatar2()
-      if (data) {
-        cachedData2 = data
-        await setValue2(storageKey3, data)
+      const data2 = await fetchRamdomAvatar2()
+      if (data2) {
+        cachedData2 = data2
+        await setValue2(storageKey3, data2)
       }
     }
   }
@@ -1759,6 +1763,11 @@
       "At least one avatar style needs to be enabled",
     "prompt.enterAvatarLink": "Please enter the avatar link",
     "popup.settings": "Settings",
+    "menu.randomAvatar": "Random avatar",
+    "menu.customAvatarUrl": "Custom avatar URL",
+    "menu.toggleOriginalAvatar": "Toggle original avatar",
+    "menu.restoreAndClear": "Restore and clear record",
+    "menu.close": "Close",
   }
   var en_default2 = messages14
   var messages15 = {
@@ -1780,6 +1789,13 @@
       "\u81F3\u5C11\u9700\u8981\u542F\u7528\u4E00\u79CD\u5934\u50CF\u98CE\u683C",
     "prompt.enterAvatarLink": "\u8BF7\u8F93\u5165\u5934\u50CF\u94FE\u63A5",
     "popup.settings": "\u8BBE\u7F6E",
+    "menu.randomAvatar": "\u968F\u673A\u5934\u50CF",
+    "menu.customAvatarUrl": "\u81EA\u5B9A\u4E49\u5934\u50CF\u94FE\u63A5",
+    "menu.toggleOriginalAvatar":
+      "\u4E34\u65F6\u5207\u6362\u539F\u59CB\u5934\u50CF",
+    "menu.restoreAndClear":
+      "\u6062\u590D\u539F\u5934\u50CF\u5E76\u6E05\u9664\u8BB0\u5F55",
+    "menu.close": "\u5173\u95ED",
   }
   var zh_cn_default2 = messages15
   var availableLocales2 =
@@ -1808,6 +1824,8 @@
           'img[src^="https://cdn.linux.do/user_avatar/"]',
           'img[src^="https://linux.do/letter_avatar_proxy/"]',
           'img[src^="/letter_avatar_proxy/"]',
+          'img[src^="https://linux.do/letter_avatar/"]',
+          'img[src^="/letter_avatar/"]',
           'img[src^="https://cdn.linux.do/letter_avatar_proxy/"]',
           'img[src^="https://cdn.linux.do/letter_avatar/"]',
           "img[data-rua-org-src]",
@@ -1891,6 +1909,16 @@
     const values = (await getValue2(storageKey4)) || {}
     values[userName] = src
     await setValue2(storageKey4, values)
+  }
+  async function removeAvatar(userName) {
+    const values = (await getValue2(storageKey4)) || {}
+    const newValues = {}
+    for (const [key, value] of Object.entries(values)) {
+      if (key !== userName) {
+        newValues[key] = value
+      }
+    }
+    await setValue2(storageKey4, newValues)
   }
   async function saveAvatars(newValues) {
     let values = (await getValue2(storageKey4)) || {}
@@ -2235,16 +2263,29 @@
           }
         },
       })
-    const changeButton2 =
-      $(".change_button.advanced", container) ||
-      addElement2(container, "button", {
-        innerHTML: changeIcon,
-        class: "change_button advanced",
+    const menu =
+      $(".rua_menu", container) ||
+      addElement2(container, "div", {
+        class: "rua_menu hide",
+      })
+    if (!menu.dataset.initialized) {
+      menu.dataset.initialized = "1"
+      addElement2(menu, "button", {
+        class: "rua_menu_item rua_menu_random",
+        textContent: i2("menu.randomAvatar"),
         async onclick() {
-          addClass(changeButton2, "active")
-          setTimeout(() => {
-            removeClass(changeButton2, "active")
-          }, 200)
+          const userName = currentTarget.dataset.ruaUserName || "noname"
+          const avatarUrl = getRandomAvatar(userName, avatarStyleList)
+          if (avatarUrl) {
+            changeAvatar(currentTarget, avatarUrl, true)
+            await saveAvatar(userName, avatarUrl)
+          }
+        },
+      })
+      addElement2(menu, "button", {
+        class: "rua_menu_item rua_menu_advanced",
+        textContent: i2("menu.customAvatarUrl"),
+        async onclick() {
           const userName = currentTarget.dataset.ruaUserName || "noname"
           const avatarUrl = prompt(i2("prompt.enterAvatarLink"), "")
           if (avatarUrl) {
@@ -2253,20 +2294,101 @@
           }
         },
       })
+      addElement2(menu, "button", {
+        class: "rua_menu_item rua_menu_toggle",
+        textContent: i2("menu.toggleOriginalAvatar"),
+        async onclick() {
+          const userName = currentTarget.dataset.ruaUserName || "noname"
+          const changedAvatar = getChangedAavatar(userName)
+          if (!currentTarget.dataset.ruaOrgSrc || !changedAvatar) {
+            return
+          }
+          const isOriginal =
+            currentTarget.src === currentTarget.dataset.ruaOrgSrc
+          const targetSrc = isOriginal
+            ? changedAvatar
+            : currentTarget.dataset.ruaOrgSrc
+          changeAvatar(currentTarget, targetSrc, true)
+        },
+      })
+      addElement2(menu, "button", {
+        class: "rua_menu_item rua_menu_restore",
+        textContent: i2("menu.restoreAndClear"),
+        async onclick() {
+          const userName = currentTarget.dataset.ruaUserName || "noname"
+          if (currentTarget.dataset.ruaOrgSrc) {
+            changeAvatar(currentTarget, currentTarget.dataset.ruaOrgSrc, true)
+            await removeAvatar(userName)
+          }
+        },
+      })
+      addElement2(menu, "button", {
+        class: "rua_menu_item rua_menu_close",
+        textContent: i2("menu.close"),
+        onclick() {
+          addClass(menu, "hide")
+        },
+      })
+    }
+    const changeButton2 =
+      $(".change_button.more", container) ||
+      addElement2(container, "button", {
+        textContent: "...",
+        class: "change_button more",
+        async onclick() {
+          addClass(changeButton2, "active")
+          setTimeout(() => {
+            removeClass(changeButton2, "active")
+          }, 200)
+          removeClass(menu, "hide")
+          const pos2 = getOffsetPosition(element)
+          const scrollTop = window.scrollY || doc.documentElement.scrollTop || 0
+          const scrollLeft =
+            window.scrollX || doc.documentElement.scrollLeft || 0
+          const viewportWidth = window.innerWidth
+          const viewportHeight = window.innerHeight
+          menu.style.visibility = "hidden"
+          menu.style.display = "block"
+          const menuWidth = menu.offsetWidth
+          const menuHeight = menu.offsetHeight
+          let top = pos2.top
+          let left = pos2.left + element.clientWidth
+          if (left + menuWidth > scrollLeft + viewportWidth) {
+            left = pos2.left - menuWidth
+          }
+          if (left < scrollLeft) {
+            left = scrollLeft
+          }
+          if (top + menuHeight > scrollTop + viewportHeight) {
+            top = scrollTop + viewportHeight - menuHeight
+          }
+          if (top < scrollTop) {
+            top = scrollTop
+          }
+          menu.style.top = "".concat(top, "px")
+          menu.style.left = "".concat(left, "px")
+          menu.style.visibility = "visible"
+        },
+      })
     removeClass(changeButton, "hide")
     removeClass(changeButton2, "hide")
     const pos = getOffsetPosition(element)
-    const leftOffset =
-      element.clientWidth - changeButton.clientWidth > 20
-        ? element.clientWidth - changeButton.clientWidth
-        : element.clientWidth - 1
-    changeButton.style.top = pos.top + "px"
-    changeButton.style.left = pos.left + leftOffset + "px"
-    changeButton2.style.top = pos.top + changeButton.clientHeight + "px"
-    changeButton2.style.left = pos.left + leftOffset + "px"
+    if (changeButton) {
+      const leftOffset =
+        element.clientWidth - changeButton.clientWidth > 20
+          ? element.clientWidth - changeButton.clientWidth
+          : element.clientWidth - 1
+      changeButton.style.top = pos.top + "px"
+      changeButton.style.left = pos.left + leftOffset + "px"
+      if (changeButton2) {
+        changeButton2.style.top = pos.top + changeButton.clientHeight + "px"
+        changeButton2.style.left = pos.left + leftOffset + "px"
+      }
+    }
     const mouseoutHandler = () => {
       addClass(changeButton, "hide")
       addClass(changeButton2, "hide")
+      addClass(menu, "hide")
       removeEventListener(element, "mouseout", mouseoutHandler)
     }
     addEventListener(element, "mouseout", mouseoutHandler)
@@ -2380,7 +2502,7 @@
     }
     updateAvatarStyleList()
     runWhenHeadExists(() => {
-      addElement2("style", {
+      addElement2(doc.head, "style", {
         textContent: content_default,
         id: "rua_tyle",
       })
@@ -2391,6 +2513,14 @@
         return
       }
       addChangeButton(target)
+    })
+    addEventListener(doc, "keydown", (event) => {
+      if (event.key === "Escape") {
+        const menu = $(".rua_menu")
+        if (menu) {
+          addClass(menu, "hide")
+        }
+      }
     })
     addEventListener(doc, "visibilitychange", () => {
       if (!doc.hidden) {

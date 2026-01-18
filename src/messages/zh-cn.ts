@@ -11,6 +11,11 @@ const messages = {
   'alert.needsSelectOneAavatar': '至少需要启用一种头像风格',
   'prompt.enterAvatarLink': '请输入头像链接',
   'popup.settings': '设置',
+  'menu.randomAvatar': '随机头像',
+  'menu.customAvatarUrl': '自定义头像链接',
+  'menu.toggleOriginalAvatar': '临时切换原始头像',
+  'menu.restoreAndClear': '恢复原头像并清除记录',
+  'menu.close': '关闭',
 }
 
 export default messages

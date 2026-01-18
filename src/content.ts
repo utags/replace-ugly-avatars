@@ -32,6 +32,7 @@ import {
   clearAvatarData,
   getChangedAavatar,
   initStorage,
+  removeAvatar,
   saveAvatar,
   saveAvatars,
 } from './storage'
@@ -370,19 +371,20 @@ function addChangeButton(element: HTMLImageElement) {
       },
     })
 
-  const changeButton2 =
-    $('.change_button.advanced', container) ||
-    addElement(container, 'button', {
-      innerHTML: changeIcon,
-      class: 'change_button advanced',
+  const menu = ($('.rua_menu', container) ||
+    addElement(container, 'div', {
+      class: 'rua_menu hide',
+    })) as HTMLDivElement
+
+  if (!menu.dataset.initialized) {
+    menu.dataset.initialized = '1'
+
+    addElement(menu, 'button', {
+      class: 'rua_menu_item rua_menu_random',
+      textContent: i('menu.randomAvatar'),
       async onclick() {
-        addClass(changeButton2, 'active')
-        setTimeout(() => {
-          removeClass(changeButton2, 'active')
-        }, 200)
         const userName = currentTarget.dataset.ruaUserName || 'noname'
-        const avatarUrl = prompt(i('prompt.enterAvatarLink'), '')
-        // const avatarUrl = getRandomAvatar(userName)
+        const avatarUrl = getRandomAvatar(userName, avatarStyleList)
         if (avatarUrl) {
           changeAvatar(currentTarget, avatarUrl, true)
           await saveAvatar(userName, avatarUrl)
@@ -390,23 +392,129 @@ function addChangeButton(element: HTMLImageElement) {
       },
     })
 
+    addElement(menu, 'button', {
+      class: 'rua_menu_item rua_menu_advanced',
+      textContent: i('menu.customAvatarUrl'),
+      async onclick() {
+        const userName = currentTarget.dataset.ruaUserName || 'noname'
+        const avatarUrl = prompt(i('prompt.enterAvatarLink'), '')
+        if (avatarUrl) {
+          changeAvatar(currentTarget, avatarUrl, true)
+          await saveAvatar(userName, avatarUrl)
+        }
+      },
+    })
+
+    addElement(menu, 'button', {
+      class: 'rua_menu_item rua_menu_toggle',
+      textContent: i('menu.toggleOriginalAvatar'),
+      async onclick() {
+        const userName = currentTarget.dataset.ruaUserName || 'noname'
+        const changedAvatar = getChangedAavatar(userName)
+        if (!currentTarget.dataset.ruaOrgSrc || !changedAvatar) {
+          return
+        }
+
+        const isOriginal = currentTarget.src === currentTarget.dataset.ruaOrgSrc
+        const targetSrc = isOriginal
+          ? changedAvatar
+          : currentTarget.dataset.ruaOrgSrc
+        changeAvatar(currentTarget, targetSrc, true)
+      },
+    })
+
+    addElement(menu, 'button', {
+      class: 'rua_menu_item rua_menu_restore',
+      textContent: i('menu.restoreAndClear'),
+      async onclick() {
+        const userName = currentTarget.dataset.ruaUserName || 'noname'
+        if (currentTarget.dataset.ruaOrgSrc) {
+          changeAvatar(currentTarget, currentTarget.dataset.ruaOrgSrc, true)
+          await removeAvatar(userName)
+        }
+      },
+    })
+
+    addElement(menu, 'button', {
+      class: 'rua_menu_item rua_menu_close',
+      textContent: i('menu.close'),
+      onclick() {
+        addClass(menu, 'hide')
+      },
+    })
+  }
+
+  const changeButton2 =
+    $('.change_button.more', container) ||
+    addElement(container, 'button', {
+      textContent: '...',
+      class: 'change_button more',
+      async onclick() {
+        addClass(changeButton2, 'active')
+        setTimeout(() => {
+          removeClass(changeButton2, 'active')
+        }, 200)
+        removeClass(menu, 'hide')
+
+        const pos = getOffsetPosition(element)
+        const scrollTop = window.scrollY || doc.documentElement.scrollTop || 0
+        const scrollLeft = window.scrollX || doc.documentElement.scrollLeft || 0
+        const viewportWidth = window.innerWidth
+        const viewportHeight = window.innerHeight
+
+        menu.style.visibility = 'hidden'
+        menu.style.display = 'block'
+
+        const menuWidth = menu.offsetWidth
+        const menuHeight = menu.offsetHeight
+
+        let top = pos.top
+        let left = pos.left + element.clientWidth
+
+        if (left + menuWidth > scrollLeft + viewportWidth) {
+          left = pos.left - menuWidth
+        }
+
+        if (left < scrollLeft) {
+          left = scrollLeft
+        }
+
+        if (top + menuHeight > scrollTop + viewportHeight) {
+          top = scrollTop + viewportHeight - menuHeight
+        }
+
+        if (top < scrollTop) {
+          top = scrollTop
+        }
+
+        menu.style.top = `${top}px`
+        menu.style.left = `${left}px`
+        menu.style.visibility = 'visible'
+      },
+    })
+
   removeClass(changeButton, 'hide')
   removeClass(changeButton2, 'hide')
 
   const pos = getOffsetPosition(element)
-  const leftOffset =
-    element.clientWidth - changeButton.clientWidth > 20
-      ? element.clientWidth - changeButton.clientWidth
-      : element.clientWidth - 1
-  changeButton.style.top = pos.top + 'px'
-  changeButton.style.left = pos.left + leftOffset + 'px'
+  if (changeButton) {
+    const leftOffset =
+      element.clientWidth - changeButton.clientWidth > 20
+        ? element.clientWidth - changeButton.clientWidth
+        : element.clientWidth - 1
+    changeButton.style.top = pos.top + 'px'
+    changeButton.style.left = pos.left + leftOffset + 'px'
 
-  changeButton2.style.top = pos.top + changeButton.clientHeight + 'px'
-  changeButton2.style.left = pos.left + leftOffset + 'px'
+    if (changeButton2) {
+      changeButton2.style.top = pos.top + changeButton.clientHeight + 'px'
+      changeButton2.style.left = pos.left + leftOffset + 'px'
+    }
+  }
 
   const mouseoutHandler = () => {
     addClass(changeButton, 'hide')
     addClass(changeButton2, 'hide')
+    addClass(menu, 'hide')
     removeEventListener(element, 'mouseout', mouseoutHandler)
   }
 
@@ -414,7 +522,7 @@ function addChangeButton(element: HTMLImageElement) {
 }
 
 function changeAvatar(
-  element: HTMLImageElement,
+  element: HTMLImageElement & { ruaLoading?: boolean },
   src: string,
   animation = false
 ) {
@@ -569,7 +677,7 @@ async function main() {
   updateAvatarStyleList()
 
   runWhenHeadExists(() => {
-    addElement('style', {
+    addElement(doc.head, 'style', {
       textContent: styleText,
       id: 'rua_tyle',
     })
@@ -583,6 +691,15 @@ async function main() {
 
     // console.log(target)
     addChangeButton(target as HTMLImageElement)
+  })
+
+  addEventListener(doc, 'keydown', (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      const menu = $('.rua_menu')
+      if (menu) {
+        addClass(menu, 'hide')
+      }
+    }
   })
 
   addEventListener(doc, 'visibilitychange', () => {

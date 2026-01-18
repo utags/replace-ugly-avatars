@@ -17,7 +17,7 @@ export function getRamdomAvatar() {
 }
 
 let retryCount = 0
-async function fetchRamdomAvatar() {
+async function fetchRamdomAvatar(): Promise<string[] | undefined> {
   const url = `https://cdn.jsdelivr.net/gh/utags/random-avatars@2025021816/public/ugly-avatar/ugly-avatar-${getRandomInt(
     1,
     11
@@ -26,14 +26,15 @@ async function fetchRamdomAvatar() {
     const response = await fetch(url)
 
     if (response.status === 200) {
-      return await response.json()
+      return (await response.json()) as string[]
     }
   } catch (error) {
     console.error(error)
     retryCount++
     if (retryCount < 3) {
       await sleep(1000)
-      return fetchRamdomAvatar()
+      const data = await fetchRamdomAvatar()
+      return data
     }
   }
 }
@@ -45,8 +46,9 @@ export async function initRamdomAvatar() {
   }
 
   // console.log("initRamdomAvatar")
-  cachedData = await getValue(storageKey)
-  if (cachedData) {
+  const data = await getValue<string[] | undefined>(storageKey)
+  if (data && Array.isArray(data) && data.length > 0) {
+    cachedData = data
     setTimeout(async () => {
       const data = await fetchRamdomAvatar()
       if (data) {

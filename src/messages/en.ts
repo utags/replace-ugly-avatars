@@ -11,6 +11,11 @@ const messages = {
   'alert.needsSelectOneAavatar': 'At least one avatar style needs to be enabled',
   'prompt.enterAvatarLink': 'Please enter the avatar link',
   'popup.settings': 'Settings',
+  'menu.randomAvatar': 'Random avatar',
+  'menu.customAvatarUrl': 'Custom avatar URL',
+  'menu.toggleOriginalAvatar': 'Toggle original avatar',
+  'menu.restoreAndClear': 'Restore and clear record',
+  'menu.close': 'Close',
 }
 
 export default messages

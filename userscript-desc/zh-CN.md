@@ -79,6 +79,10 @@ We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as r
 
 ## Release Notes
 
+- 0.6.x
+  - 新增“更多”下拉菜单
+  - 新增临时切换原始头像功能，并优化下拉菜单显示与关闭（含 ESC）
+  - 新增恢复原头像并清除记录功能
 - 0.5.0
   - 新增 ugly-face 头像
   - 实现替换头像功能对 linux.do 网站的支持

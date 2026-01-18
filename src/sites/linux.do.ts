@@ -10,6 +10,8 @@ const site = {
         'img[src^="https://cdn.linux.do/user_avatar/"]',
         'img[src^="https://linux.do/letter_avatar_proxy/"]',
         'img[src^="/letter_avatar_proxy/"]',
+        'img[src^="https://linux.do/letter_avatar/"]',
+        'img[src^="/letter_avatar/"]',
         'img[src^="https://cdn.linux.do/letter_avatar_proxy/"]',
         'img[src^="https://cdn.linux.do/letter_avatar/"]',
         'img[data-rua-org-src]',
