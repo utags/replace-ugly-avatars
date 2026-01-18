@@ -66,7 +66,7 @@ This script has a variety of practical application scenarios. Here are the detai
 - Chrome Extension: [Manual Installation](manual-installation.md)
 - Edge Extension: [Manual Installation](manual-installation.md)
 - Firefox Addon: [Manual Installation](manual-installation.md)
-- Userscript: [https://greasyfork.org/scripts/472616-replace-ugly-avatars](https://greasyfork.org/scripts/472616-replace-ugly-avatars)
+- Userscript: [Greasy Fork](https://greasyfork.org/scripts/472616-replace-ugly-avatars) · [ScriptCat](https://scriptcat.org/script-show-page/3049) · [GitHub](https://github.com/utags/replace-ugly-avatars/raw/refs/heads/main/build/userscript-prod/replace-ugly-avatars.user.js)
 
 ## Avatar Sources
 
@@ -75,6 +75,56 @@ We use [DiceBear](https://www.dicebear.com/)'s API to generate random avatars. T
 We also use the [ugly-avatar](https://github.com/txstc55/ugly-avatar) project and the [ugly-avatar-api](https://github.com/mamumu123/next-api-share) project to generate random avatars. Thanks to these two projects for the great works.
 
 We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as random avatars. Thanks to the [Gfriends](https://github.com/gfriends/gfriends) project.
+
+## More Useful Scripts
+
+### 🏷️ UTags - Add User Tags to Links
+
+- **Link**: [Greasy Fork](https://greasyfork.org/scripts/460718-utags-add-usertags-to-links) · [ScriptCat](https://scriptcat.org/script-show-page/2784) · [GitHub](https://github.com/utags/utags/raw/main/packages/extension/build/userscript-prod/utags.user.js)
+- **Features**: Add custom tags and notes to user, post, video and other links
+- **Highlights**: Support special tag filtering (like spam, block, clickbait, etc.), data export/import, auto-mark viewed posts
+- **Supported Sites**: V2EX, X(Twitter), Reddit, GitHub, Bilibili, Zhihu, Linux.do, Youtube and 50+ websites
+- **Description**: Super useful tag management tool for adding tags to forum users or posts, making it easy to identify or block low-quality content
+
+### 🧰 UTags Advanced Filter
+
+- **Link**: [Greasy Fork](https://greasyfork.org/scripts/556095-utags-advanced-filter) · [ScriptCat](https://scriptcat.org/script-show-page/4653) · [GitHub](https://github.com/utags/utags-advanced-filter/raw/refs/heads/main/build/userscript-prod/utags-advanced-filter.user.js)
+- **Features**: Real-time filtering and hiding of scripts on GreasyFork
+- **Highlights**: Available as both a userscript and a browser extension
+- **Supported Sites**: Greasy Fork
+- **Description**: A tool that supports real-time filtering and hiding on GreasyFork, available in userscript and browser extension versions
+
+### ⚡ UTags Shortcuts
+
+- **Link**: [Greasy Fork](https://greasyfork.org/scripts/558485-utags-shortcuts) · [ScriptCat](https://scriptcat.org/script-show-page/4910) · [GitHub](https://github.com/utags/userscripts/raw/main/utags-shortcuts/utags-shortcuts.user.js)
+- **Features**: Per-site grouping, icon support, floating or sidebar navigation panel
+- **Highlights**: Floating/Sidebar modes, URL/JS script support, visual editor, keyboard shortcuts
+- **Supported Sites**: All websites
+- **Description**: A powerful userscript that streamlines your browsing workflow with a customizable navigation panel for quick access to favorite links and scripts
+
+### 🔗 Links Helper
+
+- **Link**: [Greasy Fork](https://greasyfork.org/scripts/464541-links-helper) · [ScriptCat](https://scriptcat.org/script-show-page/4486) · [GitHub](https://github.com/utags/links-helper/raw/refs/heads/main/build/userscript-prod/links-helper.user.js)
+- **Features**: Open third-party website links in new tabs, parse text links into hyperlinks
+- **Highlights**: Support custom rules, parse Markdown and BBCode formats, convert image links to image tags
+- **Supported Sites**: Universal for all websites, including Google, YouTube, GitHub, V2EX, etc.
+- **Description**: Enhance link browsing experience, automatically process various link formats for more convenient web browsing
+
+### 🔍 Find Scripts For This Site
+
+- **Link**: [Greasy Fork](https://greasyfork.org/scripts/550659-find-scripts-for-this-site) · [ScriptCat](https://scriptcat.org/script-show-page/4276) · [GitHub](https://github.com/utags/userscripts/raw/main/find-scripts-for-this-site/find-scripts-for-this-site.user.js)
+- **Features**: Quickly find scripts for the current site across multiple repositories
+- **Highlights**: Settings dialog, real-time sync, smart domain extraction
+- **Supported Sites**: All websites
+- **Description**: A user script to quickly find scripts for the current site across multiple repositories, now with a settings dialog and real-time sync across tabs
+
+### 🖼️ Universal Image Uploader
+
+- **Link**: [Greasy Fork](https://greasyfork.org/scripts/553341-universal-image-uploader) · [ScriptCat](https://scriptcat.org/script-show-page/4467) · [GitHub](https://github.com/utags/userscripts/raw/main/universal-image-uploader/universal-image-uploader.user.js)
+- **Features**: Paste/drag/select images to batch-upload to Imgur/Tikolu/MJJ.Today/Appinn
+- **Highlights**: Auto-copy to Markdown/HTML/BBCode/Link, supports site buttons & local history, SPA-compatible
+- **Supported Sites**: All websites
+- **Description**: A user script that lets you paste, drag, or select images and batch-upload them to various providers, then auto-copy the result in your preferred format
 
 ## Release Notes
 
@@ -102,79 +152,11 @@ We also use [Gfriends](https://github.com/gfriends/gfriends)' avatar images as r
 - 0.0.1
   - Change the avatars on [V2EX](https://wwww.v2ex.com)
 
-## Development
-
-This extension/userscript is built from [Browser Extension Starter and Userscript Starter](https://github.com/utags/browser-extension-starter)
-
-## Features
-
-- One codebase for Chrome extesions, Firefox addons, Userscripts, Bookmarklets and simple JavaScript modules
-- Live-reload and React HMR
-- [Plasmo](https://www.plasmo.com/) - The Browser Extension Framework
-- [esbuild](https://esbuild.github.io/) - Bundler
-- React
-- TypeScript
-- [Prettier](https://github.com/prettier/prettier) - Code Formatter
-- [XO](https://github.com/xojs/xo) - JavaScript/TypeScript linter
-
-## Showcases
-
-- [🏷️ UTags - Add usertags to links](https://github.com/utags/utags) - Allow users to add custom tags to links.
-- [🔗 Links Helper](https://github.com/utags/links-helper) - Open external links in a new tab, open internal links matching the specified rules in a new tab, convert text to hyperlinks, convert image links to image tags, parse Markdown style links and image tags, parse BBCode style links and image tags
-
-## How To Make A New Extension
-
-1. Fork [this starter repo](https://github.com/utags/browser-extension-starter), and rename repo to your extension name
-
-2. Clone your repo
-
-3. Install dependencies
-
-```bash
-pnpm install
-# or
-npm install
-```
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-pnpm dev
-# or
-npm run dev
-```
-
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
-
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
-
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
-
-## Making production build
-
-Run the following:
-
-```bash
-pnpm build
-# or
-npm run build
-```
-
-This should create a production bundle for your extension, ready to be zipped and published to the stores.
-
-## Submit to the webstores
-
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
-
 ## License
 
-Copyright (c) 2023 [Pipecraft](https://www.pipecraft.net). Licensed under the [MIT License](LICENSE).
+Copyright (c) 2023-2026 [Pipecraft](https://www.pipecraft.net). Licensed under the [MIT License](https://github.com/utags/replace-ugly-avatars/blob/main/LICENSE).
 
 ## >\_
 
 [![Pipecraft](https://img.shields.io/badge/site-pipecraft-brightgreen)](https://www.pipecraft.net)
-[![UTags](https://img.shields.io/badge/site-UTags-brightgreen)](https://utags.pipecraft.net)
-[![DTO](https://img.shields.io/badge/site-DTO-brightgreen)](https://dto.pipecraft.net)
-[![BestXTools](https://img.shields.io/badge/site-bestxtools-brightgreen)](https://www.bestxtools.com)
+[![UTags](https://img.shields.io/badge/site-UTags-brightgreen)](https://utags.link)
