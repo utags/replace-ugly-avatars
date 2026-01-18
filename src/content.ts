@@ -479,7 +479,8 @@ function addChangeButton(element: HTMLImageElement) {
         }, 200)
         removeClass(menu, 'hide')
 
-        const pos = getOffsetPosition(element)
+        const targetElement = currentTarget || element
+        const pos = getOffsetPosition(targetElement)
         const scrollTop = window.scrollY || doc.documentElement.scrollTop || 0
         const scrollLeft = window.scrollX || doc.documentElement.scrollLeft || 0
         const viewportWidth = window.innerWidth
@@ -492,7 +493,7 @@ function addChangeButton(element: HTMLImageElement) {
         const menuHeight = menu.offsetHeight
 
         let top = pos.top
-        let left = pos.left + element.clientWidth
+        let left = pos.left + targetElement.clientWidth
 
         if (left + menuWidth > scrollLeft + viewportWidth) {
           left = pos.left - menuWidth
